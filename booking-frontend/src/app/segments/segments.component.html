@@ -1,0 +1,11 @@
+<ul>
+    <li *ngFor="let seg of segments"
+    [class.selected]="seg === selectedSegment" (click)="onSelect(seg)">
+    <h4>{{seg.id}} - {{seg.name}}</h4> 
+  </li>
+  </ul>
+ 
+  <nav>
+      <a routerLink="segmentAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
+    </nav>
+    <router-outlet></router-outlet>

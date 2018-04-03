@@ -19,6 +19,9 @@ public class Establishment {
 	@OneToMany(mappedBy="establishment")
     private Set<Segment> segments;
 	
+	protected Establishment() {
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -48,6 +51,11 @@ public class Establishment {
 	}
 	public void setSegments(Set<Segment> segments) {
 		this.segments = segments;
+	}
+	
+	public Establishment(String name, String address){
+		this.name = name;
+		this.address = address;
 	}
 	
 	
