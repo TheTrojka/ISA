@@ -36,7 +36,7 @@ public class Segment implements Serializable{
 	@JsonBackReference // "back" part of reference: it will be omitted from serialization	
     private Establishment establishment;
 	
-	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "segment") 
+	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "fanzone") 
 	@JsonManagedReference
 	private Set<Seat> seats = new HashSet<Seat>();
 	
