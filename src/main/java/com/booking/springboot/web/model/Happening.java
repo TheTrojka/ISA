@@ -15,7 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.booking.springboot.web.entities.student1.Reservation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -46,6 +49,9 @@ public class Happening {
     private Set<Segment> segments;
 	@OneToMany
     private Set<Timing> timings;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference
+	private Reservation matR;
 	
 	public Happening() {
 		super();

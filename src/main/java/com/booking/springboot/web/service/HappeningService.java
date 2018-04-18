@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.booking.springboot.web.model.Happening;
 import com.booking.springboot.web.repository.HappeningRepository;
 
+
 @Service
 public class HappeningService {
 	
@@ -39,6 +40,11 @@ public class HappeningService {
 	
 	public void delete(int id) {
 		hr.delete(id);
+	}
+
+	public Happening getAllByOneReservation(int reservId, int id) {
+		Happening h = hr.findByEstablishment_IdAndId(reservId, id);
+		return h;
 	}
 
 }

@@ -1,11 +1,23 @@
 package com.booking.springboot.web.users.student1;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.booking.springboot.web.entities.student1.Reservation;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
+
 @Entity
 @Table(name = "guests")
 public class Guest {
@@ -26,6 +38,18 @@ private int phone;
 //@JsonManagedReference
 //private Set<Guest> friends = new HashSet<Guest>();
 
+@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "mGuest") 
+@JsonManagedReference
+private Set<Reservation> reservations = new HashSet<Reservation>();
+
+public Set<Reservation> getReservations() {
+	return reservations;
+}
+
+public void setReservations(Set<Reservation> reservations) {
+	this.reservations = reservations;
+}
+
 Guest() {
 	
 	// TODO Auto-generated constructor stub
@@ -38,9 +62,10 @@ public Guest(Guest guest) {
 	this.password = guest.getPassword();
 	this.name = guest.getName();
 	this.lastname = guest.getLastname();
+	this.reservations = guest.getReservations();
 	
 }
-public Guest(int id, String email, String password, String name, String lastname, int phone) {
+public Guest(int id, String email, String password, String name, String lastname, int phone, HashSet<Reservation> reservations) {
 	super();
 	this.id = id;
 	this.email = email;
@@ -48,6 +73,7 @@ public Guest(int id, String email, String password, String name, String lastname
 	this.name = name;
 	this.lastname = lastname;
 	this.phone = phone;
+	this.reservations = reservations;
 }
 public Guest(String email, String password, String ime, String prezime,int phone) {
 	super();
