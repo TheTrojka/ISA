@@ -41,4 +41,9 @@ public class HappeningService {
 		hr.delete(id);
 	}
 
+	public Happening getAllByOneReservation(int reservId, int id) {
+		Happening h = hr.findByEstablishment_IdAndId(reservId, id);
+		return h;
+	}
+
 }

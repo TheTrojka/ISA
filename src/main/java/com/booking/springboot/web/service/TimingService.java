@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Timing;
+import com.booking.springboot.web.model.Timing;
 import com.booking.springboot.web.repository.TimingRepository;
 
 @Service

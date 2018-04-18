@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Establishment;
+import com.booking.springboot.web.model.Todo;
 import com.booking.springboot.web.repository.EstablishmentRepository;
 
 @Service

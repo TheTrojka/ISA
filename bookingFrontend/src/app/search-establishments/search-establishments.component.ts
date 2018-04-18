@@ -18,13 +18,5 @@ export class SearchEstablishmentsComponent implements OnInit {
     this.address = '';
   }
 
-  /*private searchEstablishments() {
-    this.dataService.getEstablishmentsByAddress(this.address).then(establishments => this.establishments = establishments);
-  }*/
-
-  /*onSubmit() {
-    this.searchEstablishments();
-  }*/
-
 }
 
