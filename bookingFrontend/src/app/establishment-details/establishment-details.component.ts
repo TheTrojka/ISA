@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Establishment } from '../establishment';
@@ -10,10 +10,10 @@ import { DataService } from '../data.service';
   styleUrls: ['./establishment-details.component.css'],
   providers: [DataService]
 })
-export class EstablishmentDetailsComponent {
+export class EstablishmentDetailsComponent implements OnInit {
 
   @Input() establishment: Establishment;
- 
+
   constructor(private route: ActivatedRoute,
     private dataService: DataService,
     private location: Location) {}
@@ -35,13 +35,12 @@ export class EstablishmentDetailsComponent {
   save(): void {
     this.dataService.update(this.establishment).then(() => this.goBack());
   }
- 
+
   goBack(): void {
     window.location.replace('');
   }
 }
 
- 
-  
- 
-  
+
+
+

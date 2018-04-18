@@ -24,6 +24,7 @@ export class SegmentsComponent implements OnInit {
   ngOnInit(): void {
     this.getSegments();
   }
+
   onSelect(seg: Segment): void {
     this.selectedSegment = seg;
   }
@@ -32,7 +33,7 @@ export class SegmentsComponent implements OnInit {
 
 
 
-  
+
 
 
 

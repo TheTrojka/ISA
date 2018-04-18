@@ -14,7 +14,7 @@ export class CreateEstablishmentComponent implements OnInit {
   submitted = false;
   constructor(private dataService: DataService,
     private location: Location) {}
- 
+
   ngOnInit() {
   }
 
@@ -22,22 +22,21 @@ export class CreateEstablishmentComponent implements OnInit {
     this.submitted = false;
     this.establishment = new Establishment();
   }
- 
+
   private save(): void {
     this.dataService.create(this.establishment);
   }
- 
+
   onSubmit() {
     this.submitted = true;
     this.save();
   }
- 
+
   goBack(): void {
     this.location.back();
   }
 }
 
- 
-  
- 
-  
+
+
+

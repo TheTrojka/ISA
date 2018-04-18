@@ -1,3 +1,4 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -21,6 +22,7 @@ import { SegmentsComponent } from './segments/segments.component';
 import { CreateSegmentComponent } from './create-segment/create-segment.component';
 import { SegmentDetailsComponent } from './segment-details/segment-details.component';
 import { SegmentService } from './segment.service';
+import { AddTimingComponent } from './add-timing/add-timing.component';
 
 
 @NgModule({
@@ -35,9 +37,11 @@ import { SegmentService } from './segment.service';
     CreateHappeningComponent,
     SegmentsComponent,
     CreateSegmentComponent,
-    SegmentDetailsComponent
+    SegmentDetailsComponent,
+    AddTimingComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -46,7 +50,7 @@ import { SegmentService } from './segment.service';
     MatSelectModule,
     BrowserAnimationsModule
   ],
-  providers: [DataService, HappeningService, SegmentService],
+  providers: [DataService, HappeningService, SegmentService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

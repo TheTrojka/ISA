@@ -21,14 +21,17 @@
   <div>
 		<label>Price: </label> <input [(ngModel)]="happening.price" placeholder={{happening.price}}/>
 	</div>
-	<mat-form-field>
-		<mat-select placeholder="Segments" [formControl]="segmentControl" multiple>
-			<mat-option *ngFor="let seg of segments" [value]="seg">{{seg.name}}</mat-option>
-		</mat-select>
-	</mat-form-field>
+	<button (click)='getTimings()'>Load timings</button>
+  	<ul *ngIf="timings">      
+    	<li *ngFor="let timing of timings">
+    	<h4>{{timing.id}}</h4>
+    	<button (click)="deleteSeat(seat.id)">Delete seat</button>
+    	</li>
+  	</ul>
 	
 	<button class="btn btn-danger" (click)="delete()">Delete</button>
 	<button (click)="save()">Save</button>
+	<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
 </div>
 
 

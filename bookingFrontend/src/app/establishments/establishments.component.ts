@@ -22,6 +22,7 @@ export class EstablishmentsComponent implements OnInit {
   ngOnInit(): void {
     this.getEstablishments();
   }
+
   onSelect(est: Establishment): void {
     this.selectedEstablishment = est;
   }
