@@ -41,16 +41,17 @@ public class EstablishmentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Establishment> addEstablishment(Establishment f) {
-		service.addNew(f);
+	public ResponseEntity<Establishment> addEstablishment(@RequestBody Establishment f) {
+		Establishment est = new Establishment(f.getName(), f.getAddress());
+		service.addNew(est);
 		return new ResponseEntity<Establishment>(f, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.DELETE,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Establishment> deleteEstablishment(@PathVariable int id){
 		service.delete(id);	
@@ -59,9 +60,9 @@ public class EstablishmentController {
 	
 	@RequestMapping(
 			method = RequestMethod.PUT,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.ALL_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Establishment> edit(Establishment firma) {
+	public ResponseEntity<Establishment> edit(@RequestBody Establishment firma) {
 		Establishment f = service.edit(firma);
 		return new ResponseEntity<Establishment>(f, HttpStatus.OK);
 	}

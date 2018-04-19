@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,10 +56,24 @@ public class HappeningController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Happening> add(Happening fs, @PathVariable int establishmentId){
+	public ResponseEntity<Happening> add(@RequestBody Happening fs, @PathVariable int establishmentId){
 		Happening faks = fs;
+		System.out.println("no");
+		Establishment f = eService.getOneById(establishmentId);
+		faks.setEstablishment(f);
+		f.getHappenings().add(faks);
+		Happening fakts = service.addNew(faks);
+		return new ResponseEntity<Happening>(fakts, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Happening> update(@RequestBody Happening fs, @PathVariable int establishmentId){
+		Happening faks = fs;
+		System.out.println("na");
 		Establishment f = eService.getOneById(establishmentId);
 		faks.setEstablishment(f);
 		f.getHappenings().add(faks);
@@ -74,9 +89,9 @@ public class HappeningController {
 	}
 	
 	@RequestMapping(value = "/{happeningId}/segment/{id}",method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Happening> addToHappening(Segment segment,@PathVariable int establishmentId, @PathVariable int happeningId
+	public ResponseEntity<Happening> addToHappening(@RequestBody Segment segment,@PathVariable int establishmentId, @PathVariable int happeningId
 			,@PathVariable int id){
 		Segment seg = sService.getOneById(establishmentId, id);
 		Happening r = service.getOneById(establishmentId, happeningId);

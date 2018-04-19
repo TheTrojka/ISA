@@ -33,11 +33,13 @@ public class Segment implements Serializable{
 	
 	@ManyToOne @NotNull 
 	@JoinColumn(name="establishment_id", nullable=false)
-	@JsonBackReference // "back" part of reference: it will be omitted from serialization	
+	@JsonBackReference (value="segmeent-establishment")// "back" part of reference: it will be omitted from serialization	
     private Establishment establishment;
 	
-	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "fanzone") 
-	@JsonManagedReference
+
+	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "segment") 
+	@JsonManagedReference(value="seat-segment")
+
 	private Set<Seat> seats = new HashSet<Seat>();
 	
 	public Segment() {

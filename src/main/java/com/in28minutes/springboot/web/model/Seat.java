@@ -22,12 +22,12 @@ public class Seat {
 	
 	@ManyToOne @NotNull 
 	@JoinColumn(name="establishment_id", nullable=false)
-	@JsonBackReference // "back" part of reference: it will be omitted from serialization	
+	@JsonBackReference (value="seat-establishment")// "back" part of reference: it will be omitted from serialization	
     private Establishment establishment;
 	
 	@ManyToOne @NotNull 
 	@JoinColumn(name="segment_id", nullable=false)
-	@JsonBackReference // "back" part of reference: it will be omitted from serialization	
+	@JsonBackReference (value="seat-segment")// "back" part of reference: it will be omitted from serialization	
     private Segment segment;
 	
 	/*
