@@ -1,3 +1,24 @@
-<p>
-  segment-details works!
-</p>
+<div *ngIf="segment">
+	<h2>{{segment.name}} details:</h2>
+	<div>
+		<label>id: </label> {{segment.id}}
+	</div>
+	<div>
+		<label>Name: </label> <input [(ngModel)]="segment.name" placeholder={{segment.name}}/>
+  </div>
+  <button (click)='getSeats()'>Load seats</button>
+  <ul *ngIf="seats"> 
+      <h4>{{segment.id}}</h4>     
+    <li *ngFor="let seat of seats">
+    <h4>{{seat.id}}</h4>
+    <button (click)="deleteSeat(seat.id)">Delete seat</button>
+    </li>
+  </ul>
+  <button (click)="addSeat()">Add seat</button>
+	
+	<button class="btn btn-danger" (click)="delete()">Delete</button>
+	<button (click)="save()">Save</button>
+</div>
+
+<div>
+	  

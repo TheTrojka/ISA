@@ -31,7 +31,7 @@ export class HappeningsComponent implements OnInit {
 }
 
 
-  
+
 
 
 

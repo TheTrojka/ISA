@@ -11,20 +11,13 @@ export class SearchEstablishmentsComponent implements OnInit {
 
   address: string;
   establishments: Establishment[];
-  
+
   constructor(private dataService: DataService) {}
- 
+
   ngOnInit() {
- //   this.address = "";
+
+    this.address = '';
   }
- 
- // private searchEstablishments() {
- //   this.dataService.getEstablishmentsByAddress(this.address).then(establishments => this.establishments = establishments);
-  // }
- 
-  // onSubmit() {
-//    this.searchEstablishments();
- // }
 
 }
 

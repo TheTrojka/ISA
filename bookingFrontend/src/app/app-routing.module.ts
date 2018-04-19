@@ -1,3 +1,5 @@
+import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {CreateEstablishmentComponent} from './create-establishment/create-establishment.component';
 import {EstablishmentsComponent} from './establishments/establishments.component';
 import {EstablishmentDetailsComponent} from './establishment-details/establishment-details.component';
@@ -8,8 +10,8 @@ import {HappeningsComponent} from './happenings/happenings.component';
 import {PropsComponent} from './props/props.component';
 import {PropsAdsComponent} from './props-ads/props-ads.component';
 import {CreateFanzoneComponent} from './create-fanzone/create-fanzone.component';
-import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {CreateSegmentComponent} from './create-segment/create-segment.component';
+import { AddTimingComponent } from './add-timing/add-timing.component';
 import {FanzoneComponent} from './fanzone/fanzone.component';
 const routes: Routes = [
   {path: '', redirectTo: 'establishment', pathMatch: 'full'},
@@ -21,12 +23,15 @@ const routes: Routes = [
   {path: 'fanzone/props', component: PropsComponent},
   {path: 'propsAd', component: PropsAdsComponent},
   {path: 'addFanzone', component: CreateFanzoneComponent},
-  {path: 'fanzone', component: FanzoneComponent}
+  {path: 'fanzone', component: FanzoneComponent},
+  {path: 'establishment/:establishmentId/segmentAdd', component: CreateSegmentComponent},
+  {path: 'establishment/:establishmentId/addTiming/:happeningId', component: AddTimingComponent},
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
- 
+
 export class AppRoutingModule {}

@@ -1,10 +1,10 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 import { EstablishmentsComponent } from './establishments/establishments.component';
@@ -32,6 +32,10 @@ import { PropsAdService } from './props-ad.service';
 import { CreateFanzoneComponent } from './create-fanzone/create-fanzone.component';
 import { FanzoneService } from './fanzone.service';
 import { FanzoneComponent } from './fanzone/fanzone.component';
+import { AddTimingComponent } from './add-timing/add-timing.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,9 +56,12 @@ import { FanzoneComponent } from './fanzone/fanzone.component';
     PropsAdDetailsComponent,
     PropsAdsComponent,
     CreateFanzoneComponent,
-    FanzoneComponent
+    FanzoneComponent,
+    AddTimingComponent
+
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -63,7 +70,9 @@ import { FanzoneComponent } from './fanzone/fanzone.component';
     MatSelectModule,
     BrowserAnimationsModule
   ],
-  providers: [DataService, HappeningService, SegmentService, PropsService, PropsAdService, FanzoneService ],
+
+  providers: [DataService, HappeningService, SegmentService, DatePipe, PropsService, PropsAdService, FanzoneService ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

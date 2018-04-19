@@ -32,7 +32,7 @@ export class SegmentsComponent implements OnInit {
 
 
 
-  
+
 
 
 

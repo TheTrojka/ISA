@@ -1,5 +1,15 @@
-<a *ngFor="let est of establishments"
+<h1>Theaters</h1>
+<a *ngFor="let est of establishments" 
   routerLink="/establishment/{{est.id}}/">
-  <h4>{{est.id}} - {{est.name}} {{est.address}}</h4> 
+  <div *ngIf="est.theater">
+    <h4>{{est.id}} - {{est.name}} {{est.address}}</h4> 
+  </div>
+</a>
+<h1>Cinemas</h1>
+<a *ngFor="let est of establishments" 
+  routerLink="/establishment/{{est.id}}/">
+  <div *ngIf="!est.theater">
+    <h4>{{est.id}} - {{est.name}} {{est.address}}</h4> 
+  </div>
 </a>
 

@@ -2,7 +2,7 @@ package com.booking.springboot.web.users.model;
 
 import javax.persistence.*;
 
-import com.in28minutes.springboot.web.model.FanZone;
+import com.booking.springboot.web.model.FanZone;
 
 @Entity
 @Table(name = "admins_fanzone")
