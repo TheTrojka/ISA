@@ -4,6 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { Happening } from './happening';
 import { Segment } from './segment';
 import { Timing } from './timing';
+import { Seat } from './seat';
+import { log } from 'util';
 
 @Injectable()
 export class HappeningService {
@@ -64,10 +66,25 @@ export class HappeningService {
       .catch(this.handleError);
   }
 
+  book(guestId: number, timingId: number, seatId: number): Promise<string> {
+    return this.http
+      .get(`guests/${guestId}/reservations/timing/${timingId}/seat/${seatId}`)
+      .toPromise()
+      .then(res => res.json() as string)
+      .catch(this.handleError);
+  }
+
   getTimings(id: number, happeningId: number): Promise<Timing[]> {
     return this.http.get(`establishment/${id}/happening/${happeningId}/timing`)
       .toPromise()
       .then(response => response.json() as Timing[])
+      .catch(this.handleError);
+  }
+
+  getTimingSeats(id: number, happeningId: number, timingId: number): Promise<Seat[]> {
+    return this.http.get(`establishment/${id}/happening/${happeningId}/timing/${timingId}/free`)
+      .toPromise()
+      .then(response => response.json() as Seat[])
       .catch(this.handleError);
   }
 
