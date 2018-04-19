@@ -18,6 +18,7 @@ export class HappeningDetailsComponent implements OnInit {
   @Input() happening: Happening;
   timingSeatControl = new FormControl();
   segments: Segment[];
+
   timings: Timing[];
   timingSeats: Seat[];
 

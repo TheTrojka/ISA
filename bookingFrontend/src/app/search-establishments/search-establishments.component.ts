@@ -15,6 +15,7 @@ export class SearchEstablishmentsComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+
     this.address = '';
   }
 

@@ -16,7 +16,7 @@ export class CreateHappeningComponent implements OnInit {
   constructor(private happeningService: HappeningService,
     private route: ActivatedRoute,
     private location: Location) {}
-
+ 
   ngOnInit() {
   }
 
@@ -24,17 +24,17 @@ export class CreateHappeningComponent implements OnInit {
     this.submitted = false;
     this.happening = new Happening();
   }
-
+ 
   private save(): void {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
     this.happeningService.create(id, this.happening);
   }
-
+ 
   onSubmit() {
     this.submitted = true;
     this.save();
   }
-
+ 
   goBack(): void {
     this.location.back();
   }
@@ -42,7 +42,8 @@ export class CreateHappeningComponent implements OnInit {
 }
 
 
-
-
-
+ 
+  
+ 
+  
 

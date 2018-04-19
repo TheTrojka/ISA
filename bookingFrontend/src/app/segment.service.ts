@@ -21,6 +21,7 @@ export class SegmentService {
       .catch(this.handleError);
   }
 
+
   getSeats(id: number, segmentId: number): Promise<Seat[]> {
     return this.http.get(`establishment/${id}/segment/${segmentId}/seat`)
       .toPromise()
@@ -41,6 +42,7 @@ export class SegmentService {
       .then(response => response.json() as Seat)
       .catch(this.handleError);
   }
+
 
   create(id: number, segment: Segment): Promise<Segment> {
     return this.http

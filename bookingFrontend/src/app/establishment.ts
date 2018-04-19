@@ -3,4 +3,5 @@ export class Establishment {
     public name: string;
     public address: string;
     public theater: boolean;
+
 }

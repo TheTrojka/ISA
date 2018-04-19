@@ -5,7 +5,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 import { EstablishmentsComponent } from './establishments/establishments.component';
@@ -22,7 +21,19 @@ import { SegmentsComponent } from './segments/segments.component';
 import { CreateSegmentComponent } from './create-segment/create-segment.component';
 import { SegmentDetailsComponent } from './segment-details/segment-details.component';
 import { SegmentService } from './segment.service';
+import { CreatePropsComponent } from './create-props/create-props.component';
+import { PropsDetailsComponent } from './props-details/props-details.component';
+import { PropsComponent } from './props/props.component';
+import { PropsService } from './props.service';
+import { CreatePropsAdComponent } from './create-props-ad/create-props-ad.component';
+import { PropsAdDetailsComponent } from './props-ad-details/props-ad-details.component';
+import { PropsAdsComponent } from './props-ads/props-ads.component';
+import { PropsAdService } from './props-ad.service';
+import { CreateFanzoneComponent } from './create-fanzone/create-fanzone.component';
+import { FanzoneService } from './fanzone.service';
+import { FanzoneComponent } from './fanzone/fanzone.component';
 import { AddTimingComponent } from './add-timing/add-timing.component';
+
 
 
 @NgModule({
@@ -38,7 +49,16 @@ import { AddTimingComponent } from './add-timing/add-timing.component';
     SegmentsComponent,
     CreateSegmentComponent,
     SegmentDetailsComponent,
+    CreatePropsComponent,
+    PropsDetailsComponent,
+    PropsComponent,
+    CreatePropsAdComponent,
+    PropsAdDetailsComponent,
+    PropsAdsComponent,
+    CreateFanzoneComponent,
+    FanzoneComponent,
     AddTimingComponent
+
   ],
   imports: [
     CommonModule,
@@ -50,7 +70,9 @@ import { AddTimingComponent } from './add-timing/add-timing.component';
     MatSelectModule,
     BrowserAnimationsModule
   ],
-  providers: [DataService, HappeningService, SegmentService, DatePipe],
+
+  providers: [DataService, HappeningService, SegmentService, DatePipe, PropsService, PropsAdService, FanzoneService ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

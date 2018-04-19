@@ -93,3 +93,4 @@ export class HappeningService {
     return Promise.reject(error.message || error);
   }
 }
+
