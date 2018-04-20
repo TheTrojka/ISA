@@ -2,6 +2,9 @@ package com.booking.springboot.web.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "props")
 public class Props {
@@ -16,25 +19,25 @@ public class Props {
 	private String description;
 	@Column(unique = true, nullable = false)
 	private int price;
-	@Column(unique = true, nullable = false)
-	private String image;
 	
 	
+	/*
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference
     @JoinColumn(name="fanzone_id", nullable=false)
 	private FanZone fanzone;
-	
+	*/
 	public Props() {
 		
 		
 	}
-	public Props(int id, String email, String description, int price, String image) {
+	public Props(int id, String email, String description, int price) {
 		super();
 		this.id = id;
 		this.name =name ;
 		this.description = description;
 		this.price = price;
-		this.image = image;
+		
 	}
 	 
 	public int getId() {
@@ -61,6 +64,7 @@ public class Props {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	/*
 	public String getImage() {
 		return image;
 	}
@@ -73,5 +77,5 @@ public class Props {
 	public void setFanzone(FanZone fanzone) {
 		this.fanzone = fanzone;
 	}
-
+*/
 }

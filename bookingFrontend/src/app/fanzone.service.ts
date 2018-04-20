@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { Fanzone } from './fanzone';
+
 import 'rxjs/add/operator/toPromise';
 
+import { Fanzone } from './fanzone';
 
 @Injectable()
 export class FanzoneService {
-
+  
+  constructor(private http: Http) {}
+/*
   private fanzoneUrl = 'fanzone';  // URL to web API
   private headers = new Headers({'Content-Type': 'application/json'});
  
@@ -29,11 +32,13 @@ export class FanzoneService {
   }
  
   create(fanzone: Fanzone): Promise<Fanzone> {
+    
      return this.http
       .post(this.fanzoneUrl, JSON.stringify(fanzone), {headers : this.headers})
       .toPromise()
       .then(res => res.json() as Fanzone)
       .catch(this.handleError);
+    
   }
  
   delete(id: number): Promise<void> {
@@ -57,4 +62,5 @@ export class FanzoneService {
     console.error('Error', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
+  */
 }

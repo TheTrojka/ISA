@@ -1,14 +1,20 @@
 package com.booking.springboot.web.users.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import com.booking.springboot.web.model.FanZone;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
-@Table(name = "admins_fanzone")
-public class AdministratorFanZone {
-	
+@Table(name = "sys_admin")
+public class SystemAdministrator {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -22,16 +28,12 @@ public class AdministratorFanZone {
 	@Column(unique = true, nullable = false)
 	private String password;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="fanzone_id", nullable=false)
-	@JsonBackReference
-	private FanZone fanzone;
 	
-	public AdministratorFanZone() {
+	public SystemAdministrator() {
 		
 	}
 	
-	public AdministratorFanZone(int id, String email, String password, String name) {
+	public SystemAdministrator(int id, String email, String password, String name) {
 		super();
 		this.id = id;
 		this.name =name ;
@@ -89,5 +91,4 @@ public class AdministratorFanZone {
 	}
 	
 	
-
 }

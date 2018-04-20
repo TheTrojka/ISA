@@ -11,10 +11,14 @@
   
     <tr *ngFor="let pro of props">
         <td>{{pro.id}}</td>
-        <td>{{pro.name}}</td>
+        <td routerLink="/fanzone/props/{{pro.id}}/">{{pro.name}}</td>
         <td>{{pro.description}}</td>
         <td>{{pro.price}}</td>
     </tr>
   </tbody>
 </table>
 </div>
+<nav>
+    <a routerLink="propsAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
+  </nav>
+<app-props-details></app-props-details>

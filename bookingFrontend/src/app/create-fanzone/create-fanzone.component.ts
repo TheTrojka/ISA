@@ -23,7 +23,8 @@ export class CreateFanzoneComponent implements OnInit {
   }
  
   private save(): void {
-    this.fanzoneService.create(this.fanzone);
+    console.log('fanzone'); 
+ //   this.fanzoneService.create(this.fanzone);
   }
  
   onSubmit() {

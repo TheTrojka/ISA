@@ -9,20 +9,22 @@ import { FanzoneService } from '../fanzone.service';
 })
 export class FanzoneComponent implements OnInit {
 
-  fanzone: Fanzone[];
-  selectedFanzone: Fanzone;
+ // fanzone: Fanzone[];
+  // selectedFanzone: Fanzone;
 
-  constructor(private fanzoneService: FanzoneService) { }
-
+  constructor() { }
+/*
   getFanzones() {
     this.fanzoneService.getFanZones().then(fanzone => this.fanzone = fanzone);
   }
-
+*/
   ngOnInit(): void {
-    this.getFanzones();
+   // this.getFanzones();
   }
+  /*
   onSelect(est: Fanzone): void {
     this.selectedFanzone = est;
   }
+  */
 
 }

@@ -57,6 +57,7 @@ public class EstablishmentController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Establishment> addEstablishment(@RequestBody Establishment f) {
 		Establishment est = new Establishment(f.getName(), f.getAddress());
+		System.out.println("est controller");
 		service.addNew(est);
 		return new ResponseEntity<Establishment>(f, HttpStatus.OK);
 	}

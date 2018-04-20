@@ -33,8 +33,8 @@ export class PropsAdDetailsComponent {
   }
 
   save(): void {
-    const id = +this.route.snapshot.paramMap.get('fanzoneId');
-    this.propsAdService.update(id, this.propsAd).then(() => this.goBack());
+    
+    this.propsAdService.update(this.propsAd).then(() => this.goBack());
   }
  
   goBack(): void {

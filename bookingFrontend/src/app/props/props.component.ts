@@ -16,8 +16,9 @@ export class PropsComponent implements OnInit {
   constructor(private propsService: PropsService, private route: ActivatedRoute) { }
 
   getProps() {
-    const id = +this.route.snapshot.paramMap.get('fanzoneId');
-    this.propsService.getProps(id).then(props => this.props = props);
+   // const id = +this.route.snapshot.paramMap.get('fanzoneId');
+    const id = 1;
+    this.propsService.getProps().then(props => this.props = props);
   }
 
   ngOnInit(): void {

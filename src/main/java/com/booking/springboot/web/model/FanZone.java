@@ -18,7 +18,7 @@ public class FanZone {
 	
 	@Column(unique = true, nullable = false)
 	private String name;
-	
+	/*
 	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "fanzone") 
 	@JsonManagedReference
 	private Set<PropsAd> propsAd = new HashSet<PropsAd>();
@@ -30,7 +30,7 @@ public class FanZone {
 	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "fanzone") 
 	@JsonManagedReference
 	private Set<AdministratorFanZone> adminiFanzone = new HashSet<AdministratorFanZone>();
-
+*/
 	public int getId() {
 		return id;
 	}
@@ -48,7 +48,7 @@ public class FanZone {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+/*
 	public Set<PropsAd> getPropsAd() {
 		return propsAd;
 	}
@@ -72,5 +72,5 @@ public class FanZone {
 	public void setAdminiFanzone(Set<AdministratorFanZone> adminiFanzone) {
 		this.adminiFanzone = adminiFanzone;
 	}
-	
+	*/
 }

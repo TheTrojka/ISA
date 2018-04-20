@@ -1,3 +1,18 @@
-<p>
-  props-ad-details works!
-</p>
+<div *ngIf="propsAd">
+	<h2>{{propsAd.name}} details:</h2>
+	<div>
+		<label>Id: </label> {{propsAd.id}}
+	</div>
+	<div>
+		<label>Name: </label> <input [(ngModel)]="propsAd.name" placeholder={{propsAd.name}}/>
+	</div>
+	<div>
+		<label>Description: </label> <input [(ngModel)]="propsAd.description" placeholder={{propsAd.description}}/>
+	</div>
+	<div>
+		<label>Price: </label> <input [(ngModel)]="propsAd.price" placeholder={{propsAd.price}}/>
+	</div>
+	
+	<button class="btn btn-danger" (click)="delete()">Delete</button>
+	<button (click)="save()">Save</button>
+</div>

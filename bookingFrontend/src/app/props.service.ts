@@ -9,14 +9,14 @@ import { Props } from './props';
 @Injectable()
 export class PropsService {
 
-  private propsUrl = 'fanzone/:fanzoneId/props';  // URL to web API
+  private propsUrl = 'fanzone/props';  // URL to web API
   private headers = new Headers({'Content-Type': 'application/json'});
  
   constructor(private http: Http) {}
  
   // Get all customers
-  getProps(id: number): Promise<Props[]> {
-    return this.http.get('fanzone/${id}/props')
+  getProps(): Promise<Props[]> {
+    return this.http.get('fanzone/props')
       .toPromise()
       .then(response => response.json() as Props[])
       .catch(this.handleError);
@@ -30,10 +30,10 @@ export class PropsService {
       .catch(this.handleError);
   }
  
-  create(id: number, prop: Props): Promise<Props> {
+  create(prop: Props): Promise<Props> {
     
     return this.http
-      .post('fanzone/${id}/props', JSON.stringify(prop), {headers : this.headers})
+      .post('fanzone/props', JSON.stringify(prop), {headers : this.headers})
       .toPromise()
       .then(res => res.json() as Props)
       .catch(this.handleError);
@@ -47,10 +47,10 @@ export class PropsService {
       .catch(this.handleError);
   }
 
-  update(id: number, prop: Props): Promise<Props> {
+  update(prop: Props): Promise<Props> {
     
     return this.http
-      .put('fanzone/${id}/props', JSON.stringify(prop), {headers: this.headers})
+      .put('fanzone/props', JSON.stringify(prop), {headers: this.headers})
       .toPromise()
       .then(res => res.json() as Props)
       .catch(this.handleError);

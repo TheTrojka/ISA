@@ -1,5 +1,7 @@
 package com.booking.springboot.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
+
+
+
+
 import com.booking.springboot.web.model.FanZone;
 import com.booking.springboot.web.model.PropsAd;
 import com.booking.springboot.web.service.FanZoneService;
@@ -27,7 +33,7 @@ import com.booking.springboot.web.service.PropsAdService;
 
 
 @RestController
-@RequestMapping("/fanzone/{fanzoneId}/propsAd")
+@RequestMapping("/fanzone/propsAd")
 public class PropsAdController {
 
 	@Autowired
@@ -50,19 +56,26 @@ public class PropsAdController {
 	@RequestMapping(method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PropsAd> add(@RequestBody PropsAd fs, @PathVariable int fanzoneId){
-		PropsAd faks = fs;
-		System.out.println("no");
-		FanZone f = fService.getOneById(fanzoneId);
-		faks.setFanzone(f);
-		f.getPropsAd().add(faks);
-		PropsAd fakts = service.addNew(faks);
-		return new ResponseEntity<PropsAd>(fakts, HttpStatus.OK);
+	public ResponseEntity<PropsAd> add(@RequestBody PropsAd fs){
+		
+		System.out.println(fs.getDate().toString());
+		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		PropsAd propsAd = new PropsAd();
+		try {
+		    propsAd.setDate(format1.parse(fs.getDate().toString()));
+		    
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		service.addNew(fs);
+		return new ResponseEntity<PropsAd>(fs, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.DELETE,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PropsAd> deleteProps(@PathVariable int id){
 		service.delete(id);	
@@ -72,13 +85,9 @@ public class PropsAdController {
 	@RequestMapping(method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PropsAd> update(@RequestBody PropsAd fs, @PathVariable int fanzoneId){
-		PropsAd faks = fs;
-		System.out.println("na");
-		FanZone f = fService.getOneById(fanzoneId);
-		faks.setFanzone(f);
-		f.getPropsAd().add(faks);
-		PropsAd fakts = service.addNew(faks);
+	public ResponseEntity<PropsAd> update(@RequestBody PropsAd fs){
+		
+		PropsAd fakts = service.edit(fs);
 		return new ResponseEntity<PropsAd>(fakts, HttpStatus.OK);
 	}
 

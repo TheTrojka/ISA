@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Fanzone } from './fanzone';
-
+import { FanzoneService } from './fanzone.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +9,6 @@ import { Fanzone } from './fanzone';
 export class AppComponent  {
   title = 'app';
   
-  fanzone: Fanzone[];
- 
+  
   
 }

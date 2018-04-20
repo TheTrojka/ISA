@@ -1,3 +1,25 @@
-<p>
-  props-ads works!
-</p>
+<div>
+
+<table>
+  <thead>
+     <th>Id</th>
+     <th>Name</th>
+     <th>Description</th>
+     <th>Price</th>
+  </thead>
+  <tbody>
+  
+    <tr *ngFor="let ads of propsAd">
+        <td>{{ads.id}}</td>
+        <td>{{ads.name}}</td>
+        <td>{{ads.description}}</td>
+        <td>{{ads.price}}</td>
+        <td>{{ads.date}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<nav>
+    <a routerLink="AddpropsAd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
+  </nav>
+  <app-props-ad-details></app-props-ad-details>

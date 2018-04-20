@@ -13,6 +13,9 @@ import {CreateFanzoneComponent} from './create-fanzone/create-fanzone.component'
 import {CreateSegmentComponent} from './create-segment/create-segment.component';
 import { AddTimingComponent } from './add-timing/add-timing.component';
 import {FanzoneComponent} from './fanzone/fanzone.component';
+import {CreatePropsComponent} from './create-props/create-props.component';
+import {PropsDetailsComponent} from './props-details/props-details.component';
+import {CreatePropsAdComponent} from './create-props-ad/create-props-ad.component';
 const routes: Routes = [
   {path: '', redirectTo: 'establishment', pathMatch: 'full'},
   {path: 'establishment', component: EstablishmentsComponent},
@@ -21,12 +24,13 @@ const routes: Routes = [
   {path: 'findbyaddress', component: SearchEstablishmentsComponent},
   {path: 'establishment/:establishmentId/happeningAdd', component: CreateHappeningComponent},
   {path: 'fanzone/props', component: PropsComponent},
-  {path: 'propsAd', component: PropsAdsComponent},
-  {path: 'addFanzone', component: CreateFanzoneComponent},
+  {path: 'fanzone/propsAd', component: PropsAdsComponent},
   {path: 'fanzone', component: FanzoneComponent},
   {path: 'establishment/:establishmentId/segmentAdd', component: CreateSegmentComponent},
   {path: 'establishment/:establishmentId/addTiming/:happeningId', component: AddTimingComponent},
-
+  {path: 'fanzone/props/propsAdd', component: CreatePropsComponent},
+  {path: 'fanzone/props/:propsId', component: PropsDetailsComponent},
+  {path: 'fanzone/propsAd/AddpropsAd', component: CreatePropsAdComponent}
 ];
 
 @NgModule({

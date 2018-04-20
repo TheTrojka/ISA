@@ -26,8 +26,8 @@ export class CreatePropsComponent implements OnInit {
   }
  
   private save(): void {
-    const id = +this.route.snapshot.paramMap.get('fanzoneId');
-    this.propsService.create(id, this.props);
+    
+    this.propsService.create(this.props);
   }
  
   onSubmit() {

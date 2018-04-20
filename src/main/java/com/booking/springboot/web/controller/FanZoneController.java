@@ -1,5 +1,7 @@
 package com.booking.springboot.web.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,11 @@ public abstract class FanZoneController {
 	    @Autowired
 	    FanZoneService service;
 	    
+	    @RequestMapping(method = RequestMethod.GET)
+		public ArrayList<FanZone> getAllFanZones() {
+			return service.getAll();
+		}
+	    
 	    @RequestMapping(value="/{id}", method = RequestMethod.GET)
 		public ResponseEntity<FanZone> getById(@PathVariable int id) {
 	    	FanZone f = service.getOneById(id);
@@ -32,16 +39,17 @@ public abstract class FanZoneController {
 		}
 
 		@RequestMapping(method = RequestMethod.POST,
-				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+				consumes = MediaType.APPLICATION_JSON_VALUE,
 				produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<FanZone> addFanZone(FanZone f) {
+			System.out.println("fanzone controller");
 			service.addNew(f);
 			return new ResponseEntity<FanZone>(f, HttpStatus.OK);
 		}
 		
 		@RequestMapping(value = "/{id}",
 				method = RequestMethod.DELETE,
-				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+				consumes = MediaType.APPLICATION_JSON_VALUE,
 				produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<FanZone> deleteFanZone(@PathVariable int id){
 			service.delete(id);	
@@ -50,7 +58,7 @@ public abstract class FanZoneController {
 		
 		@RequestMapping(
 				method = RequestMethod.PUT,
-				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+				consumes = MediaType.APPLICATION_JSON_VALUE,
 				produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<FanZone> edit(FanZone firma) {
 			FanZone f = service.edit(firma);

@@ -54,14 +54,15 @@ public class ReservationController {
 		return new ResponseEntity<Reservation>(reserv, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/seat/{id}" , method = RequestMethod.POST, 
-			consumes = MediaType.ALL_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Reservation> add(@RequestParam int timing, @PathVariable int guestId, @PathVariable int id){
+	@RequestMapping(value = "/timing/{timingId}/seat/{id}" , method = RequestMethod.GET)
+	public ResponseEntity<String> add(@PathVariable int guestId, @PathVariable int timingId, @PathVariable int id){
+		///System.out.println("in");
 		Reservation res = new Reservation();
 		Guest g = guestServ.getOneById(guestId);
+		System.out.println(g.getLastname());
 		res.setmGuest(g);
-		res.setTiming(timingServ.getOneById(timing));
+		res.setTiming(timingServ.getOneById(timingId));
+		System.out.println(res.getTiming().getTime());
 		g.getReservations().add(res);
 		Reservation r = resServ.addNew(res);
 		Booked booked = new Booked();
@@ -70,16 +71,16 @@ public class ReservationController {
 		seatList.forEach((seat) -> {
 			  if (seat.getId() == id)
 			  {
+				  System.out.println(seat.getEstablishment().getAddress());
 				  booked.setSeat(seat);
+				  booked.setTiming(timingparameter);		
+				  bookedServ.addNew(booked);
 			  }
-		});
-		booked.setTiming(timingparameter);		
-		bookedServ.addNew(booked);
-		
+		});		
 		if (r == null){
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-		return new ResponseEntity<Reservation>(r, HttpStatus.OK);
+		return new ResponseEntity<String>(r.toString(), HttpStatus.OK);
 	}	
 	
 	@RequestMapping(value = "/{id}",

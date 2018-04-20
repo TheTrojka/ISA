@@ -30,6 +30,7 @@ import { PropsAdDetailsComponent } from './props-ad-details/props-ad-details.com
 import { PropsAdsComponent } from './props-ads/props-ads.component';
 import { PropsAdService } from './props-ad.service';
 import { CreateFanzoneComponent } from './create-fanzone/create-fanzone.component';
+
 import { FanzoneService } from './fanzone.service';
 import { FanzoneComponent } from './fanzone/fanzone.component';
 import { AddTimingComponent } from './add-timing/add-timing.component';
@@ -71,7 +72,7 @@ import { AddTimingComponent } from './add-timing/add-timing.component';
     BrowserAnimationsModule
   ],
 
-  providers: [DataService, HappeningService, SegmentService, DatePipe, PropsService, PropsAdService, FanzoneService ],
+  providers: [DataService, HappeningService, FanzoneService, SegmentService, DatePipe, PropsService, PropsAdService  ],
 
   bootstrap: [AppComponent]
 })

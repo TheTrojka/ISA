@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "propsAd")
 public class PropsAd {
@@ -32,19 +35,24 @@ public class PropsAd {
 	@Column(unique = true, nullable = false)
 	private int price;
 	
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = true)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date date;
-	
+	/*
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="fanzone_id", nullable=false)
+	@JsonBackReference
 	private FanZone fanzone;
-
+*/
 	//@ManyToOne 
 	//private User user;
-
+    public PropsAd() {
+		
+		
+	  }
 	
-	public PropsAd(int id, UsedProps usedProps, Date date) {
+	public PropsAd(int id, String name, String description, int price, Date date) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -78,7 +86,7 @@ public class PropsAd {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-
+/*
 	public FanZone getFanzone() {
 		return fanzone;
 	}
@@ -86,7 +94,7 @@ public class PropsAd {
 	public void setFanzone(FanZone fanzone) {
 		this.fanzone = fanzone;
 	}
-
+*/
 	public int getId() {
 		return id;
 	}
