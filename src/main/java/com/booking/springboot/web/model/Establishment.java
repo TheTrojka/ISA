@@ -27,6 +27,7 @@ public class Establishment {
     private Set<Segment> segments;
 	@Column(name = "IS_THEATER", columnDefinition = "boolean default true", nullable = false)
 	private Boolean theater = true;
+	private String description;
 	
 	protected Establishment() {
 	}
@@ -74,6 +75,16 @@ public class Establishment {
 	public void setTheater(boolean theater) {
 		this.theater = theater;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 
 	
