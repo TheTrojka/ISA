@@ -6,6 +6,7 @@ import { Segment } from '../segment';
 import { HappeningService } from '../happening.service';
 import { SegmentService } from '../segment.service';
 import { Timing } from '../timing';
+import { Seat } from '../seat';
 
 @Component({
   selector: 'app-happening-details',
@@ -15,10 +16,11 @@ import { Timing } from '../timing';
 export class HappeningDetailsComponent implements OnInit {
 
   @Input() happening: Happening;
-  segmentControl = new FormControl();
+  timingSeatControl = new FormControl();
   segments: Segment[];
 
   timings: Timing[];
+  timingSeats: Seat[];
 
   constructor(private happeningService: HappeningService,
     private route: ActivatedRoute,
@@ -30,9 +32,6 @@ export class HappeningDetailsComponent implements OnInit {
 
   save(): void {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
-    this.segmentControl.value.forEach(element => {
-      this.happeningService.addSegment(element, id, this.happening.id, element.id);
-    });
     this.happeningService.update(id, this.happening).then(() => this.goBack());
   }
 
@@ -44,6 +43,19 @@ export class HappeningDetailsComponent implements OnInit {
   getTimings() {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
     this.happeningService.getTimings(id, this.happening.id).then(timings => this.timings = timings);
+  }
+
+  getTimingSeats(timingId: number) {
+    const id = +this.route.snapshot.paramMap.get('establishmentId');
+    this.happeningService.getTimingSeats(id, this.happening.id, timingId)
+    .then(timingSeats => this.timingSeats = timingSeats);
+  }
+
+  book(timingId: number) {
+    this.timingSeatControl.value.forEach(element => {
+      this.happeningService.book(1, timingId, element);
+    });
+    this.goBack();
   }
 
   ngOnInit(): void {

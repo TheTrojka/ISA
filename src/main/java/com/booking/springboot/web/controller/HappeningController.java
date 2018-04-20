@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Establishment;
 import com.booking.springboot.web.model.Happening;
+import com.booking.springboot.web.model.Seat;
 import com.booking.springboot.web.model.Segment;
 import com.booking.springboot.web.model.Timing;
+import com.booking.springboot.web.service.BookedService;
 import com.booking.springboot.web.service.EstablishmentService;
 import com.booking.springboot.web.service.HappeningService;
 import com.booking.springboot.web.service.SegmentService;
@@ -46,6 +49,9 @@ public class HappeningController {
 	
 	@Autowired
 	TimingService tService;
+	
+	@Autowired
+	BookedService bService;
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -131,9 +137,7 @@ public class HappeningController {
 	
 
 	@RequestMapping(value = "/{id}/timing",
-			method = RequestMethod.GET,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)	
+			method = RequestMethod.GET)	
 	public ResponseEntity<ArrayList<Timing>> getTimings(@PathVariable int establishmentId, @PathVariable int id) {
 		Happening fs = service.getOneById(establishmentId, id);
 		Set<Timing> timings = fs.getTimings();
@@ -142,6 +146,42 @@ public class HappeningController {
 		timingList.addAll(timings);
 		System.out.println(timingList.size());
 		return new ResponseEntity<ArrayList<Timing>>(timingList, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value = "/{id}/timing/{timing}/free",
+			method = RequestMethod.GET)	
+	public ResponseEntity<ArrayList<Seat>> getFreeSeats(@PathVariable int establishmentId, @PathVariable int id,
+			@PathVariable int timing) {
+		Happening fs = service.getOneById(establishmentId, id);
+		Set<Timing> timings = fs.getTimings();
+		Timing timPar = new Timing();
+		for(Timing tim : timings)
+		{
+			if(tim.getId() == timing)
+			{
+				timPar = tim;
+			}
+		}
+		Segment segment = timPar.getSegment();
+		Set<Seat> segmentSeats = segment.getSeats();
+		ArrayList<Seat> freeSeats = new ArrayList<Seat>();
+		ArrayList<Booked> allBookings = bService.getAll();
+		for(Seat seto : segmentSeats) 
+		{
+			boolean free = true;
+			for(Booked booked : allBookings) 
+			{
+				if(booked.getTiming().getId() == timPar.getId() && booked.getSeat().getId() == seto.getId())
+				{
+					free = false;
+				}
+			}
+			if(free)
+			{
+				freeSeats.add(seto);
+			}
+		}
+		return new ResponseEntity<ArrayList<Seat>>(freeSeats, HttpStatus.OK); 
 	}
 	
 	
@@ -156,7 +196,6 @@ public class HappeningController {
 	
 	
 	@RequestMapping(value = "/establishment/{id}/happening/addHappening")
-	public String openEstablishmentAddForm(@PathVariable int id,ModelMap model) {
 		model.addAttribute("list",list1);
 		return "addHappening";
 	}

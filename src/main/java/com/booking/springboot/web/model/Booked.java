@@ -26,7 +26,7 @@ public class Booked {
     private Timing timing;
 	
 	@ManyToOne @NotNull 
-	@JoinColumn(name="segment_id", nullable=false)
+	@JoinColumn(name="seat_id", nullable=false)
 	@JsonBackReference (value="seat-booked")// "back" part of reference: it will be omitted from serialization	
     private Seat seat;	
 	

@@ -34,6 +34,7 @@ private String name;
 private String lastname;
 @Column(unique=false,nullable=false)
 private int phone;
+private String city;
 //@OneToMany
 //@JsonManagedReference
 //private Set<Guest> friends = new HashSet<Guest>();
@@ -128,5 +129,15 @@ public double getPhone() {
 public void setPhone(int phone) {
 	this.phone = phone;
 }
+
+public String getCity() {
+	return city;
+}
+
+public void setCity(String city) {
+	this.city = city;
+}
+
+
 
 }
