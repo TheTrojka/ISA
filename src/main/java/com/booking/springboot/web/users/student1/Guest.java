@@ -6,17 +6,26 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.booking.springboot.web.entities.student1.Reservation;
+import com.booking.springboot.web.model.Establishment;
+import com.booking.springboot.web.model.Offer;
+import com.booking.springboot.web.model.Props;
+import com.booking.springboot.web.model.PropsAd;
+import com.booking.springboot.web.model.Rating;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-
 
 @Entity
 @Table(name = "guests")
@@ -33,15 +42,51 @@ private String name;
 @Column(unique=false,nullable= false)
 private String lastname;
 @Column(unique=false,nullable=false)
-private int phone;
+private String phone;
 private String city;
+public enum Role {
+    user,
+    admin,
+    establishmentAdmin,
+    fanZoneAdmin
+}
+@Enumerated(EnumType.STRING)
+private Role role;
+private int resNum;
+
+@ManyToOne(fetch = FetchType.LAZY)
+@JsonBackReference(value="establishment-admin")
+@JoinColumn(name="establishment_id")
+private Establishment establishment;
+@OneToMany
+private Set<Props> props;
+@OneToMany
+private Set<PropsAd> propsAd;
 //@OneToMany
 //@JsonManagedReference
 //private Set<Guest> friends = new HashSet<Guest>();
 
+@Column(name = "enabled")
+private boolean enabled;
+
+@Column(name = "confirmation_token")
+private String confirmationToken;
+
 @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "mGuest") 
 @JsonManagedReference
 private Set<Reservation> reservations = new HashSet<Reservation>();
+
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "guest") 
+@JsonManagedReference(value="guest-rating")
+private Set<Rating> ratings;
+
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "guest") 
+@JsonManagedReference(value="guest-offer")
+private Set<Offer> offers;
+
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "guest") 
+@JsonManagedReference(value="guest-ad")
+private Set<PropsAd> ads;
 
 public Set<Reservation> getReservations() {
 	return reservations;
@@ -51,40 +96,9 @@ public void setReservations(Set<Reservation> reservations) {
 	this.reservations = reservations;
 }
 
-Guest() {
-	
+public Guest() {	
 	// TODO Auto-generated constructor stub
 }
-
-public Guest(Guest guest) {
-	super();
-	this.id = guest.getId();
-	this.email = guest.getEmail();
-	this.password = guest.getPassword();
-	this.name = guest.getName();
-	this.lastname = guest.getLastname();
-	this.reservations = guest.getReservations();
-	
-}
-public Guest(int id, String email, String password, String name, String lastname, int phone, HashSet<Reservation> reservations) {
-	super();
-	this.id = id;
-	this.email = email;
-	this.password = password;
-	this.name = name;
-	this.lastname = lastname;
-	this.phone = phone;
-	this.reservations = reservations;
-}
-public Guest(String email, String password, String ime, String prezime,int phone) {
-	super();
-	this.email = email;
-	this.password = password;
-	this.name = ime;
-	this.lastname = prezime;
-	this.phone = phone;
-}
-
 
 public int getId() {
 	return id;
@@ -123,10 +137,10 @@ public String getLastname() {
 public void setLastname(String lastname) {
 	this.lastname = lastname;
 }
-public double getPhone() {
+public String getPhone() {
 	return phone;
 }
-public void setPhone(int phone) {
+public void setPhone(String phone) {
 	this.phone = phone;
 }
 
@@ -137,6 +151,96 @@ public String getCity() {
 public void setCity(String city) {
 	this.city = city;
 }
+@JsonIgnore
+public boolean isEnabled() {
+	return enabled;
+}
+
+public void setEnabled(boolean enabled) {
+	this.enabled = enabled;
+}
+
+public String getConfirmationToken() {
+	return confirmationToken;
+}
+
+public void setConfirmationToken(String confirmationToken) {
+	this.confirmationToken = confirmationToken;
+}
+
+public Role getRole() {
+	return role;
+}
+
+public void setRole(Role role) {
+	this.role = role;
+}
+
+public Establishment getEstablishment() {
+	return establishment;
+}
+
+public void setEstablishment(Establishment establishment) {
+	this.establishment = establishment;
+}
+
+public Set<Rating> getRatings() {
+	return ratings;
+}
+
+public void setRatings(Set<Rating> ratings) {
+	this.ratings = ratings;
+}
+
+public Set<Props> getProps() {
+	return props;
+}
+
+public void setProps(Set<Props> props) {
+	this.props = props;
+}
+
+public Set<PropsAd> getPropsAd() {
+	return propsAd;
+}
+
+public void setPropsAd(Set<PropsAd> propsAd) {
+	this.propsAd = propsAd;
+}
+
+public Set<Offer> getOffers() {
+	return offers;
+}
+
+public void setOffers(Set<Offer> offers) {
+	this.offers = offers;
+}
+
+public Set<PropsAd> getAds() {
+	return ads;
+}
+
+public void setAds(Set<PropsAd> ads) {
+	this.ads = ads;
+}
+
+public int getResNum() {
+	return resNum;
+}
+
+public void setResNum(int resNum) {
+	this.resNum = resNum;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

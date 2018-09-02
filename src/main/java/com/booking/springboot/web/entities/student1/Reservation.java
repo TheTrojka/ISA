@@ -48,6 +48,8 @@ public class Reservation {
 	@JsonBackReference
 	private Guest mGuest;
 	
+	private int seat;
+	
 	
 	public Guest getmGuest() {
 		return mGuest;
@@ -76,6 +78,14 @@ public class Reservation {
 
 	public void setTiming(Timing timing) {
 		this.timing = timing;
+	}
+
+	public int getSeat() {
+		return seat;
+	}
+
+	public void setSeat(int seat) {
+		this.seat = seat;
 	}
 	
 	

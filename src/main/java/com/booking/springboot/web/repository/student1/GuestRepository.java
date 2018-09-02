@@ -9,5 +9,5 @@ import com.booking.springboot.web.users.student1.Guest;
 public interface GuestRepository extends CrudRepository<Guest,Integer> {
 	public Guest findByEmail(String email);
 	public ArrayList<Guest> findById(int id);
-
+    public Guest findByConfirmationToken(String confirmationToken);
 }

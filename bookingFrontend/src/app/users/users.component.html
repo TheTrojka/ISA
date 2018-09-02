@@ -1,0 +1,9 @@
+<input [(ngModel)]="searchString" type="text"/>
+    <button (click)="search()">Search users</button>
+    <button (click)="reset()">Reset search</button>
+<div *ngFor="let user of users">
+  <div *ngIf="user.role == 'user'">
+    {{user.name}}  {{user.lastname}}
+    <button (click) = "addFriend(user.id)">Add to friends</button>
+  </div>
+</div>

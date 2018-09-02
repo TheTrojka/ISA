@@ -1,0 +1,24 @@
+<h3>Login Form</h3>
+<div [hidden]="submitted" style="width: 300px;">
+
+	<form (ngSubmit)="onSubmit()">
+		<div class="form-group">
+			<label for="email">Email</label> <input type="text"
+				class="form-control" id="email" required
+				[(ngModel)]="user.email" name="email">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label> <input type="password"
+				class="form-control" id="password" required
+				[(ngModel)]="user.password" name="password">
+    </div>
+
+		<div class="btn-group">
+			<button class="btn btn-primary" (click)="goBack()">Back</button>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>
+	</form>
+</div>
+<div [hidden]="!error">
+	<h4>Wrong e-mail or password</h4>
+</div>

@@ -11,5 +11,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 public ArrayList<Reservation> findByMGuest_Id(int guestId);
 	
 public Reservation findByMGuest_IdAndId(int guestId, int id);
+
+public Reservation findByTiming_IdAndSeat(int timingId, int seat);
 	
 }

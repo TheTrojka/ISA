@@ -28,6 +28,11 @@ public class ReservationService {
 		return r;
 	}
 	
+	public Reservation getOneByRealId(int id){
+		Reservation r = reservationRepository.findOne(id);
+		return r;
+	}
+	
 	public Reservation addNew(Reservation reservation){
 		return reservationRepository.save(reservation);
 	}
@@ -38,6 +43,9 @@ public class ReservationService {
 	
 	public void deleteReservation(int id){
 		reservationRepository.delete(id);
+	}
+	public Reservation getOneByTimingAndSeat(int timingId, int id) {
+		return reservationRepository.findByTiming_IdAndSeat(timingId, id);
 	}
 
 }

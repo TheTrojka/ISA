@@ -24,11 +24,18 @@ export class CreateEstablishmentComponent implements OnInit {
   }
  
   private save(): void {
-    this.dataService.create(this.establishment);
+    console.log(this.establishment);
+    if (!this.establishment.hasOwnProperty('theater')) {
+      this.establishment.theater = false;
+    }
+    console.log(this.establishment);
+    this.establishment.active = true;
+    this.dataService.create(this.establishment)
+    .then(() => this.submitted = true)
+    .catch(() => alert('Establishment already exists'));
   }
  
   onSubmit() {
-    this.submitted = true;
     this.save();
   }
  

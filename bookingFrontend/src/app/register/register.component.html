@@ -1,0 +1,63 @@
+<h3>Register Form</h3>
+<div [hidden]="submitted" style="width: 300px;">
+
+	<form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+		<div class="form-group">
+			<label for="email">Email*</label> <input type="email"
+				class="form-control" id="email" required
+				[(ngModel)]="user.email" name="email">
+	</div>
+
+	<div class="form-group">
+			<label for="password">Password*</label> <input type="password"
+				class="form-control" id="password" required
+				[(ngModel)]="user.password" name="password">
+	</div>
+	
+	<div class="form-group">
+			<label for="password">Confirm*</label> <input type="password"
+				class="form-control" id="repeat" required
+				[(ngModel)]="repeat" name="repeat">
+    </div>
+    
+    <div class="form-group">
+			<label for="name">Name*</label> <input type="text"
+				class="form-control" id="name" required
+				[(ngModel)]="user.name" name="name">
+    </div>
+    
+    <div class="form-group">
+			<label for="lastname">Last*</label> <input type="text"
+				class="form-control" id="lastname" required
+				[(ngModel)]="user.lastname" name="lastname">
+    </div>
+    
+    <div class="form-group">
+			<label for="city">City</label> <input type="text"
+				class="form-control" id="city"
+				[(ngModel)]="user.city" name="city">
+    </div>
+    
+    <div class="form-group">
+			<label for="phone">Phone*</label> <input type="number"
+				class="form-control" id="phone" required
+				[(ngModel)]="user.phone" name="phone">
+		</div>
+ 
+		<div class="btn-group">
+			<button class="btn btn-primary" (click)="goBack()">Back</button>
+			<button type="submit" class="btn btn-success" [disabled]="registerForm.form.invalid">Submit</button>
+		</div>
+	</form>
+</div>
+
+<div [hidden]="passwordsSame">
+			<h4>Passwords not the same</h4>
+	</div>
+ 
+<div [hidden]="!submitted">
+	<div class="btn-group ">
+		<h4>Email sent to you</h4>
+		<button class="btn btn-primary" (click)="goBack()">Back</button>
+	</div>
+</div>
