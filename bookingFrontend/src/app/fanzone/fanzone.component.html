@@ -1,7 +1,8 @@
 <div>
 <nav>
-<a routerLink="props"	class="btn btn-primary active" role="button" routerLinkActive="active">Props</a>
-<a routerLink="propsAd"	class="btn btn-primary active" role="button" routerLinkActive="active">Props Ad</a>
+<a *ngIf = "user || admin" routerLink="props"	class="btn btn-primary active" role="button" routerLinkActive="active">Props</a>
+<a *ngIf = "user" routerLink="propsAd"	class="btn btn-primary active" role="button" routerLinkActive="active">Props Ad</a>
+<a *ngIf = "admin" routerLink="propsAdreview"	class="btn btn-primary active" role="button" routerLinkActive="active">Review Ad</a>
 </nav>
 </div>
 

@@ -12,6 +12,9 @@ export class FanzoneComponent implements OnInit {
  // fanzone: Fanzone[];
   // selectedFanzone: Fanzone;
 
+  admin = false;
+  user = false;
+
   constructor() { }
 /*
   getFanzones() {
@@ -19,6 +22,11 @@ export class FanzoneComponent implements OnInit {
   }
 */
   ngOnInit(): void {
+    if (localStorage.getItem('FZadmin')) {
+      this.admin = true;     
+    } else if (localStorage.getItem('userRole')) {
+      this.user = true; 
+    } 
    // this.getFanzones();
   }
   /*

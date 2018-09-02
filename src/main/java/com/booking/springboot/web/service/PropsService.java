@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
-
-
-
 import com.booking.springboot.web.model.Props;
 import com.booking.springboot.web.repository.PropsRepo;
 
@@ -45,6 +40,11 @@ public class PropsService {
 	
 	public void delete(int id) {
 		pr.delete(id);
+	}
+
+	public Props getOneByName(String name) {
+		// TODO Auto-generated method stub
+		return pr.getOneByName(name);
 	}
 
 }

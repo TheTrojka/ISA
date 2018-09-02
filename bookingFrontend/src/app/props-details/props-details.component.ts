@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Props } from '../props';
@@ -10,7 +10,7 @@ import { PropsService } from '../props.service';
   styleUrls: ['./props-details.component.css'],
   providers: [PropsService]
 })
-export class PropsDetailsComponent  {
+export class PropsDetailsComponent  implements OnInit {
 
    @Input() props: Props;
  
@@ -33,8 +33,9 @@ export class PropsDetailsComponent  {
   }
 
   save(): void {
-    
-    this.propsService.update(this.props).then(() => this.goBack());
+    this.props.active = true;
+    this.propsService.update(this.props).then(() => this.goBack())
+    .catch(() => alert('Prop with the same name already exists'));
   }
  
   goBack(): void {

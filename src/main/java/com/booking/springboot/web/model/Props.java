@@ -15,10 +15,11 @@ public class Props {
 	private int id;
 	@Column(unique = true, nullable = false)
 	private String name;
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private String description;
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private int price;
+	private boolean active;
 	
 	
 	/*
@@ -64,6 +65,14 @@ public class Props {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	
 	/*
 	public String getImage() {
 		return image;

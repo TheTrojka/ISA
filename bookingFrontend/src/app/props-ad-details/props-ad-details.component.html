@@ -4,15 +4,42 @@
 		<label>Id: </label> {{propsAd.id}}
 	</div>
 	<div>
-		<label>Name: </label> <input [(ngModel)]="propsAd.name" placeholder={{propsAd.name}}/>
+		<label>Name: </label> {{propsAd.name}}
 	</div>
 	<div>
-		<label>Description: </label> <input [(ngModel)]="propsAd.description" placeholder={{propsAd.description}}/>
+		<label>Description: </label> {{propsAd.description}}
+	</div>
+	<div *ngIf = "propsAd.picture">
+		<label>Picture: </label> <img src="{{propsAd.picture}}" alt="prop poster" />
 	</div>
 	<div>
-		<label>Price: </label> <input [(ngModel)]="propsAd.price" placeholder={{propsAd.price}}/>
+		<label>Date: </label> {{propsAd.date}}
 	</div>
-	
-	<button class="btn btn-danger" (click)="delete()">Delete</button>
-	<button (click)="save()">Save</button>
+
 </div>
+<h4>Offers: </h4>
+<div *ngIf="!seller && !expired">
+	<div *ngIf="ownOffer">
+		<label>My offer: </label>{{ownOffer.price}}
+		<input [(ngModel)]="changedOffer" type="number" /><button (click)="changeOffer()">Change offer</button><br/>
+		<button (click)="removeOffer(ownOffer.id)">Remove offer</button>
+	</div>
+	<div *ngIf="!ownOffer">
+		<input [(ngModel)]="initialOffer" type="number" /><button (click)="makeOffer()">Make offer</button>
+	</div>
+</div>
+<table>
+	<thead>
+		<th>Id</th>
+		<th>Offer</th>
+		<th>User</th>
+	</thead>
+	<tbody>
+		<tr *ngFor="let offer of offers">
+			<td>{{offer.id}}</td>
+			<td>{{offer.price}}</td>
+			<td>{{offer.user}}</td>
+			<div *ngIf="seller"><td><button (click)="acceptOffer(offer.id)">Accept offer</button></td></div>
+		</tr>
+	</tbody>
+</table>

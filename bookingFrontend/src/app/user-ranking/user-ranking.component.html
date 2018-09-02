@@ -1,0 +1,26 @@
+<h2>Reservations needed for higher status:</h2>
+
+    <form #statusForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label for="silver">Silver*</label> <input type="number" class="form-control" id="silver" 
+            required [(ngModel)]="status.silver"
+                name="silver">
+        </div>
+
+        <div class="form-group">
+            <label for="gold">Gold*</label> <input type="number" class="form-control" id="gold" 
+            required [(ngModel)]="status.gold"
+                name="gold">
+        </div>
+
+
+        *Required fields
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success" [disabled]="statusForm.form.invalid">Set</button>
+        </div>
+    </form>
+
+    <div *ngIf="!correct">
+        <label>Silver status has to be smaller than gold</label> 
+    </div>

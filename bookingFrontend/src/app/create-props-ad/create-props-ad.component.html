@@ -1,25 +1,15 @@
 <h3>Create Props Form</h3>
 <div [hidden]="submitted" style="width: 300px;">
-	<form (ngSubmit)="onSubmit()">
+	<form #propAdForm = "ngForm" (ngSubmit)="onSubmit()">
 		<div class="form-group">
 			<label for="name">Name</label> <input type="text"
 				class="form-control" id="name" required
 				[(ngModel)]="propsAd.name" name="name">
 		</div>
 		<div class="form-group">
-			<label for="description">Description</label> <input type="text"
+			<label for="description">Description</label> <textarea
 				class="form-control" id="description" required
-				[(ngModel)]="propsAd.description" name="description">
-    </div>
-    
-    
-    
-    
-    
-    <div class="form-group">
-			<label for="price">Price</label> <input type="number"
-				class="form-control" id="price" required
-				[(ngModel)]="propsAd.price" name="price">
+				[(ngModel)]="propsAd.description" name="description"></textarea>
     </div>
     
 		<div class="form-group">
@@ -27,10 +17,16 @@
 			<input [(ngModel)]="propsAd.date" name="date" type="datetime-local"
 			class="form-control" id="date" required>
 		</div>
+		
+		<div class="form-group">
+			<label for="picture">Picture</label> 
+			<input (change)="onUploadChange($event)" name="picture" type="file" accept="image/*"
+			class="form-control" id="picture" >
+		</div>
  
     
 		<div class="btn-group">
-			<button class="btn btn-primary" (click)="goBack()">Back</button>
+			<button class="btn btn-primary" [disabled]="propAdForm.form.invalid" (click)="goBack()">Back</button>
 			<button type="submit" class="btn btn-success">Submit</button>
 		</div>
 	</form>

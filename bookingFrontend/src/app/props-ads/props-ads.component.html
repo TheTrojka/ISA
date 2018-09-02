@@ -1,20 +1,21 @@
 <div>
 
 <table>
-  <thead>
+  <thead style="display:table-header-group">
      <th>Id</th>
      <th>Name</th>
      <th>Description</th>
-     <th>Price</th>
+     <th>Picture</th>
   </thead>
-  <tbody>
-  
+  <tbody> 
     <tr *ngFor="let ads of propsAd">
+      <div *ngIf="!ads.accepted && ads.reviewed">
         <td>{{ads.id}}</td>
-        <td>{{ads.name}}</td>
+        <td routerLink="/fanzone/propsAd/{{ads.id}}/">{{ads.name}}</td>
         <td>{{ads.description}}</td>
-        <td>{{ads.price}}</td>
         <td>{{ads.date}}</td>
+        <td *ngIf = "ads.picture"><img src="{{ads.picture}}" alt="prop poster" ></td>
+      </div>
     </tr>
   </tbody>
 </table>
@@ -22,4 +23,4 @@
 <nav>
     <a routerLink="AddpropsAd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
   </nav>
-  <app-props-ad-details></app-props-ad-details>
+ <!-- <app-props-ad-details></app-props-ad-details> -->

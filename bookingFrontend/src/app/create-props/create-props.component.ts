@@ -26,8 +26,8 @@ export class CreatePropsComponent implements OnInit {
   }
  
   private save(): void {
-    
-    this.propsService.create(this.props);
+    this.props.active = true;
+    this.propsService.create(this.props).catch(() => alert('Prop with the same name already exists'));
   }
  
   onSubmit() {

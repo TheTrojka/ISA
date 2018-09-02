@@ -10,15 +10,19 @@
   <tbody>
   
     <tr *ngFor="let pro of props">
+      <div *ngIf="pro.active">
         <td>{{pro.id}}</td>
-        <td routerLink="/fanzone/props/{{pro.id}}/">{{pro.name}}</td>
+        <td *ngIf = "admin" routerLink="/fanzone/props/{{pro.id}}/">{{pro.name}}</td>
+        <td *ngIf = "!admin">{{pro.name}}</td>
         <td>{{pro.description}}</td>
         <td>{{pro.price}}</td>
+        <td *ngIf = "user"><button (click)="buyProp(pro.id)">Buy prop</button></td>
+      </div>
     </tr>
   </tbody>
 </table>
 </div>
 <nav>
-    <a routerLink="propsAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
+    <a *ngIf = "admin" routerLink="propsAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
   </nav>
-<app-props-details></app-props-details>
+<!-- <app-props-details></app-props-details> -->
