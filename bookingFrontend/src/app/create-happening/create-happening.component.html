@@ -22,18 +22,30 @@
 			<label for="decription">Decription</label> <input type="text"
 				class="form-control" id="decription" required
 				[(ngModel)]="happening.decription" name="decription">
-    </div>
-    
+	</div>
+	
+	<div class="form-group">
+			<label for="genre">Genre</label> 
+			<select class="form-control" id="genre" required 
+			[(ngModel)]="happening.genre"  name="genre">
+			  <option value="action">action</option>
+			  <option value="scifi">scifi</option>
+			  <option value="fantasy">fantasy</option>
+			  <option value="drama">drama</option>
+			  <option value="comedy">comedy</option>
+			  <option value="horror">horror</option>
+			</select>
+		  </div>
     <div class="form-group">
 			<label for="duration">Duration</label> <input type="number"
 				class="form-control" id="duration" required
-				[(ngModel)]="happening.duration" name="duration">
+				[(ngModel)]="happening.duration" name="duration"> in minutes
     </div>
     
     <div class="form-group">
 			<label for="price">Price</label> <input type="number"
 				class="form-control" id="price" required
-				[(ngModel)]="happening.price" name="price">
+				[(ngModel)]="happening.price" name="price"> in dollars
 		</div>
  
 		<div class="btn-group">

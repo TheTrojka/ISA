@@ -1,11 +1,12 @@
 <ul>
-  <li *ngFor="let happ of happenings"
-  [class.selected]="happ === selectedHappening" (click)="onSelect(happ)">
-  <h4>{{happ.id}} - {{happ.title}} {{happ.description}}</h4> 
-</li>
+  <li *ngFor="let happ of happenings" [class.selected]="happ === selectedHappening" (click)="onSelect(happ)">
+    <h4>{{happ.id}} - {{happ.title}} {{happ.description}}</h4>
+  </li>
 </ul>
 <app-happening-details [happening]="selectedHappening"></app-happening-details>
-<nav>
-    <a routerLink="happeningAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
+<div *ngIf="Eadmin || admin">
+  <nav>
+    <a routerLink="happeningAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>
   </nav>
-  <router-outlet></router-outlet>
+</div>
+<router-outlet></router-outlet>

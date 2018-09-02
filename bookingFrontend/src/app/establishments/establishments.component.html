@@ -1,15 +1,30 @@
-<h1>Theaters</h1>
-<a *ngFor="let est of establishments" 
-  routerLink="/establishment/{{est.id}}/">
-  <div *ngIf="est.theater">
-    <h4>{{est.id}} - {{est.name}} {{est.address}}</h4> 
-  </div>
-</a>
-<h1>Cinemas</h1>
-<a *ngFor="let est of establishments" 
-  routerLink="/establishment/{{est.id}}/">
-  <div *ngIf="!est.theater">
-    <h4>{{est.id}} - {{est.name}} {{est.address}}</h4> 
-  </div>
-</a>
-
+<div *ngIf="type=='theaters'">
+  <h1>Theaters</h1>
+  <button (click)="sortByName()">Sort by name</button>
+  <button (click)="sortByRating()">Sort by rating</button><br/>
+  <button (click)="sortByDistance()">Sort by distance</button><br/>
+  <input [(ngModel)]="searchString" type="text"/>
+  <button (click)="search()">Search establishments</button>
+  <button (click)="reset()">Reset search</button>
+  <a *ngFor="let est of establishments" routerLink="/establishment/{{est.id}}/">
+    <div *ngIf="est.theater && est.active">
+        <h4>{{est.id}} - Name: {{est.name}} Address: {{est.address}} Rating: {{est.rating}} 
+            <div *ngIf="est.distance">Distance: {{est.distance}}</div></h4>
+    </div>
+  </a>
+</div>
+<div *ngIf="type=='cinemas'">
+  <h1>Cinemas</h1>
+  <button (click)="sortByName()">Sort by name</button>
+  <button (click)="sortByRating()">Sort by rating</button><br/>
+  <button (click)="sortByDistance()">Sort by distance</button><br/>
+  <input [(ngModel)]="searchString" type="text"/>
+  <button (click)="search()">Search establishments</button>
+  <button (click)="reset()">Reset search</button>
+  <a *ngFor="let est of establishments" routerLink="/establishment/{{est.id}}/">
+    <div *ngIf="!est.theater && est.active">
+      <h4>{{est.id}} - Name: {{est.name}} Address: {{est.address}} Rating: {{est.rating}} 
+        <div *ngIf="est.distance">Distance: {{est.distance}}</div></h4>
+    </div>
+  </a>
+</div>

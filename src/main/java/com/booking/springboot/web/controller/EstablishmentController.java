@@ -1,6 +1,7 @@
 package com.booking.springboot.web.controller;
 
 import java.text.ParseException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +33,11 @@ import com.booking.springboot.web.model.Timing;
 import com.booking.springboot.web.service.BookedService;
 import com.booking.springboot.web.service.DiscountService;
 import com.booking.springboot.web.service.EstablishmentService;
+import com.booking.springboot.web.service.student1.GuestService;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/establishment")
 public class EstablishmentController {
 
@@ -46,13 +50,16 @@ public class EstablishmentController {
     @Autowired
     DiscountService dService;
     
+    @Autowired
+    GuestService gService;
+    
     @RequestMapping(method = RequestMethod.GET)
 	public ArrayList<Establishment> getAllEstablishments() {
 		return service.getAll();
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Establishment> getById(@PathVariable int id) {
+	public ResponseEntity<Establishment> getById(@PathVariable int id, Principal principal) {
 		Establishment f = service.getOneById(id);
 		return new ResponseEntity<Establishment>(f, HttpStatus.OK);
 	}
@@ -61,9 +68,12 @@ public class EstablishmentController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Establishment> addEstablishment(@RequestBody Establishment f) {
-		Establishment est = new Establishment(f.getName(), f.getAddress());
-		System.out.println("est controller");
-		service.addNew(est);
+		Establishment exists = service.getOneByName(f.getName());
+		if(exists != null)
+		{
+			return new ResponseEntity<Establishment>(HttpStatus.BAD_REQUEST);
+		}
+		service.addNew(f);
 		return new ResponseEntity<Establishment>(f, HttpStatus.OK);
 	}
 	
@@ -72,7 +82,9 @@ public class EstablishmentController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Establishment> deleteEstablishment(@PathVariable int id){
-		service.delete(id);	
+		Establishment f = service.getOneById(id);
+		f.setActive(false);
+		service.edit(f);	
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -86,17 +98,22 @@ public class EstablishmentController {
 	}
 	
 	@RequestMapping(value = "/{id}/visitReport",method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Integer> visits(@PathVariable int id, @RequestParam String from,
-			@RequestParam String to) throws ParseException{
+	public ResponseEntity<Integer> visits(@PathVariable int id, @RequestBody String[] dates) 
+			throws ParseException {
+		String from = dates[0];
+		String to = dates[1];
 		Integer visits = 0;
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy  HH:mm:ss");
+		System.out.println(to);
+		System.out.println(from);
+		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date fromDate = format1.parse(from);
 		Date toDate = format1.parse(to);
 		ArrayList<Booked> allBookings = bService.getAll();
 		ArrayList<Discounted> allDiscounts = dService.getAll();
-		Establishment establishment = service.getOneById(id);
+		Establishment establishment = service.getOneById(gService.getOneById(id).
+				getEstablishment().getId());
 		Set<Happening> happenings = establishment.getHappenings();
 		for(Happening happening : happenings) {
 			  Set<Timing> timings = happening.getTimings();
@@ -136,17 +153,20 @@ public class EstablishmentController {
 	}
 	
 	@RequestMapping(value = "/{id}/profitReport",method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Double> profits(@PathVariable int id, @RequestParam String from,
-			@RequestParam String to) throws ParseException{
+	public ResponseEntity<Double> profits(@PathVariable int id, @RequestBody String[] dates) 
+			throws ParseException {
+		String from = dates[0];
+		String to = dates[1];
 		double profits = 0;
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy  HH:mm:ss");
+		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date fromDate = format1.parse(from);
 		Date toDate = format1.parse(to);
 		ArrayList<Booked> allBookings = bService.getAll();
 		ArrayList<Discounted> allDiscounts = dService.getAll();
-		Establishment establishment = service.getOneById(id);
+		Establishment establishment = service.getOneById(gService.getOneById(id).
+				getEstablishment().getId());
 		Set<Happening> happenings = establishment.getHappenings();
 		for(Happening happening : happenings) {
 			  Set<Timing> timings = happening.getTimings();
@@ -183,6 +203,20 @@ public class EstablishmentController {
 			}
 		}
 		return new ResponseEntity<Double>(profits, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/{id}/isAdmin/{user}", method = RequestMethod.GET)
+	public ResponseEntity<Establishment> isAdmin(@PathVariable int id, @PathVariable int user) {
+		Establishment est = service.getOneById(id);
+		if(est.getAdmins().contains(gService.getOneById(user)))
+		{
+			return new ResponseEntity<Establishment>(est, HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<Establishment>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	/*
 	@RequestMapping(value="/login",

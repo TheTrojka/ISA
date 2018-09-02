@@ -32,7 +32,7 @@ public class Timing {
 	private int id;
 	
 	@Column(unique = false, nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", timezone = "Europe/Madrid")
 	private Date time;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

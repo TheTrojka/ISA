@@ -8,14 +8,14 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class SegmentService {
 
-  private segmentsUrl = 'establishment/:establishmentId/segment';  // URL to web API
+  private segmentsUrl = 'http://localhost:8080/establishment/:establishmentId/segment';  // URL to web API
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
 
   // Get all customers
   getSegments(id: number): Promise<Segment[]> {
-    return this.http.get(`establishment/${id}/segment`)
+    return this.http.get(`http://localhost:8080/establishment/${id}/segment`)
       .toPromise()
       .then(response => response.json() as Segment[])
       .catch(this.handleError);
@@ -23,21 +23,21 @@ export class SegmentService {
 
 
   getSeats(id: number, segmentId: number): Promise<Seat[]> {
-    return this.http.get(`establishment/${id}/segment/${segmentId}/seat`)
+    return this.http.get(`http://localhost:8080/establishment/${id}/segment/${segmentId}/seat`)
       .toPromise()
       .then(response => response.json() as Seat[])
       .catch(this.handleError);
   }
 
   deleteSeat(id: number, segmentId: number, seatId: number): Promise<void> {
-    return this.http.delete(`establishment/${id}/segment/${segmentId}/seat/${seatId}`)
+    return this.http.delete(`http://localhost:8080/establishment/${id}/segment/${segmentId}/seat/${seatId}`)
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
   }
 
   addSeat(id: number, segmentId: Number): Promise<Seat> {
-    return this.http.post(`establishment/${id}/segment/${segmentId}/seat`, {id: '0'}, {headers : this.headers})
+    return this.http.post(`http://localhost:8080/establishment/${id}/segment/${segmentId}/seat`, {id: '0'}, {headers : this.headers})
       .toPromise()
       .then(response => response.json() as Seat)
       .catch(this.handleError);
@@ -46,7 +46,7 @@ export class SegmentService {
 
   create(id: number, segment: Segment): Promise<Segment> {
     return this.http
-      .post(`establishment/${id}/segment`, JSON.stringify(segment), {headers : this.headers})
+      .post(`http://localhost:8080/establishment/${id}/segment`, JSON.stringify(segment), {headers : this.headers})
       .toPromise()
       .then(response => response.json() as Segment)
       .catch(this.handleError);
@@ -63,7 +63,7 @@ export class SegmentService {
 
   update(id: number, segment: Segment): Promise<Segment> {
     return this.http
-      .put(`establishment/${id}/segment`, JSON.stringify(segment), {headers: this.headers})
+      .put(`http://localhost:8080/establishment/${id}/segment`, JSON.stringify(segment), {headers: this.headers})
       .toPromise()
       .then(res => res.json() as Segment)
       .catch(this.handleError);

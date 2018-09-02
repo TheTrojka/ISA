@@ -11,7 +11,7 @@ import com.booking.springboot.web.model.Happening;
 
 @Repository
 public interface HappeningRepository extends CrudRepository<Happening,Integer>{
-	
+
 	public ArrayList<Happening> findByEstablishment_Id(int fakturaId);
 	
 	public Happening findByEstablishment_IdAndId(int fakturaId, int redni_broj);

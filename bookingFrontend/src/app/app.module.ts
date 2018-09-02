@@ -3,9 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule, MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { AgmCoreModule } from '@agm/core';
 import { DataService } from './data.service';
 import { EstablishmentsComponent } from './establishments/establishments.component';
 import { EstablishmentDetailsComponent } from './establishment-details/establishment-details.component';
@@ -34,6 +35,18 @@ import { CreateFanzoneComponent } from './create-fanzone/create-fanzone.componen
 import { FanzoneService } from './fanzone.service';
 import { FanzoneComponent } from './fanzone/fanzone.component';
 import { AddTimingComponent } from './add-timing/add-timing.component';
+import { RegisterComponent } from './register/register.component';
+import { UserService } from './user.service';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
+import { ReportsComponent } from './reports/reports.component';
+import { UsersComponent } from './users/users.component';
+import { PropsAdReviewComponent } from './props-ad-review/props-ad-review.component';
+import { InvitationDecisionComponent } from './invitation-decision/invitation-decision.component';
+import { UserRankingComponent } from './user-ranking/user-ranking.component';
 
 
 
@@ -58,7 +71,18 @@ import { AddTimingComponent } from './add-timing/add-timing.component';
     PropsAdsComponent,
     CreateFanzoneComponent,
     FanzoneComponent,
-    AddTimingComponent
+    AddTimingComponent,
+    RegisterComponent,
+    ConfirmComponent,
+    LoginComponent,
+    ProfileComponent,
+    AddUserComponent,
+    AdminConfirmationComponent,
+    ReportsComponent,
+    UsersComponent,
+    PropsAdReviewComponent,
+    InvitationDecisionComponent,
+    UserRankingComponent
 
   ],
   imports: [
@@ -69,10 +93,19 @@ import { AddTimingComponent } from './add-timing/add-timing.component';
     AppRoutingModule,
     ReactiveFormsModule,
     MatSelectModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatListModule,
+    MatToolbarModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDQzCvobOovm8PchTEARrZnr_DNZzQ40s8'
+    })
   ],
 
-  providers: [DataService, HappeningService, FanzoneService, SegmentService, DatePipe, PropsService, PropsAdService  ],
+  providers: [DataService, HappeningService, FanzoneService, SegmentService, DatePipe,
+     PropsService, PropsAdService, UserService],
 
   bootstrap: [AppComponent]
 })

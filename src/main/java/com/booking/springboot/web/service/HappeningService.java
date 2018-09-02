@@ -24,6 +24,12 @@ public class HappeningService {
 		return firme;
 	}
 	
+	public ArrayList<Happening> getAll() {
+		ArrayList<Happening> firme = new ArrayList<>();
+		hr.findAll().forEach(firme::add);
+		return firme;
+	}
+	
 	public Happening getOneById(int fakturaId, int id) {
 		Happening fs = hr.findByEstablishment_IdAndId(fakturaId, id);
 		return fs;
@@ -44,6 +50,11 @@ public class HappeningService {
 	public Happening getAllByOneReservation(int reservId, int id) {
 		Happening h = hr.findByEstablishment_IdAndId(reservId, id);
 		return h;
+	}
+
+	public Happening getOneById(int hid) {
+		// TODO Auto-generated method stub
+		return hr.findById(hid);
 	}
 
 }

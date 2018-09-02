@@ -10,4 +10,6 @@ public interface PropsRepo extends CrudRepository<Props, Integer> {
 	
 	public Props findById(int id);
 
+	public Props getOneByName(String name);
+
 }

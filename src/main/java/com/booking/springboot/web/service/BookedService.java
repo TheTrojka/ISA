@@ -32,6 +32,10 @@ public class BookedService {
 		return bookRepo.findOne(id);
 	}
 	
+	public Booked getOneBySeat_IdAndTiming_Id(int seatId, int timingId){
+		return bookRepo.getOneBySeat_IdAndTiming_Id(seatId, timingId);
+	}
+	
 	public Booked addNew(Booked sto){
 		return bookRepo.save(sto);
 		}

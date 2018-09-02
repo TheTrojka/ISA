@@ -2,16 +2,20 @@ package com.booking.springboot.web.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.booking.springboot.web.model.Happening.Genre;
+import com.booking.springboot.web.users.student1.Guest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,15 +23,25 @@ public class Establishment {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Column(unique=true,nullable= false)
 	private String name;
+	@Column(unique=false,nullable= false)
 	private String address;
 	@OneToMany(mappedBy="establishment")
     private Set<Happening> happenings;
 	@OneToMany(mappedBy="establishment")
     private Set<Segment> segments;
-	@Column(name = "IS_THEATER", columnDefinition = "boolean default true", nullable = false)
-	private Boolean theater = true;
+	private Boolean theater;
+	@Column(unique=false,nullable= false)
 	private String description;
+	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "establishment") 
+	@JsonManagedReference(value="establishment-admin")
+    private Set<Guest> admins;
+	@OneToMany
+    private Set<Rating> ratings;
+	private double rating;
+	private boolean active;
+	
 	
 	protected Establishment() {
 	}
@@ -83,6 +97,40 @@ public class Establishment {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Set<Guest> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(Set<Guest> admins) {
+		this.admins = admins;
+	}
+
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	
 	
 	
 

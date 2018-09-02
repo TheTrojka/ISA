@@ -1,15 +1,16 @@
-<div style="padding: 20px;">
-	<h2 style="color: blue">JSA - Angular Application!</h2>
+	<h2 style="color: blue">Ticket booker</h2>
 	<nav>
-		<a routerLink="establishment" class="btn btn-primary active" role="button" routerLinkActive="active">Establishments</a>
-		<a routerLink="add"	class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>
-		<a routerLink="findbyaddress"	class="btn btn-primary active" role="button" routerLinkActive="active">Search</a>
-		
-		
-		<a routerLink="fanzone"	class="btn btn-primary active" role="button" routerLinkActive="active"> FanZone</a>
-		
-        
+		<a [hidden]="!loggedin" routerLink="profile"	class="btn btn-primary active" role="button" routerLinkActive="active">Profile</a>
+		<a routerLink="establishment/list/theaters" class="btn btn-primary active" role="button" routerLinkActive="active">Theaters</a>
+		<a routerLink="establishment/list/cinemas" class="btn btn-primary active" role="button" routerLinkActive="active">Cinemas</a>
+		<a [hidden]="!admin" routerLink="add"	class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>
+		<a [hidden]="!user && !FZadmin" routerLink="fanzone"	class="btn btn-primary active" role="button" routerLinkActive="active"> FanZone</a>
+		<a [hidden]="!user" routerLink="users"	class="btn btn-primary active" role="button" routerLinkActive="active"> Users list</a>
+		<a [hidden]="loggedin" routerLink="register" class="btn btn-primary active" role="button" routerLinkActive="active"> Register</a>
+		<a [hidden]="!admin" routerLink="addUser" class="btn btn-primary active" role="button" routerLinkActive="active"> Add user</a>
+		<a [hidden]="!Eadmin" routerLink="reports" class="btn btn-primary active" role="button" routerLinkActive="active"> Reports</a>
+		<a [hidden]="loggedin" routerLink="login" class="btn btn-primary active" role="button" routerLinkActive="active"> Login</a>
+		<a [hidden]="!admin" routerLink="status" class="btn btn-primary active" role="button" routerLinkActive="active"> Scale user status</a>
+		<button [hidden]="!loggedin" class="btn btn-primary" (click)="logout()">Log out</button>
 	</nav>
 	<router-outlet></router-outlet>
-</div>
-

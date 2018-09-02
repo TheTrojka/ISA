@@ -4,6 +4,7 @@ package com.booking.springboot.web.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -29,7 +31,9 @@ public class Happening {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Column(unique=false,nullable= false)
 	private String title;
+	@Column(unique=false,nullable= false)
 	private String actors;
 	public enum Genre {
 	    action,
@@ -41,10 +45,17 @@ public class Happening {
 	}
 	@Enumerated(EnumType.STRING)
 	private Genre genre;
+	@Column(unique=false,nullable= false)
 	private String director;
+	@Column(unique=false,nullable= false)
 	private int duration;
+	@Column(unique=false,nullable= false)
 	private double price;
+	@Column(unique=false,nullable= false)
 	private String decription;
+	@Lob
+	@Column( length = 100000 )
+	private String picture;
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="establishment_id", nullable=false)
     private Establishment establishment;
@@ -52,6 +63,9 @@ public class Happening {
     private Set<Segment> segments;
 	@OneToMany
     private Set<Timing> timings;
+	@OneToMany
+    private Set<Rating> ratings;
+	private double rating;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
 	private Reservation matR;
@@ -148,6 +162,40 @@ public class Happening {
 	public void setTimings(Set<Timing> timings) {
 		this.timings = timings;
 	}
+
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Reservation getMatR() {
+		return matR;
+	}
+
+	public void setMatR(Reservation matR) {
+		this.matR = matR;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
+	
 	
 	
 	

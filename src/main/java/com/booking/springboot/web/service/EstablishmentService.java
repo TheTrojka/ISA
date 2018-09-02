@@ -43,4 +43,8 @@ public class EstablishmentService {
 	public void delete(int id) {
 		er.delete(id);
 	}
+
+	public Establishment getOneByName(String name) {
+		return er.findOneByName(name);
+	}
 }

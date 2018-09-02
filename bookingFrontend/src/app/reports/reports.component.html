@@ -1,0 +1,26 @@
+<h3>Add Happening Form</h3>
+<form (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+    <label for="time">From:</label>
+    <input [(ngModel)]="from" name="from" type="datetime-local" class="form-control" id="from" required>
+  </div>
+
+  <div class="form-group">
+    <label for="time">To:</label>
+    <input [(ngModel)]="to" name="to" type="datetime-local" class="form-control" id="to" required>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </div>
+</form>
+
+
+<div>
+  <label>Attendance: </label> {{report.attendance}}
+</div>
+<div>
+  <label>Profit: </label> {{report.profit}}
+</div>

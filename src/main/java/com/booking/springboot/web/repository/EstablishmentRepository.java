@@ -9,4 +9,6 @@ import com.booking.springboot.web.model.Establishment;
 @Repository
 public interface EstablishmentRepository extends CrudRepository<Establishment,Integer>{
 
+	Establishment findOneByName(String name);
+
 }

@@ -10,7 +10,7 @@ export class FanzoneService {
   
   constructor(private http: Http) {}
 /*
-  private fanzoneUrl = 'fanzone';  // URL to web API
+  private fanzoneUrl = 'http://localhost:8080/fanzone';  // URL to web API
   private headers = new Headers({'Content-Type': 'application/json'});
  
   constructor(private http: Http) {}

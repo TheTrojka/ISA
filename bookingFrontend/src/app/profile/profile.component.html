@@ -1,0 +1,116 @@
+<div *ngIf="profile">
+    <div *ngIf="user">
+        <h2>{{profile.name}} details:</h2>
+        <div *ngIf="profile.resNum < status.silver">
+            <div style='background-color: rgb(252, 136, 29); height: 100; width: 100%'>Bronze member</div>
+            <br/>
+            <br/>
+        </div>
+        <div *ngIf="profile.resNum >= status.silver && profile.resNum < status.gold">
+            <div style='background-color: silver; height: 100; width: 100%'>Silver member</div>
+            <br/>
+            <br/>
+        </div>
+        <div *ngIf="profile.resNum >= status.gold">
+            <div style='background-color: gold; height: 100; width: 100%'>Gold member</div>
+            <br/>
+            <br/>
+        </div>
+    </div>
+
+    <form #profileForm="ngForm" (ngSubmit)="save()">
+
+        <div class="form-group">
+            <label for="name">Name*</label> <input type="text" class="form-control" id="name" required [(ngModel)]="profile.name"
+                name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="lastname">Last name*</label> <input type="text" class="form-control" id="lastname" required [(ngModel)]="profile.lastname"
+                name="lastname">
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label> <input type="text" class="form-control" id="city" [(ngModel)]="profile.city" name="city">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone*</label> <input type="tel" class="form-control" id="phone" required [(ngModel)]="profile.phone"
+                name="phone">
+        </div>
+
+        *Required fields
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success" [disabled]="profileForm.form.invalid">Save</button>
+        </div>
+    </form>
+
+    <button (click)="changePassword()">Change password</button>
+    <div *ngIf="user">
+        Friend requests:
+        <div *ngFor="let request of requests">
+            <h4> Name : {{request.name}} </h4>
+            <h4> Lastname :{{request.lastname}} </h4>
+            <button (click)="accept(request.id)">Accept friend request</button>
+            <button (click)="decline(request.id)">Decline friend request</button>
+        </div>
+
+        Friends:
+        <div *ngFor="let friend of friends">
+            <h4> Name : {{friend.name}} </h4>
+            <h4> Lastname :{{friend.lastname}} </h4>
+            <button (click)="deleteFriend(friend.id)">Delete friend</button>
+        </div>
+
+        Visit history:
+        <input [(ngModel)]="searchString" type="text" />
+        <button (click)="search()">Search visits</button>
+        <button (click)="reset()">Reset search</button>
+        <div *ngFor="let visit of history" style="background-color: aquamarine">
+            <h4> Date : {{visit.date}} </h4>
+            <h4> Title :{{visit.name}} </h4>
+            <h4> Establishment :{{visit.establishment}}</h4>
+            <div *ngIf="visit.canRate">
+                <div *ngIf="!visit.hrated">
+                    <button (click)="rateOH(visit.hid)">Rate happening</button>
+                    <div *ngIf="visit.hid == rateCurr">
+                        <select id="{{visit.tid}}" [(ngModel)]="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button (click)="rateHappening(visit.tid, visit.hid, rating)">Rate happening</button>
+                    </div>
+                </div>
+                <div *ngIf="!visit.erated">
+                    <button (click)="rateOE(visit.eid)">Rate atmosphere</button>
+                    <div *ngIf="visit.eid == rateCurr">
+                        <select id="{{visit.tid}}" [(ngModel)]="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button (click)="rateEstablishment(visit.tid, visit.eid, rating)">Rate atmosphere</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="visit.multiple && friends.length > 0 && visit.canInvite">
+                <button (click)="inviteFr(visit.id)">Invite friends</button>
+                <div *ngIf="visit.multiple && visit.id == friendTiming">
+                    <select [(ngModel)]="invitee">
+                        <option *ngFor="let friend of friends" [ngValue]="friend.id">
+                            {{friend.name}} {{friend.lastname}}</option>
+                    </select>
+                    <button (click)="invite(visit.id)">Invite</button>
+                </div>
+            </div>
+            <div *ngIf="visit.canCancel">
+                <button (click)="cancel(visit.id)">Cancel reservation</button>
+            </div>
+        </div>
+    </div>
+</div>

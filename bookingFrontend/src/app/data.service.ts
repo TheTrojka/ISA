@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
- 
+
 import 'rxjs/add/operator/toPromise';
- 
+
 import { Establishment } from './establishment';
- 
+import { Discount } from './discount';
+
 @Injectable()
 export class DataService {
 
-  private establishmentsUrl = 'establishment';  // URL to web API
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private establishmentsUrl = 'http://localhost:8080/establishment';  // URL to web API
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http) { }
 
@@ -30,9 +31,8 @@ export class DataService {
   }
 
   create(establishment: Establishment): Promise<Establishment> {
-    
     return this.http
-      .post(this.establishmentsUrl, JSON.stringify(establishment), {headers : this.headers})
+      .post(this.establishmentsUrl, JSON.stringify(establishment), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as Establishment)
       .catch(this.handleError);
@@ -40,7 +40,7 @@ export class DataService {
 
   delete(id: number): Promise<void> {
     const url = `${this.establishmentsUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    return this.http.delete(url, { headers: this.headers })
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
@@ -48,9 +48,76 @@ export class DataService {
 
   update(establishment: Establishment): Promise<Establishment> {
     return this.http
-      .put(this.establishmentsUrl, JSON.stringify(establishment), {headers: this.headers})
+      .put(this.establishmentsUrl, JSON.stringify(establishment), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as Establishment)
+      .catch(this.handleError);
+  }
+
+  getDiscounts(establishmentId: number): Promise<Discount[]> {
+    return this.http
+      .get(`http://localhost:8080/establishment/${establishmentId}/discounted`)
+      .toPromise()
+      .then(res => res.json() as Discount[])
+      .catch(this.handleError);
+  }
+
+  takeDiscount(discountId: number, userId: number): Promise<Discount[]> {
+    return this.http
+      .post(`http://localhost:8080/discount/${discountId}/take/${userId}`, JSON.stringify('discount'), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Discount[])
+      .catch(this.handleError);
+  }
+
+  checkIfAdmin(establishmentId: number, userId: number): Promise<Establishment> {
+    return this.http
+      .get(`http://localhost:8080/establishment/${establishmentId}/isAdmin/${userId}`)
+      .toPromise()
+      .then(res => res.json() as Establishment)
+      .catch(this.handleError);
+  }
+
+  attendanceReport(dates: string[], establishmentId: number): Promise<number> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/visitReport`,
+        JSON.stringify(dates), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as number)
+      .catch(this.handleError);
+  }
+
+  profitReport(dates: string[], establishmentId: number): Promise<number> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/profitReport`,
+        JSON.stringify(dates), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as number)
+      .catch(this.handleError);
+  }
+
+  rateEstablishment(establishmentId: number, grade: string, user: number): Promise<Object> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/rating/${user}`,
+        JSON.stringify(grade), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Object)
+      .catch(this.handleError);
+  }
+
+  rateHappening(happeningId: number, grade: string, user: number): Promise<Object> {
+    return this.http
+      .post(`http://localhost:8080/happening/${happeningId}/rating/${user}`,
+        JSON.stringify(grade), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Object)
+      .catch(this.handleError);
+  }
+
+  showAddress(address: string): Promise<any> {
+    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address)
+      .toPromise()
+      .then(res => res.json() as any)
       .catch(this.handleError);
   }
 

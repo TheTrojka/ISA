@@ -17,6 +17,7 @@ export class SegmentDetailsComponent {
 
   @Input() segment: Segment;
   seats: Seat[];
+  seatingNum: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +37,7 @@ export class SegmentDetailsComponent {
   }
 
   getSeats() {
+    this.seatingNum = this.segment.id;
     const id = +this.route.snapshot.paramMap.get('establishmentId');
     this.segmentService.getSeats(id, this.segment.id).then(seats => this.seats = seats);
     console.log(this.segment.id);
@@ -48,7 +50,7 @@ export class SegmentDetailsComponent {
 
   addSeat() {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
-    this.segmentService.addSeat(id, this.segment.id).then(() => this.goBack());
+    this.segmentService.addSeat(id, this.segment.id);
   }
 
 }

@@ -1,24 +1,66 @@
 <div *ngIf="establishment">
 	<h2>{{establishment.name}} details:</h2>
-	<div>
-		<label>id: </label> {{establishment.id}}
+	<div *ngIf="admin || Eadmin">
+		<div>
+			<label>id: </label> {{establishment.id}}
+		</div>
+		<div>
+			<label>Name: </label>
+			<input [(ngModel)]="establishment.name" placeholder={{establishment.name}}/>
+		</div>
+		<div>
+			<label>Address: </label>
+			<input [(ngModel)]="establishment.address" placeholder={{establishment.address}}/>
+		</div>
+		<div>
+			<label>Description: </label>
+			<input [(ngModel)]="establishment.description" placeholder={{establishment.description}}/>
+		</div>
 	</div>
-	<div>
-		<label>Name: </label> <input [(ngModel)]="establishment.name" placeholder={{establishment.name}}/>
+	<div *ngIf="!Eadmin && !admin">
+		<div>
+			<label>id: </label> {{establishment.id}}
+		</div>
+		<div>
+			<label>Name: </label> {{establishment.name}}
+		</div>
+		<div>
+			<label>Address: </label> {{establishment.address}}
+		</div>
+		<div>
+			<label>Description: </label> {{establishment.description}}
+		</div>
+		<div>
+			<label>Rating: </label> {{establishment.rating}}
+		</div>
 	</div>
-	<div>
-		<label>Address: </label> <input [(ngModel)]="establishment.address" placeholder={{establishment.address}}/>
-	</div>
-	<div>
-		<label>Description: </label> <input [(ngModel)]="establishment.description" placeholder={{establishment.description}}/>
-	</div>
-	
+    <h3>Map</h3>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="14">
+		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+	</agm-map>	
+</div>
+
+<div *ngIf="admin">
 	<button class="btn btn-danger" (click)="delete()">Delete</button>
+</div>
+<div *ngIf="admin || Eadmin">
 	<button (click)="save()">Save</button>
+</div>
+<div *ngIf="user || Eadmin || admin">
+	<h3>Discounts</h3>
+	<div *ngFor="let disc of discounts">
+		<h4> Happening : {{disc.happening}} </h4>
+		<h4> Date :{{disc.time}} </h4>
+		<h4> Segment :{{disc.segment}}</h4>
+		<h4> Seat : {{disc.seat}} </h4>
+		<h4> Price :{{disc.price}} </h4>
+		<h4> Percent off :{{disc.percentage}}</h4>
+		<button (click)="takeDiscount(disc.id)">Reserve seat</button>
+	</div>
 </div>
 <h3>Happenings</h3>
 <app-happenings></app-happenings>
-<h3>Segments</h3>
-<app-segments></app-segments>
-<div>
-	  
+<div *ngIf="admin || Eadmin">
+	<h3>Segments</h3>
+	<app-segments></app-segments>
+</div>

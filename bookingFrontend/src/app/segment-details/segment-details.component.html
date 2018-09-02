@@ -7,7 +7,7 @@
 		<label>Name: </label> <input [(ngModel)]="segment.name" placeholder={{segment.name}}/>
   </div>
   <button (click)='getSeats()'>Load seats</button>
-  <ul *ngIf="seats"> 
+  <ul *ngIf="seats && seatingNum==segment.id"> 
       <h4>{{segment.id}}</h4>     
     <li *ngFor="let seat of seats">
     <h4>{{seat.id}}</h4>

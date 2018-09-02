@@ -1,44 +1,128 @@
 <div *ngIf="happening">
-	<h2>{{happening.title}} details:</h2>
-	<div>
-		<label>id: </label> {{happening.id}}
-	</div>
-	<div>
-		<label>Title: </label> <input [(ngModel)]="happening.title" placeholder={{happening.title}}/>
-	</div>
-	<div>
-		<label>Actors: </label> <input [(ngModel)]="happening.actors" placeholder={{happening.actors}}/>
-  </div>
-  <div>
-		<label>Director: </label> <input [(ngModel)]="happening.director" placeholder={{happening.director}}/>
-  </div>
-  <div>
-		<label>Decription: </label> <input [(ngModel)]="happening.decription" placeholder={{happening.decription}}/>
-  </div>
-  <div>
-		<label>Duration: </label> <input [(ngModel)]="happening.duration" placeholder={{happening.duration}}/>
-  </div>
-  <div>
-		<label>Price: </label> <input [(ngModel)]="happening.price" placeholder={{happening.price}}/>
-	</div>
-	<button (click)='getTimings()'>Book on date:</button>
-  	<ul *ngIf="timings">      
-    	<li *ngFor="let timing of timings">
-    	<h4>{{timing.time}}</h4>
-		<button (click)='getTimingSeats(timing.id)'>Pick seat</button>
-		<div *ngIf="timingSeats">
-			<mat-form-field>
-				<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
-					<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
-				</mat-select>
-			</mat-form-field>
-			<button (click)="book(timing.id)">Book</button>
+		<h2>{{happening.title}} details:</h2>
+		{{Eadmin}} {{admin}}
+		<div *ngIf="Eadmin || admin">
+			<div>
+				<label>id: </label> {{happening.id}}
+			</div>
+			<div>
+				<label>Title: </label>
+				<input [(ngModel)]="happening.title" placeholder={{happening.title}}/>
+			</div>
+			<div>
+				<label>Actors: </label>
+				<input [(ngModel)]="happening.actors" placeholder={{happening.actors}}/>
+			</div>
+			<div>
+				<label>Director: </label>
+				<input [(ngModel)]="happening.director" placeholder={{happening.director}}/>
+			</div>
+			<div>
+				<label>Decription: </label>
+				<input [(ngModel)]="happening.decription" placeholder={{happening.decription}}/>
+			</div>
+			<div>
+				<label>Genre: </label>
+				<select [(ngModel)]="happening.genre">
+					<option value="action" ng-selected="happening.genre == 'action'">action</option>
+					<option value="scifi" ng-selected="happening.genre == 'scifi'">scifi</option>
+					<option value="fantasy" ng-selected="happening.genre == 'fantasy'">fantasy</option>
+					<option value="drama" ng-selected="happening.genre == 'drama'">drama</option>
+					<option value="comedy" ng-selected="happening.genre == 'comedy'">comedy</option>
+					<option value="horror" ng-selected="happening.genre == 'horror'">horror</option>
+				</select>
+			</div>
+			<div>
+				<label>Duration: </label>
+				<input [(ngModel)]="happening.duration" placeholder={{happening.duration}}/> in minutes
+			</div>
+			<div>
+				<label>Price: </label>
+				<input [(ngModel)]="happening.price" placeholder={{happening.price}}/> in dollars
+			</div>
 		</div>
-  	</ul>
-	
-	<button class="btn btn-danger" (click)="delete()">Delete</button>
-	<button (click)="save()">Save</button>
-	<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
-</div>
-
-
+		<div *ngIf="!Eadmin && !admin">
+			<div>
+				<label>id: </label> {{happening.id}}
+			</div>
+			<div>
+				<label>Title: </label>
+				{{happening.title}}
+			</div>
+			<div>
+				<label>Actors: </label>
+				{{happening.actors}}
+			</div>
+			<div>
+				<label>Director: </label>
+				{{happening.director}}
+			</div>
+			<div>
+				<label>Decription: </label>
+				{{happening.decription}}
+			</div>
+			<div>
+				<label>Genre: </label>
+				{{happening.genre}}
+			</div>
+			<div>
+				<label>Rating: </label>
+				{{happening.rating}}
+			</div>
+			<div>
+				<label>Duration: </label>
+				{{happening.duration}} minutes
+			</div>
+			<div>
+				<label>Price: </label>
+				{{happening.price}}$
+			</div>
+		</div>
+		<button (click)='getTimings()'>Book on date:</button>
+		<div *ngIf="timings">
+			<div *ngFor="let timing of timings">
+				<div *ngIf="timing.canBook">
+					<h4>{{timing.time}}</h4>
+					<div *ngIf="user || Eadmin || admin">
+						<button (click)='getTimingSeats(timing.id)'>Pick seat</button>
+						<div *ngIf="timingSeatsSearched && timingSeats.length > 0">
+							<div *ngIf="timingNum == timing.id">
+								<mat-form-field>
+									<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
+										<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
+									</mat-select>
+								</mat-form-field>
+								<button (click)="book(timing.id)">Book</button>
+								<div *ngIf="Eadmin || admin">
+									<div>
+										<label>Discount percentage: </label>
+										<input [(ngModel)]="discountNumber" type="number" min="1" max="100" />
+									</div>
+									<button (click)="discount(timing.id)">Discount seats</button>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="timingSeatsSearched && timingSeats.length == 0 && timingNum == timing.id">Sold out</div>
+					</div>
+					
+				</div>
+				<div *ngIf="(!Eadmin && !admin) && timing.canBook">
+						<button (click)='getTimingSeats(timing.id)'>Check for seats</button>
+						<div *ngIf="timingSeatsSearched && timingSeats.length > 0">
+							<div *ngIf="timingNum == timing.id">
+								Free seats:{{timingSeats.length}}
+							</div>
+						</div>
+						<div *ngIf="timingSeatsSearched && timingSeats.length == 0 && timingNum == timing.id">Sold out</div>
+					</div>
+			</div>
+		</div>
+		<div *ngIf="!timings && timingSearched">
+			Currently no dates available.
+		</div>
+		<div *ngIf="Eadmin || admin">
+			<button class="btn btn-danger" (click)="delete()">Delete</button>
+			<button (click)="save()">Save</button>
+			<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
+		</div>
+	</div>
