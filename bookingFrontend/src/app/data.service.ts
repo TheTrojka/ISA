@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Establishment } from './establishment';
 import { Discount } from './discount';
+import { VisitPoint } from './visitPoint';
 
 @Injectable()
 export class DataService {
@@ -24,6 +25,14 @@ export class DataService {
 
   getEstablishment(id: number): Promise<Establishment> {
     const url = `${this.establishmentsUrl}/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Establishment)
+      .catch(this.handleError);
+  }
+
+  getEstablishmentByUser(id: number): Promise<Establishment> {
+    const url = `${this.establishmentsUrl}/${id}/getByUser`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Establishment)
@@ -84,6 +93,33 @@ export class DataService {
         JSON.stringify(dates), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as number)
+      .catch(this.handleError);
+  }
+
+  visitDaily(date: string, establishmentId: number): Promise<VisitPoint[]> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/visitDaily`,
+        JSON.stringify(date), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as VisitPoint[])
+      .catch(this.handleError);
+  }
+
+  visitWeekly(date: string, establishmentId: number): Promise<VisitPoint[]> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/visitWeekly`,
+        JSON.stringify(date), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as VisitPoint[])
+      .catch(this.handleError);
+  }
+
+  visitMonthly(date: string, establishmentId: number): Promise<VisitPoint[]> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/visitMonthly`,
+        JSON.stringify(date), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as VisitPoint[])
       .catch(this.handleError);
   }
 

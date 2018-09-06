@@ -24,6 +24,13 @@ export class HappeningService {
       .catch(this.handleError);
   }
 
+  getHappeningsByUser(id: number): Promise<Happening[]> {
+    return this.http.get(`http://localhost:8080/establishment/${id}/happening/byUser`)
+      .toPromise()
+      .then(response => response.json() as Happening[])
+      .catch(this.handleError);
+  }
+
   create(id: number, happening: Happening): Promise<Happening> {
     return this.http
       .post(`http://localhost:8080/establishment/${id}/happening`, JSON.stringify(happening), {headers : this.headers})

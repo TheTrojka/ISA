@@ -1,5 +1,5 @@
 <h3>Add Happening Form</h3>
-<form (ngSubmit)="onSubmit()">
+<form ngNativeValidate #dateForm="ngForm" (ngSubmit)="onSubmit()">
 
   <div class="form-group">
     <label for="time">From:</label>
@@ -13,7 +13,7 @@
 
   <div class="btn-group">
     <button class="btn btn-primary" (click)="goBack()">Back</button>
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-success" [disabled]="dateForm.form.invalid">Submit</button>
   </div>
 </form>
 
@@ -24,3 +24,55 @@
 <div>
   <label>Profit: </label> {{report.profit}}
 </div>
+
+<h4>Establishment rating</h4>
+ <p>{{establishment.name}}: {{+establishment.rating}}</p>
+
+
+<div *ngIf="happenings">
+  <h4>Happenings ratings</h4>
+  <div *ngFor="let h of happenings">
+    <p>{{h.title}}: {{h.rating}}</p>
+  </div>
+</div>
+
+<button (click) = "enableDaily()">Daily visit report</button>
+<button (click) = "enableWeekly()">Weekly visit report</button>
+<button (click) = "enableMonthly()">Monthly visit report</button>
+
+<br/>
+  <br/>
+
+<div class="row">
+  <div class="col-md-6">
+    <div style="display: block;" *ngIf="day">
+      <canvas baseChart width="400" height="400" [data]="lineChartData.data" [labels]="lineChartLabels" [options]="lineChartOptions"
+        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+</div>
+<br/>
+<br/>
+
+<div class="row">
+    <div class="col-md-6">
+      <div style="display: block;" *ngIf="week">
+        <canvas baseChart width="400" height="400" [data]="lineChartDataWeekly.data" [labels]="lineChartLabelsWeekly" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <br/>
+
+  <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;" *ngIf="month">
+          <canvas baseChart width="400" height="400" [data]="lineChartDataMonthly.data" [labels]="lineChartLabelsMonthly" [options]="lineChartOptions"
+            [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>

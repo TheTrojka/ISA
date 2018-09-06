@@ -67,7 +67,8 @@ export class EstablishmentDetailsComponent implements OnInit {
   }
 
   save(): void {
-    this.dataService.update(this.establishment).then(() => this.goBack());
+    this.dataService.update(this.establishment).then(() => this.goBack())
+    .catch(() => alert('Establishment already exists'));
   }
 
   goBack(): void {

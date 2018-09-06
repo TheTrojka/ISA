@@ -57,4 +57,9 @@ public class HappeningService {
 		return hr.findById(hid);
 	}
 
+	public Happening getOneByName(String title, int estId) {
+		// TODO Auto-generated method stub
+		return hr.findByTitleAndEstablishment_Id(title, estId);
+	}
+
 }

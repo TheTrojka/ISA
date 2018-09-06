@@ -4,18 +4,29 @@
 		<div>
 			<label>id: </label> {{establishment.id}}
 		</div>
-		<div>
-			<label>Name: </label>
-			<input [(ngModel)]="establishment.name" placeholder={{establishment.name}}/>
-		</div>
-		<div>
-			<label>Address: </label>
-			<input [(ngModel)]="establishment.address" placeholder={{establishment.address}}/>
-		</div>
-		<div>
-			<label>Description: </label>
-			<input [(ngModel)]="establishment.description" placeholder={{establishment.description}}/>
-		</div>
+		<form #establishmentForm="ngForm"(ngSubmit)="save()">
+			<div class="form-group">
+				<label for="name">Name</label> <input type="text"
+					class="form-control" id="name" required
+					[(ngModel)]="establishment.name" name="name">
+			</div>
+	 
+			<div class="form-group">
+				<label for="address">Address</label> <input type="text"
+					class="form-control" id="address" required
+					[(ngModel)]="establishment.address" name="address">
+			</div>
+	
+			<div class="form-group">
+				<label for="description">Description</label> <textarea
+					class="form-control" id="description" required
+					[(ngModel)]="establishment.description" name="description"></textarea>
+			</div>
+	
+			<div class="btn-group">
+				<button type="submit" class="btn btn-success" [disabled]="establishmentForm.form.invalid">Save</button>
+			</div>
+		</form>
 	</div>
 	<div *ngIf="!Eadmin && !admin">
 		<div>
@@ -34,17 +45,13 @@
 			<label>Rating: </label> {{establishment.rating}}
 		</div>
 	</div>
+	<div *ngIf="admin">
+		<button class="btn btn-danger" (click)="delete()">Delete</button>
+	</div>
     <h3>Map</h3>
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="14">
 		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 	</agm-map>	
-</div>
-
-<div *ngIf="admin">
-	<button class="btn btn-danger" (click)="delete()">Delete</button>
-</div>
-<div *ngIf="admin || Eadmin">
-	<button (click)="save()">Save</button>
 </div>
 <div *ngIf="user || Eadmin || admin">
 	<h3>Discounts</h3>

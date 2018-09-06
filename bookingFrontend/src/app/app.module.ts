@@ -7,6 +7,7 @@ import { MatSelectModule, MatButtonModule, MatCardModule, MatInputModule, MatLis
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 import { DataService } from './data.service';
 import { EstablishmentsComponent } from './establishments/establishments.component';
 import { EstablishmentDetailsComponent } from './establishment-details/establishment-details.component';
@@ -101,7 +102,8 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatToolbarModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDQzCvobOovm8PchTEARrZnr_DNZzQ40s8'
-    })
+    }),
+    ChartsModule
   ],
 
   providers: [DataService, HappeningService, FanzoneService, SegmentService, DatePipe,

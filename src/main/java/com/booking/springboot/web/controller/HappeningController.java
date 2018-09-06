@@ -33,6 +33,7 @@ import com.booking.springboot.web.service.EstablishmentService;
 import com.booking.springboot.web.service.HappeningService;
 import com.booking.springboot.web.service.SegmentService;
 import com.booking.springboot.web.service.TimingService;
+import com.booking.springboot.web.service.student1.GuestService;
 
 
 @RestController
@@ -55,10 +56,18 @@ public class HappeningController {
 	@Autowired
 	BookedService bService;
 	
+	@Autowired
+	GuestService gService;
+	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ArrayList<Happening> getSveStavke(@PathVariable int establishmentId) {
 		return service.getAllByEstablishment(establishmentId);
+	}
+	
+	@RequestMapping(value = "/byUser", method = RequestMethod.GET)
+	public ArrayList<Happening> getHappeningsById(@PathVariable int establishmentId) {
+		return service.getAllByEstablishment(gService.getOneById(establishmentId).getEstablishment().getId());
 	}
 	
 	@RequestMapping(value = "/{id}",
@@ -72,6 +81,10 @@ public class HappeningController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Happening> add(@RequestBody Happening fs, @PathVariable int establishmentId){
+		Happening exists = service.getOneByName(fs.getTitle(), establishmentId);
+		if (exists != null) {
+			return new ResponseEntity<Happening>(HttpStatus.BAD_REQUEST);
+		}
 		Happening faks = fs;
 		System.out.println("no");
 		Establishment f = eService.getOneById(establishmentId);
@@ -85,13 +98,37 @@ public class HappeningController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Happening> update(@RequestBody Happening fs, @PathVariable int establishmentId){
-		Happening faks = fs;
-		System.out.println("na");
-		Establishment f = eService.getOneById(establishmentId);
-		faks.setEstablishment(f);
-		f.getHappenings().add(faks);
-		Happening fakts = service.addNew(faks);
-		return new ResponseEntity<Happening>(fakts, HttpStatus.OK);
+		Happening exists = service.getOneByName(fs.getTitle(), establishmentId);
+		if (exists != null) {
+			return new ResponseEntity<Happening>(HttpStatus.BAD_REQUEST);
+		}
+		Happening h = service.getOneById(fs.getId());
+		if (fs.getTitle() != null) {
+			h.setTitle(fs.getTitle());
+		}
+		if (fs.getActors() != null) {
+			h.setActors(fs.getActors());
+		}
+		if (fs.getDecription() != null) {
+			h.setDecription(fs.getDecription());
+		}
+		if (fs.getDirector() != null) {
+			h.setDirector(fs.getDirector());
+		}
+		if (fs.getGenre() != null) {
+			h.setGenre(fs.getGenre());
+		}
+		if (fs.getDuration() != 0) {
+			h.setDuration(fs.getDuration());
+		}
+		if (fs.getPrice() != 0) {
+			h.setPrice(fs.getPrice());
+		}
+		if (fs.getPicture() != null) {
+			h.setPicture(fs.getPicture());
+		}
+		Happening f = service.edit(h);
+		return new ResponseEntity<Happening>(f, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}",

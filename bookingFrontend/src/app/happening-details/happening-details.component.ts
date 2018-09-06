@@ -29,6 +29,7 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
   user = false;
   timingsSearched = false;
   timingSeatsSearched = false;
+  base64textString = [];
 
   constructor(private happeningService: HappeningService,
     private route: ActivatedRoute,
@@ -41,11 +42,16 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
 
   save(): void {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
-    this.happeningService.update(id, this.happening).then(() => this.goBack());
+    if (this.base64textString[0]) {
+      this.happening.picture = this.base64textString[0];
+    }
+    this.happeningService.update(id, this.happening).then(() => this.goBack())
+    .catch(() => alert('Happening already exists'));
   }
 
   getSegments() {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
+  
     this.segmentService.getSegments(id).then(segments => this.segments = segments);
   }
 
@@ -116,6 +122,21 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     const splitted = date.split(new RegExp(separators.join('|'), 'g'), 6);
     const returnString = splitted[2] + '-' + splitted[1] + '-' + splitted[0] + 'T' + splitted[3] + ':' + splitted[4];
     return returnString; 
+  }
+
+  onUploadChange(evt: any) {
+    const file = evt.target.files[0];
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = this.handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+  
+  handleReaderLoaded(e) {
+    this.base64textString.push('data:image/png;base64,' + btoa(e.target.result));
   }
 
   goBack(): void {

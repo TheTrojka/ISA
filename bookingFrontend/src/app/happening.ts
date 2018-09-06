@@ -8,4 +8,5 @@ export class Happening {
     public rating: string;
     public duration: number;
     public price: number;
+    public picture: string;
 }

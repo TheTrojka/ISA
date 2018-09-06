@@ -13,26 +13,43 @@ export class CreateHappeningComponent implements OnInit {
 
   happening = new Happening;
   submitted = false;
+  base64textString = [];
+  fileAdded = false;
   constructor(private happeningService: HappeningService,
     private route: ActivatedRoute,
     private location: Location) {}
  
   ngOnInit() {
-  }
-
-  newHappening(): void {
-    this.submitted = false;
-    this.happening = new Happening();
+    console.log('heh');
   }
  
   private save(): void {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
-    this.happeningService.create(id, this.happening);
+    if (this.base64textString[0]) {
+      this.happening.picture = this.base64textString[0];
+    }
+    this.happeningService.create(id, this.happening)
+    .then(() => this.submitted = true)
+    .catch(() => alert('Happening already exists'));
   }
  
   onSubmit() {
-    this.submitted = true;
     this.save();
+  }
+
+  onUploadChange(evt: any) {
+    const file = evt.target.files[0];
+    this.fileAdded = false;
+    if (file) {
+      const reader = new FileReader();
+      this.fileAdded = true;
+      reader.onload = this.handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+  
+  handleReaderLoaded(e) {
+    this.base64textString.push('data:image/png;base64,' + btoa(e.target.result));
   }
  
   goBack(): void {

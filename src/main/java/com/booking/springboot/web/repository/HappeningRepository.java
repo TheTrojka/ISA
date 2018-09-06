@@ -18,4 +18,6 @@ public interface HappeningRepository extends CrudRepository<Happening,Integer>{
 	
 	public Happening findById(int rednibroj);
 
+	public Happening findByTitleAndEstablishment_Id(String title, int estId);
+
 }
