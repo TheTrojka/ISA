@@ -29,7 +29,7 @@ export class CreateHappeningComponent implements OnInit {
       this.happening.picture = this.base64textString[0];
     }
     this.happeningService.create(id, this.happening)
-    .then(() => this.submitted = true)
+    .then(() => this.goBack())
     .catch(() => alert('Happening already exists'));
   }
  

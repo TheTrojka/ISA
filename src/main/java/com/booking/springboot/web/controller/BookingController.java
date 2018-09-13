@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,8 +61,11 @@ public class BookingController {
 		@PathVariable int timingId, @PathVariable int id){
 		Booked booked = new Booked();
 		Timing timingparameter = tService.getOneById(timingId);
-		Set<Seat> seatList = timingparameter.getSegment().getSeats();
-		seatList.forEach((seat) -> {
+		ArrayList<Seat> segmentSeats = new ArrayList<Seat>();   
+		for(Segment segment : timingparameter.getSegment()) {
+			segmentSeats.addAll(segment.getSeats());
+		}
+		segmentSeats.forEach((seat) -> {
 			  if (seat.getId() == id)
 			  {
 				  booked.setSeat(seat);

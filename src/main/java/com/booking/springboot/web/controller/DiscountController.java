@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,13 +76,17 @@ public class DiscountController {
 		@PathVariable int timingId, @PathVariable int id, @PathVariable int percentage){
 		Booked booked = new Booked();
 		Timing timingparameter = tService.getOneById(timingId);
-		Set<Seat> seatList = timingparameter.getSegment().getSeats();
-		seatList.forEach((seat) -> {
+		ArrayList<Seat> segmentSeats = new ArrayList<Seat>();  
+		for(Segment segment : timingparameter.getSegment()) {
+			segmentSeats.addAll(segment.getSeats());
+		}
+		segmentSeats.forEach((seat) -> {
 			  if (seat.getId() == id)
 			  {
 				  booked.setSeat(seat);
 			  }
 		});
+		
 		booked.setTiming(timingparameter);		
 		bService.addNew(booked);
 		Discounted discount = new Discounted();
@@ -117,7 +122,7 @@ public class DiscountController {
 		JSONArray discountInfos = new JSONArray();
 		for(Discounted discount : discounts)
 		{
-			if(discount.getBookedId().getTiming().getSegment()
+			if(discount.getBookedId().getTiming().getSegment().stream().findFirst().get().getHall()
 					.getEstablishment().getId() == establishmentId && 
 					!discount.getTaken())
 			{
@@ -134,7 +139,8 @@ public class DiscountController {
 				discountInfo.put("id", discount.getId());
 				discountInfo.put("happening", happening.getTitle());
 				discountInfo.put("time", timing.getTime());
-				discountInfo.put("segment", timing.getSegment().getName());
+				discountInfo.put("hall", timing.getSegment().stream().findFirst().get().getName());
+				discountInfo.put("segment", discount.getBookedId().getSeat().getSegment().getName());
 				discountInfo.put("seat", discount.getBookedId().getSeat().getId());
 				discountInfo.put("price", happening.getPrice());
 				discountInfo.put("percentage", discount.getDiscountPercentage());

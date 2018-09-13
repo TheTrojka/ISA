@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,6 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.booking.springboot.web.entities.student1.Reservation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -35,10 +37,8 @@ public class Timing {
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", timezone = "Europe/Madrid")
 	private Date time;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonBackReference(value="segment-timing")
-    @JoinColumn(name="segment_id", nullable=false)
-	private Segment segment;
+	@ManyToMany
+    private Set<Segment> segments;
 	
 	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "timing") 
 	@JsonManagedReference(value="timing-reservation")
@@ -64,13 +64,23 @@ public class Timing {
 		this.time = time;
 	}
 
-	public Segment getSegment() {
-		return segment;
+	public Set<Segment> getSegment() {
+		return segments;
 	}
 
-	public void setSegment(Segment segment) {
-		this.segment = segment;
-	}	
+	public void setSegment(Set<Segment> segments) {
+		this.segments = segments;
+	}
+
+	public Set<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(Set<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+		
 	
 	
 }

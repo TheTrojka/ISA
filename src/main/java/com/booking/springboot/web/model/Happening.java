@@ -69,6 +69,7 @@ public class Happening {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
 	private Reservation matR;
+	private boolean active;
 	
 	public Happening() {
 		super();
@@ -193,6 +194,14 @@ public class Happening {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

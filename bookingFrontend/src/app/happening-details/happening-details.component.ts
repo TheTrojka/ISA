@@ -21,6 +21,8 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
   segments: Segment[];
 
   timings: Timing[];
+  checkTimings: Timing[];
+  seatSegments: String[];
   timingSeats: Seat[];
   discountNumber: number;
   timingNum: number;
@@ -36,8 +38,26 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     private segmentService: SegmentService,
     private dataService: DataService) {}
 
-  delete(): void {
-    this.happeningService.delete(this.happening.id).then(() => this.goBack());
+  delete(): void {   
+    let taken = false;
+    let oef = '';
+    this.happeningService.checkForDelete(this.happening.id)
+      .then(timings =>
+        this.checkTimings = timings)
+      .then(() => this.checkTimings.forEach(e => {
+        taken = Date.parse(this.fixDate(e.time)) > Date.now();
+        if (taken) {
+          oef += 'de';
+        }
+      }))
+      .then(() => {
+        console.log(oef);        
+        if (oef === '') {
+          this.happeningService.delete(this.happening.id).then(() => this.goBack());
+        } else {
+          alert('Happening has future dates');
+        }
+      });
   }
 
   save(): void {
@@ -50,9 +70,8 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
   }
 
   getSegments() {
-    const id = +this.route.snapshot.paramMap.get('establishmentId');
-  
-    this.segmentService.getSegments(id).then(segments => this.segments = segments);
+    const id = +this.route.snapshot.paramMap.get('establishmentId'); 
+    // this.segmentService.getSegments(id).then(segments => this.segments = segments);
   }
 
   getTimings() {
@@ -64,8 +83,13 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
       console.log(this.fixDate(e.time));
       console.log(Date.now());
       console.log(Date.parse(this.fixDate(e.time)) < Date.now());
-    });
-    });
+      });
+    })
+    .then(() => {
+      this.timings.forEach( e =>
+          this.happeningService.getTimingHall(id, this.happening.id, e.id)
+          .then(hall => e.hall = hall.name));  
+      });
   }
 
   getTimingSeats(timingId: number) {
@@ -73,7 +97,23 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     this.timingNum = timingId;
     const id = +this.route.snapshot.paramMap.get('establishmentId');
     this.happeningService.getTimingSeats(id, this.happening.id, timingId)
-    .then(timingSeats => this.timingSeats = timingSeats);
+    .then(timingSeats => this.timingSeats = timingSeats)
+    .then(() => {
+      let counter = 0;
+      this.timingSeats.forEach(e => this.happeningService.getTimingSeatSegment
+      (id, this.happening.id, e.id)
+      .then(segment => e.hall = segment.name)
+      .then(() => {
+        counter++;
+        if (counter === this.timingSeats.length) {
+        this.seatSegments = this.timingSeats.map(a => a.hall);       
+        this.seatSegments = this.seatSegments.filter(function(elem, index, self) {
+          return index === self.indexOf(elem);
+        });
+      }
+
+      }));
+    });    
   }
 
   book(timingId: number) {

@@ -9,4 +9,5 @@ export class Happening {
     public duration: number;
     public price: number;
     public picture: string;
+    public active: boolean;
 }

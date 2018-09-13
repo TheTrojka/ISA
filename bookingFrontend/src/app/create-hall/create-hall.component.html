@@ -1,15 +1,15 @@
-<h3>Create Segment Form</h3>
+<h3>Create Hall Form</h3>
 <div style="width: 300px;">
-	<form #segmentForm="ngForm" (ngSubmit)="onSubmit()">
+	<form #hallForm="ngForm" (ngSubmit)="onSubmit()">
 		<div class="form-group">
 			<label for="name">Title</label> <input type="text"
 				class="form-control" id="name" required
-				[(ngModel)]="segment.name" name="name">
+				[(ngModel)]="hall.name" name="name">
 		</div>
 		<div class="btn-group">			
-			<button type="submit" [disabled]="segmentForm.form.invalid" class="btn btn-success">Submit</button>
+			<button type="submit" [disabled]="hallForm.form.invalid" class="btn btn-success">Submit</button>
 		</div>
 	</form>
 	<button class="btn btn-primary" (click)="goBack()">Back</button>
 </div>
-
+ 

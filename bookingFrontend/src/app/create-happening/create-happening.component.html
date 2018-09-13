@@ -1,5 +1,5 @@
 <h3>Create Happening Form</h3>
-<div [hidden]="submitted" style="width: 300px;">
+<div style="width: 300px;">
 	<form #happeningForm="ngForm" (ngSubmit)="onSubmit()">
 		<div class="form-group">
 			<label for="title">Title</label> <input type="text" class="form-control" id="title" required [(ngModel)]="happening.title"

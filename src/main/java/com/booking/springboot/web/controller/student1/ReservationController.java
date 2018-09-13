@@ -1,6 +1,7 @@
 package com.booking.springboot.web.controller.student1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -22,6 +23,7 @@ import com.booking.springboot.web.entities.student1.Reservation;
 import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Establishment;
 import com.booking.springboot.web.model.Seat;
+import com.booking.springboot.web.model.Segment;
 import com.booking.springboot.web.model.Timing;
 import com.booking.springboot.web.model.Happening;
 import com.booking.springboot.web.service.BookedService;
@@ -198,7 +200,10 @@ public class ReservationController {
 		Reservation r = resServ.addNew(res);
 		Booked booked = new Booked();
 		Timing timingparameter = timingServ.getOneById(res.getTiming().getId());
-		Set<Seat> seatList = timingparameter.getSegment().getSeats();
+		ArrayList<Seat> seatList = new ArrayList<Seat>();  
+		for(Segment segment : timingparameter.getSegment()) {
+			seatList.addAll(segment.getSeats());
+		}
 		seatList.forEach((seat) -> {
 			if (seat.getId() == id) {
 				System.out.println(seat.getEstablishment().getAddress());

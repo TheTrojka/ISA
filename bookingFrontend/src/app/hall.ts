@@ -1,5 +1,5 @@
-export class Seat {
+export class Hall {
     public id: number;
+    public name: string;
     public active: boolean;
-    public hall: String;
 }

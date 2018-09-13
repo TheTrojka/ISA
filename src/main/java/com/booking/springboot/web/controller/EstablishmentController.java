@@ -95,10 +95,10 @@ public class EstablishmentController {
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Establishment> edit(@RequestBody Establishment est) {
 		Establishment exists = service.getOneByName(est.getName());
-		if (exists != null) {
+		Establishment e = service.getOneById(est.getId());
+		if (exists != null && e != exists) {
 			return new ResponseEntity<Establishment>(HttpStatus.BAD_REQUEST);
 		}
-		Establishment e = service.getOneById(est.getId());
 		if (est.getName() != null) {
 			e.setName(est.getName());
 		}

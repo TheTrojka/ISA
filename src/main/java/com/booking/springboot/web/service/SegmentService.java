@@ -25,12 +25,12 @@ public class SegmentService {
 	
 	public ArrayList<Segment> getAll(int restoranId){
 		ArrayList<Segment> segmenti = new ArrayList<>();
-		segmentRepo.findByEstablishment_Id(restoranId).forEach(segmenti::add);
+		segmentRepo.findByHall_Id(restoranId).forEach(segmenti::add);
 		return segmenti;
 	}
 	
 	public Segment getOneById(int restoranId, int id){
-		Segment s = segmentRepo.findByEstablishment_IdAndId(restoranId, id);
+		Segment s = segmentRepo.findByHall_IdAndId(restoranId, id);
 		return s;
 	}
 	
@@ -45,6 +45,16 @@ public class SegmentService {
 	
 	public void deleteSegment(int id){
 		segmentRepo.delete(id);
+	}
+
+	public Segment getOneById(int id) {
+		// TODO Auto-generated method stub
+		return segmentRepo.findOne(id);
+	}
+
+	public Segment getOneByHallAndName(int hallId, String name) {
+		Segment s = segmentRepo.findByHall_IdAndName(hallId, name);
+		return s;
 	}
 
 }

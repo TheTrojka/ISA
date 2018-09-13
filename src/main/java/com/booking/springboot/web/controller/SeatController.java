@@ -6,20 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.booking.springboot.web.model.Booked;
+import com.booking.springboot.web.model.Establishment;
 import com.booking.springboot.web.model.Happening;
 import com.booking.springboot.web.model.Seat;
+import com.booking.springboot.web.model.Timing;
+import com.booking.springboot.web.service.BookedService;
 import com.booking.springboot.web.service.EstablishmentService;
 import com.booking.springboot.web.service.SeatService;
 import com.booking.springboot.web.service.SegmentService;
 
 @RestController
-@RequestMapping("/establishment/{establishmentId}/segment/{segmentId}")
+@CrossOrigin(origins = "*")
+@RequestMapping("/establishment/{establishmentId}/hall/{hallId}/segment/{segmentId}")
 public class SeatController {
 
 	@Autowired
@@ -28,6 +34,8 @@ public class SeatController {
 	private SegmentService segmentService;
 	@Autowired
 	private EstablishmentService establishmentService;
+	@Autowired
+	private BookedService bService;
 	
 	// Kada getujemo seatlove (za rez npr) nije nam bitno u kojem su reonu
 	// to se tice konobara samo.
@@ -55,10 +63,12 @@ public class SeatController {
 					method = RequestMethod.POST, 
 					consumes = MediaType.ALL_VALUE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Seat> add(@PathVariable int establishmentId, @PathVariable int segmentId){
+	public ResponseEntity<Seat> add(@PathVariable int establishmentId,
+			@PathVariable int hallId, @PathVariable int segmentId){
 		Seat st = new Seat();
+		st.setActive(true);
 		st.setEstablishment(establishmentService.getOneById(establishmentId));
-		st.setSegment(segmentService.getOneById(establishmentId, segmentId));
+		st.setSegment(segmentService.getOneById(hallId, segmentId));
 //		st.setMatR(rezervacijaService.getOneById(gostId, id));
 		Seat s = seatService.addNew(st);
 		if (s == null){
@@ -84,8 +94,24 @@ public class SeatController {
 			method = RequestMethod.DELETE)
 	public ResponseEntity<Seat> deleteStavka(@PathVariable int establishmentId, @PathVariable int segmentId,
 			@PathVariable int id) {
-		seatService.deleteSeat(id);
+		Seat f = seatService.getOneById(establishmentId, segmentId, id);
+		f.setActive(false);
+		seatService.editSeat(f);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/seat/{id}/bookings",
+			method = RequestMethod.GET, 
+			consumes = MediaType.ALL_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Timing>> getSeatBookings(@PathVariable int establishmentId, @PathVariable int segmentId,
+			@PathVariable int id) {
+		ArrayList<Booked> booked = bService.getBySeatId(id);
+		ArrayList<Timing> timings = new ArrayList<Timing>();
+		for(Booked b:booked) {
+			timings.add(b.getTiming());
+		}
+		return new ResponseEntity<ArrayList<Timing>>(timings, HttpStatus.OK);
 	}
 	
 }

@@ -1,12 +1,12 @@
-<ul>
-    <li *ngFor="let seg of segments"
-    [class.selected]="seg === selectedSegment" (click)="onSelect(seg)">
-    <h4>{{seg.id}} - {{seg.name}}</h4> 
-  </li>
-  </ul>
-  
-  <app-segment-details [segment]="selectedSegment"></app-segment-details>
-  <nav>
-      <a routerLink="segmentAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
-    </nav>
-    <router-outlet></router-outlet>
+<div *ngFor="let seg of segments" [class.selected]="seg === selectedSegment" (click)="onSelect(seg)">
+  <div *ngIf="seg.active">
+    <h4>{{seg.id}} - {{seg.name}}</h4>
+  </div>
+</div>
+
+<nav>
+  <a routerLink="hall/{{hall.id}}/segmentAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add segment</a>
+</nav>
+<app-segment-details [segment]="selectedSegment" [hall]="hall"></app-segment-details>
+
+<router-outlet></router-outlet>

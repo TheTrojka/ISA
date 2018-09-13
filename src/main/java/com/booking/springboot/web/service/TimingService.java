@@ -44,5 +44,6 @@ public class TimingService {
 	public void delete(int id) {
 		er.delete(id);
 	}
+
 }
 

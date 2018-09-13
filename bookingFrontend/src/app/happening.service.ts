@@ -7,6 +7,7 @@ import { Timing } from './timing';
 import { Seat } from './seat';
 import { Visit } from './visit';
 import { log } from 'util';
+import { Hall } from './hall';
 
 @Injectable()
 export class HappeningService {
@@ -15,6 +16,13 @@ export class HappeningService {
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
+
+  getHappening(est: number, id: number): Promise<Happening> {
+    return this.http.get(`http://localhost:8080/establishment/${est}/happening/${id}`)
+      .toPromise()
+      .then(response => response.json() as Happening)
+      .catch(this.handleError);
+  }
 
   // Get all customers
   getHappenings(id: number): Promise<Happening[]> {
@@ -48,6 +56,14 @@ export class HappeningService {
       .catch(this.handleError);
   }
 
+  checkForDelete(id: number): Promise<Timing[]> {
+    const url = `${this.happeningsUrl}/${id}/bookings`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Timing[])
+      .catch(this.handleError);
+  }
+
   update(id: number, happening: Happening): Promise<Happening> {
     return this.http
       .put(`http://localhost:8080/establishment/${id}/happening`, JSON.stringify(happening), {headers: this.headers})
@@ -65,10 +81,19 @@ export class HappeningService {
       .catch(this.handleError);
   }
 
-  addTiming(timing: string, establishmentId: number, happeningId: number, segmentId: number): Promise<string> {
+  addTiming(timing: string, establishmentId: number, happeningId: number): Promise<Timing> {
     return this.http
-      .post(`http://localhost:8080/establishment/${establishmentId}/happening/${happeningId}/segment/${segmentId}/timing`,
+      .post(`http://localhost:8080/establishment/${establishmentId}/happening/${happeningId}/timing`,
        JSON.stringify(timing), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json() as Timing)
+      .catch(this.handleError);
+  }
+
+  addTimingSeg(establishmentId: number, happeningId: number, tid: number, id: number): Promise<string> {
+    return this.http
+      .post(`http://localhost:8080/establishment/${establishmentId}/happening/${happeningId}/timing/${tid}/segment/${id}`,
+       'J', {headers: this.headers})
       .toPromise()
       .then(res => res.json() as string)
       .catch(this.handleError);
@@ -121,6 +146,20 @@ JSON.stringify('timing'), {headers: this.headers})
     return this.http.get(`http://localhost:8080/establishment/${id}/happening/${happeningId}/timing/${timingId}/free`)
       .toPromise()
       .then(response => response.json() as Seat[])
+      .catch(this.handleError);
+  }
+
+  getTimingHall(id: number, happeningId: number, timingId: number): Promise<Hall> {
+    return this.http.get(`http://localhost:8080/establishment/${id}/happening/${happeningId}/timing/${timingId}/hall`)
+      .toPromise()
+      .then(response => response.json() as Hall)
+      .catch(this.handleError);
+  }
+
+  getTimingSeatSegment(id: number, happeningId: number, timingId: number): Promise<Segment> {
+    return this.http.get(`http://localhost:8080/establishment/${id}/happening/${happeningId}/timing/${timingId}/segment`)
+      .toPromise()
+      .then(response => response.json() as Segment)
       .catch(this.handleError);
   }
 

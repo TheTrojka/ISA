@@ -93,13 +93,17 @@ public class GuestController {
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> edit(@RequestBody Guest guest) {
+		Guest userExists = guestService.findByEmail(guest.getEmail());
+		Guest g = guestService.getOneById(guest.getId());
+		if (userExists != null && g != userExists) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (guest.getConfirmationToken() == null) {
 			guest.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
 			guest.setConfirmationToken(UUID.randomUUID().toString());
 			guest.setEnabled(true);
 			guest.setEstablishment(guestService.getOneById(guest.getId()).getEstablishment());
-		}
-		Guest g = guestService.getOneById(guest.getId());
+		}				
 		if (guest.getCity() != null) {
 			g.setCity(guest.getCity());
 		}

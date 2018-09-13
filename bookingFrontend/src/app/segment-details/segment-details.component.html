@@ -3,22 +3,27 @@
 	<div>
 		<label>id: </label> {{segment.id}}
 	</div>
-	<div>
-		<label>Name: </label> <input [(ngModel)]="segment.name" placeholder={{segment.name}}/>
-  </div>
-  <button (click)='getSeats()'>Load seats</button>
-  <ul *ngIf="seats && seatingNum==segment.id"> 
-      <h4>{{segment.id}}</h4>     
-    <li *ngFor="let seat of seats">
-    <h4>{{seat.id}}</h4>
-    <button (click)="deleteSeat(seat.id)">Delete seat</button>
-    </li>
-  </ul>
-  <button (click)="addSeat()">Add seat</button>
-	
+	<form #segmentForm="ngForm" (ngSubmit)="save()">
+		<div class="form-group">
+			<label for="name">Title</label> <input type="text" class="form-control" id="name" required [(ngModel)]="segment.name"
+			 name="name">
+		</div>
+		<div class="btn-group">
+			<button type="submit" [disabled]="segmentForm.form.invalid" class="btn btn-success">Submit</button>
+		</div>
+	</form>
 	<button class="btn btn-danger" (click)="delete()">Delete</button>
-	<button (click)="save()">Save</button>
+	<button (click)='getSeats()'>Load seats</button>
+	<ul *ngIf="seats && seatingNum==segment.id">
+		<h4>Seat count: {{seatCount}}</h4>
+		<div *ngFor="let seat of seats">
+			<div *ngIf="seat.active">
+				<h4>{{seat.id}}</h4>
+				<button (click)="deleteSeat(seat.id)">Delete seat</button>
+			</div>
+		</div>
+	</ul>
+	<button (click)="addSeat()">Add seat</button>
 </div>
 
 <div>
-	  

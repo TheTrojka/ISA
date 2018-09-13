@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.booking.springboot.web.model.Seat;
+import com.booking.springboot.web.model.Timing;
 import com.booking.springboot.web.repository.SeatRepository;
 
 
@@ -40,6 +41,11 @@ public class SeatService {
 	
 	public void deleteSeat(int id){
 		stoRepo.delete(id);
+	}
+
+	public Seat getOneByRealId(int id) {
+		Seat s = stoRepo.findOne(id);
+		return s;
 	}
 }
 

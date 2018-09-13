@@ -48,6 +48,10 @@ import { UsersComponent } from './users/users.component';
 import { PropsAdReviewComponent } from './props-ad-review/props-ad-review.component';
 import { InvitationDecisionComponent } from './invitation-decision/invitation-decision.component';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
+import { HallsComponent } from './halls/halls.component';
+import { HallDetailsComponent } from './hall-details/hall-details.component';
+import { CreateHallComponent } from './create-hall/create-hall.component';
+import { HallService } from './hall.service';
 
 
 
@@ -83,7 +87,10 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     UsersComponent,
     PropsAdReviewComponent,
     InvitationDecisionComponent,
-    UserRankingComponent
+    UserRankingComponent,
+    HallsComponent,
+    HallDetailsComponent,
+    CreateHallComponent
 
   ],
   imports: [
@@ -107,7 +114,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
   ],
 
   providers: [DataService, HappeningService, FanzoneService, SegmentService, DatePipe,
-     PropsService, PropsAdService, UserService],
+     PropsService, PropsAdService, UserService, HallService],
 
   bootstrap: [AppComponent]
 })

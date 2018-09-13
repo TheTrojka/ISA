@@ -30,6 +30,8 @@ public class Seat {
 	@JsonBackReference (value="seat-segment")// "back" part of reference: it will be omitted from serialization	
     private Segment segment;
 	
+	private boolean active;
+	
 	/*
 	@ManyToOne(optional = false)
 	// @NotNull ne mora biti rezervisan
@@ -67,7 +69,12 @@ public class Seat {
 		this.segment = segment;
 	}
 
-	
-	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	
 }

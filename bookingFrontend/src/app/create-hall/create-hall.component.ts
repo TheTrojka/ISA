@@ -1,34 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import {Segment} from '../segment';
-import {SegmentService} from '../segment.service';
+import {Hall} from '../hall';
+import {HallService} from '../hall.service';
 import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-create-segment',
-  templateUrl: './create-segment.component.html',
-  styleUrls: ['./create-segment.component.css']
+  selector: 'app-create-hall',
+  templateUrl: './create-hall.component.html',
+  styleUrls: ['./create-hall.component.css']
 })
-export class CreateSegmentComponent implements OnInit {
+export class CreateHallComponent implements OnInit {
 
-  segment = new Segment;
+  hall = new Hall;
   submitted = false;
-  constructor(private segmentService: SegmentService,
+  constructor(private hallService: HallService,
     private route: ActivatedRoute,
     private location: Location) {}
 
   ngOnInit() {
   }
 
-  newSegment(): void {
+  newHall(): void {
     this.submitted = false;
-    this.segment = new Segment();
+    this.hall = new Hall();
   }
 
   private save(): void {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
-    const hid = +this.route.snapshot.paramMap.get('hallId');
-    this.segmentService.create(id, hid, this.segment)
+    this.hallService.create(id, this.hall)
     .then(() => this.goBack())
     .catch(() => alert('Name already exists'));
   }
@@ -43,6 +42,7 @@ export class CreateSegmentComponent implements OnInit {
   }
 
 }
+
 
 
 

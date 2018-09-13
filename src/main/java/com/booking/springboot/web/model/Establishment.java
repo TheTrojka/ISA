@@ -30,7 +30,7 @@ public class Establishment {
 	@OneToMany(mappedBy="establishment")
     private Set<Happening> happenings;
 	@OneToMany(mappedBy="establishment")
-    private Set<Segment> segments;
+    private Set<Hall> halls;
 	private Boolean theater;
 	@Column(unique=false,nullable= false)
 	private String description;
@@ -70,13 +70,15 @@ public class Establishment {
 	public void setHappenings(Set<Happening> happenings) {
 		this.happenings = happenings;
 	}
-	public Set<Segment> getSegments() {
-		return segments;
-	}
-	public void setSegments(Set<Segment> segments) {
-		this.segments = segments;
-	}
 	
+	public Set<Hall> getHalls() {
+		return halls;
+	}
+
+	public void setHalls(Set<Hall> halls) {
+		this.halls = halls;
+	}
+
 	public Establishment(String name, String address){
 		this.name = name;
 		this.address = address;

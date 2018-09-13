@@ -28,6 +28,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { UsersComponent } from './users/users.component';
 import { InvitationDecisionComponent } from './invitation-decision/invitation-decision.component';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
+import { CreateHallComponent } from './create-hall/create-hall.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'establishment', pathMatch: 'full'},
@@ -39,7 +40,8 @@ const routes: Routes = [
   {path: 'fanzone/props', component: PropsComponent},
   {path: 'fanzone/propsAd', component: PropsAdsComponent},
   {path: 'fanzone', component: FanzoneComponent},
-  {path: 'establishment/:establishmentId/segmentAdd', component: CreateSegmentComponent},
+  {path: 'establishment/:establishmentId/hall/:hallId/segmentAdd', component: CreateSegmentComponent},
+  {path: 'establishment/:establishmentId/hallAdd', component: CreateHallComponent},
   {path: 'establishment/:establishmentId/addTiming/:happeningId', component: AddTimingComponent},
   {path: 'fanzone/props/propsAdd', component: CreatePropsComponent},
   {path: 'fanzone/props/:propsId', component: PropsDetailsComponent},

@@ -1,51 +1,42 @@
 package com.booking.springboot.web.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.context.annotation.Lazy;
-
-import com.booking.springboot.web.users.student1.Guest;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Segment implements Serializable{
+public class Hall {
 	
 	@Id
 	@GeneratedValue
 	private int id;
-	private String name;	
+	private String name;
 	
 	@ManyToOne @NotNull 
-	@JoinColumn(name="hall_id", nullable=false)
-	@JsonBackReference (value="segment-hall")// "back" part of reference: it will be omitted from serialization	
-    private Hall hall;
+	@JoinColumn(name="establishment_id", nullable=false)
+	@JsonBackReference (value="hall-establishment")// "back" part of reference: it will be omitted from serialization	
+    private Establishment establishment;
 	
-	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "segment") 
-	@JsonManagedReference(value="seat-segment")
-	private Set<Seat> seats = new HashSet<Seat>();
+	@OneToMany (cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "hall") 
+	@JsonManagedReference(value="segment-hall")
+	private Set<Segment> segments = new HashSet<Segment>();
 	
 	private boolean active;
 	
-	public Segment() {
+	public Hall() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -65,20 +56,20 @@ public class Segment implements Serializable{
 		this.name = name;
 	}
 
-	public Hall getHall() {
-		return hall;
+	public Establishment getEstablishment() {
+		return establishment;
 	}
 
-	public void setHall(Hall hall) {
-		this.hall = hall;
+	public void setEstablishment(Establishment establishment) {
+		this.establishment = establishment;
 	}
 
-	public Set<Seat> getSeats() {
-		return seats;
+	public Set<Segment> getSegments() {
+		return segments;
 	}
 
-	public void setSeats(Set<Seat> seats) {
-		this.seats = seats;
+	public void setSegments(Set<Segment> segments) {
+		this.segments = segments;
 	}
 
 	public boolean isActive() {
@@ -88,13 +79,6 @@ public class Segment implements Serializable{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	
-	
-	
-
-
-
 	
 	
 	

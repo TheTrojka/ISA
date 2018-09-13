@@ -1,0 +1,22 @@
+<div *ngIf="hall">
+	<h2>{{hall.name}} details:</h2>
+	<div>
+		<label>id: </label> {{hall.id}}
+	</div>
+	<form #hallForm="ngForm" (ngSubmit)="save()">
+		<div class="form-group">
+			<label for="name">Title</label> <input type="text"
+				class="form-control" id="name" required
+				[(ngModel)]="hall.name" name="name">
+		</div>
+		<div class="btn-group">			
+			<button type="submit" [disabled]="hallForm.form.invalid" class="btn btn-success">save</button>
+		</div>
+	</form>
+  <button class="btn btn-danger" (click)="delete()">Delete</button>
+  <h3>Segments</h3>
+	<app-segments [hall] = "hall"></app-segments>	
+</div>
+
+<div>
+	  

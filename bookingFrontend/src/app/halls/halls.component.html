@@ -1,0 +1,12 @@
+<div *ngFor="let hall of halls" [class.selected]="hall === selectedHall" (click)="onSelect(hall)">
+  <div *ngIf="hall.active">
+    <h4>{{hall.id}} - {{hall.name}}</h4>
+  </div>
+</div>
+
+<nav>
+  <a routerLink="hallAdd" class="btn btn-primary active" role="button" routerLinkActive="active">Add hall</a>
+</nav>
+<app-hall-details [hall]="selectedHall"></app-hall-details>
+
+<router-outlet></router-outlet>

@@ -58,6 +58,7 @@
 	<div *ngFor="let disc of discounts">
 		<h4> Happening : {{disc.happening}} </h4>
 		<h4> Date :{{disc.time}} </h4>
+		<h4> Hall :{{disc.hall}}</h4>
 		<h4> Segment :{{disc.segment}}</h4>
 		<h4> Seat : {{disc.seat}} </h4>
 		<h4> Price :{{disc.price}} </h4>
@@ -68,6 +69,6 @@
 <h3>Happenings</h3>
 <app-happenings></app-happenings>
 <div *ngIf="admin || Eadmin">
-	<h3>Segments</h3>
-	<app-segments></app-segments>
+	<h3>Halls</h3>
+	<app-halls></app-halls>
 </div>

@@ -47,5 +47,11 @@ public class BookedService {
 	public void deleteSeat(int id){
 		bookRepo.delete(id);
 	}
+
+	public ArrayList<Booked> getBySeatId(int id) {
+		ArrayList<Booked> firme = new ArrayList<>();
+		bookRepo.getBySeat_Id(id).forEach(firme::add);
+		return firme;
+	}
 }
 
