@@ -9,7 +9,7 @@
   <a *ngFor="let est of establishments" routerLink="/establishment/{{est.id}}/">
     <div *ngIf="est.theater && est.active">
         <h4>{{est.id}} - Name: {{est.name}} Address: {{est.address}} Rating: {{est.rating}} 
-            <div *ngIf="est.distance">Distance: {{est.distance}}</div></h4>
+            <div *ngIf="est.distance">Distance: {{est.distance}} km</div></h4>
     </div>
   </a>
 </div>
@@ -24,7 +24,7 @@
   <a *ngFor="let est of establishments" routerLink="/establishment/{{est.id}}/">
     <div *ngIf="!est.theater && est.active">
       <h4>{{est.id}} - Name: {{est.name}} Address: {{est.address}} Rating: {{est.rating}} 
-        <div *ngIf="est.distance">Distance: {{est.distance}}</div></h4>
+        <div *ngIf="est.distance">Distance: {{est.distance}} km</div></h4>
     </div>
   </a>
 </div>

@@ -5,7 +5,7 @@ export class Establishment {
     public description: string;
     public theater: boolean;
     public rating: string;
-    public distance: number;
+    public distance: string;
     public point: any;
     public active: boolean;
 }

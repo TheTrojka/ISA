@@ -18,31 +18,46 @@ export class EstablishmentsComponent implements OnInit {
   type: string;
   searchString = '';
   distance = false;
-  point: any;
+  point = new Point();
   variable: any;
 
   constructor(private dataService: DataService,
-    private route: ActivatedRoute) { 
-      this.route.params.subscribe(params => {
-        this.type = params['listType'];
-        this.ngOnInit(); // reset and set based on new parameter this time
+    private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.type = params['listType'];
+      this.ngOnInit(); // reset and set based on new parameter this time
     });
-    }
+  }
 
   getEstablishments() {
-    this.dataService.getEstablishments().then(establishments => this.establishments = establishments)
-    .then(() => this.dataService.showAddress(encodeURI(JSON.parse(localStorage.getItem('user'))['city']))
-      .then(object => this.point = object.results[0].geometry.location))
-    .then(() => this.establishments.forEach(e => {
-        this.dataService.showAddress(encodeURI(e.address))
-      .then(object => this.variable = object.results[0].geometry.location)
-      .then(e.point = this.variable);
-      }))
-   .then(() => this.establishments.forEach(e => console.log(Object.keys(e))))
-    .then(() => this.establishments.forEach(e => 
-      e.distance = this.getDistance(e.point.lat, e.point.lng,
-        this.point.lat , this.point.lng)));
-  } 
+    console.log('!!!' + this.point.lat);
+    this.dataService.getEstablishments()
+      .then(establishments => {
+      this.establishments = establishments;
+        this.establishments.forEach(e => {
+          this.dataService.showAddress(encodeURI(e.address))
+            .then(object => {
+              e.point = object.results[0].geometry.location;
+              console.log(Object.keys(e));
+              const distanceNumber = this.getDistance(e.point.lat, e.point.lng,
+                this.point.lat, this.point.lng) / 1000;
+              e.distance = distanceNumber.toFixed(1);
+            });
+        });
+      });
+  }
+
+  getUserPoint() {
+    this.dataService.showAddress(encodeURI(JSON.parse(localStorage.getItem('user'))['city']))
+      .then(object => {
+        this.point.lat = object.results[0].geometry.location.lat;
+        this.point.lng = object.results[0].geometry.location.lng;
+      })
+      .then(() => {
+        this.getEstablishments();
+      });
+      
+  }
 
   getEstablishmentsCopy() {
     this.dataService.getEstablishments().then(establishments => this.establishmentsCopy = establishments);
@@ -56,22 +71,22 @@ export class EstablishmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.type = this.route.snapshot.paramMap.get('listType');
-  //  console.log(this.distance);
-    this.getEstablishments();
+    //  console.log(this.distance);
+    this.getUserPoint();    
     this.getEstablishmentsCopy();
-    
+
   }
 
   sortByName(): void {
     this.establishments.sort((obj1, obj2) => {
       if (obj1.name.toLocaleLowerCase() > obj2.name.toLocaleLowerCase()) {
-          return 1;
+        return 1;
       }
-  
+
       if (obj1.name.toLocaleLowerCase() < obj2.name.toLocaleLowerCase()) {
-          return -1;
+        return -1;
       }
-  
+
       return 0;
     });
   }
@@ -79,35 +94,35 @@ export class EstablishmentsComponent implements OnInit {
   sortByRating(): void {
     this.establishments.sort((obj1, obj2) => {
       if (+obj1.rating < +obj2.rating) {
-          return 1;
+        return 1;
       }
-  
+
       if (+obj1.rating > +obj2.rating) {
-          return -1;
+        return -1;
       }
-  
+
       return 0;
-  });
+    });
   }
 
   sortByDistance(): void {
     this.establishments.sort((obj1, obj2) => {
-      if (obj1.distance > obj2.distance) {
-          return 1;
+      if (+obj1.distance > +obj2.distance) {
+        return 1;
       }
-  
-      if (obj1.distance < obj2.distance) {
-          return -1;
+
+      if (+obj1.distance < +obj2.distance) {
+        return -1;
       }
-  
+
       return 0;
-  });
+    });
   }
 
   search(): void {
     if (this.searchString !== '') {
       this.establishments = this.establishmentsCopy.filter(item => item.name.toLocaleLowerCase()
-      .indexOf(this.searchString.toLocaleLowerCase()) >= 0);
+        .indexOf(this.searchString.toLocaleLowerCase()) >= 0);
     }
   }
 
@@ -122,7 +137,7 @@ export class EstablishmentsComponent implements OnInit {
   rad(x): number {
     return x * Math.PI / 180;
   }
-  
+
   getDistance(p1lat, p1lng, p2lat, p2lng): number {
     console.log(p1lat);
     console.log(p1lng);
@@ -134,8 +149,8 @@ export class EstablishmentsComponent implements OnInit {
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(this.rad(p1lat)) * Math.cos(this.rad(p2lat)) *
       Math.sin(dLong / 2) * Math.sin(dLong / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const d = R * c;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
     return d; // returns the distance in meter
   }
 
