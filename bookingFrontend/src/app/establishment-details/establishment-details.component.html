@@ -53,7 +53,7 @@
 		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 	</agm-map>	
 </div>
-<div *ngIf="user || Eadmin || admin">
+<div *ngIf="user">
 	<h3>Discounts</h3>
 	<div *ngFor="let disc of discounts">
 		<h4> Happening : {{disc.happening}} </h4>

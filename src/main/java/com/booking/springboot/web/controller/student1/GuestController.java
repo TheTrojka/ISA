@@ -58,15 +58,6 @@ public class GuestController {
 		return new ResponseEntity<Guest>(guest, HttpStatus.OK);
 	}
 
-	/*
-	 * @RequestMapping(value = "/register", method = RequestMethod.POST, consumes =
-	 * MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<Guest> register(Guest
-	 * guest) { Guest g = guestService.addNew(guest); if (g == null) { return new
-	 * ResponseEntity<Guest>(HttpStatus.NOT_FOUND); } return new
-	 * ResponseEntity<Guest>(g, HttpStatus.OK); }
-	 */
-
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Guest> login(@RequestBody Guest guest) {
 		Guest g = guestService.login(guest);
@@ -97,12 +88,6 @@ public class GuestController {
 		Guest g = guestService.getOneById(guest.getId());
 		if (userExists != null && g != userExists) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		if (guest.getConfirmationToken() == null) {
-			guest.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
-			guest.setConfirmationToken(UUID.randomUUID().toString());
-			guest.setEnabled(true);
-			guest.setEstablishment(guestService.getOneById(guest.getId()).getEstablishment());
 		}				
 		if (guest.getCity() != null) {
 			g.setCity(guest.getCity());
@@ -116,7 +101,20 @@ public class GuestController {
 		if (guest.getPhone() != null) {
 			g.setPhone(guest.getPhone());
 		}
-		if (guest.getPassword() != null) {
+		Guest returnGuest = guestService.editGuest(g);
+		return new ResponseEntity<Guest>(returnGuest, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/changePassword", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Guest> changePassword(@RequestBody Guest guest) {
+		Guest g = guestService.getOneById(guest.getId());
+		if (guest.getConfirmationToken() == null) {
+			g.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
+			g.setConfirmationToken(UUID.randomUUID().toString());
+			g.setEnabled(true);
+			g.setEstablishment(guestService.getOneById(guest.getId()).getEstablishment());
+		}				
+		else if (guest.getPassword() != null) {
 			g.setPassword(bCryptPasswordEncoder.encode(guest.getPassword()));
 		}
 		Guest returnGuest = guestService.editGuest(g);

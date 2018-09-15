@@ -69,7 +69,7 @@ public class RegisterController {
 			//String appUrl = request.getScheme() + "://" + request.getServerName();
 			
 			SimpleMailMessage registrationEmail = new SimpleMailMessage();
-			registrationEmail.setTo("arminaa78@gmail.com");
+			registrationEmail.setTo(guest.getEmail());
 			registrationEmail.setSubject("Registration Confirmation");
 			registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
 					+ "http://localhost:4200" + "/confirm/" + guest.getConfirmationToken());

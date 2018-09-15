@@ -1,6 +1,5 @@
 <div *ngIf="happening">
 	<h2>{{happening.title}} details:</h2>
-	{{Eadmin}} {{admin}}
 	<div *ngIf="Eadmin || admin">
 		<div>
 			<label>id: </label> {{happening.id}}
@@ -96,32 +95,35 @@
 			{{happening.price}}$
 		</div>
 	</div>
+
 	<button (click)='getTimings()'>Book on date:</button>
 	<div *ngIf="timings">
 		<div *ngFor="let timing of timings">
 			<div *ngIf="timing.canBook">
 				<h4>Hall: {{timing.hall}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date and time: {{timing.time}}</h4>
-				<div *ngIf="user || Eadmin || admin">
+				<div *ngIf="user || Eadmin">
 					<button (click)='getTimingSeats(timing.id)'>Pick seat</button>
 					<div *ngIf="timingSeatsSearched && timingSeats.length > 0">
-							<div *ngIf="timingNum == timing.id">
-						<div style = "display: inline-block" *ngFor="let seg of seatSegments">
-							{{seg}} seats:
-							<div *ngFor="let seat of timingSeats">
-								<div *ngIf="seat.hall == seg && seat.active">
-									{{seat.id}}
+						<div *ngIf="timingNum == timing.id">
+							<div style="display: inline-block" *ngFor="let seg of seatSegments">
+								{{seg}} seats:
+								<div *ngFor="let seat of timingSeats">
+									<div *ngIf="seat.hall == seg && seat.active">
+										{{seat.id}}
+									</div>
 								</div>
 							</div>
-						</div>
-						<br/>
-						<br/>
-							<mat-form-field>
-								<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
-									<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
-								</mat-select>
-							</mat-form-field>
+							<br />
+							<br />
+							<div *ngIf="!Eadmin || !admin">
+								<mat-form-field>
+									<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
+										<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
 							<button (click)="book(timing.id)">Book</button>
-							<div *ngIf="Eadmin || admin">
+							<div *ngIf="Eadmin">
 								<div>
 									<label>Discount percentage: </label>
 									<input [(ngModel)]="discountNumber" type="number" min="1" max="100" />
@@ -145,10 +147,17 @@
 			</div>
 		</div>
 	</div>
-	<div *ngIf="!timings && timingSearched">
+
+	<div *ngIf="!(timings?.length > 0) && timingsSearched">
 		Currently no dates available.
 	</div>
-	<div *ngIf="Eadmin || admin">
+
+	<div *ngIf="(timings?.length > 0) && expired && timingsSearched">
+		Currently no dates available.
+	</div>
+
+
+	<div *ngIf="Eadmin">
 		<button class="btn btn-danger" (click)="delete()">Delete</button>
 		<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
 	</div>

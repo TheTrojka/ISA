@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Fanzone } from './fanzone';
 import { FanzoneService } from './fanzone.service';
+import { DataService } from './data.service';
 
 
 @Component({
@@ -15,8 +16,9 @@ export class AppComponent implements OnInit {
   Eadmin = false;
   FZadmin = false;
   user = false;
+  eid: number;
 
-  constructor() {
+  constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -30,6 +32,8 @@ export class AppComponent implements OnInit {
         this.user = true; 
         localStorage.setItem('userRole', 'userRole');
       } else if (JSON.parse(localStorage.getItem('user'))['role'] === 'establishmentAdmin') {
+        this.dataService.getAdminEstablishment(+JSON.parse(localStorage.getItem('user'))['id'])
+        .then(est => this.eid = est.id);
         this.Eadmin = true;
         localStorage.setItem('Eadmin', 'Eadmin');
       } else if (JSON.parse(localStorage.getItem('user'))['role'] === 'fanZoneAdmin') {

@@ -124,6 +124,14 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  changePassword(user: User): Promise<User> {
+    return this.http
+      .put(`http://localhost:8080/guests/changePassword`, JSON.stringify(user), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json() as User)
+      .catch(this.handleError);
+  }
+
   create(user: User, establishment: number): Promise<User> {    
     return this.http
       .post(`http://localhost:8080/guests/${establishment}`, JSON.stringify(user), {headers : this.headers})

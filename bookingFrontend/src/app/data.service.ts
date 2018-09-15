@@ -87,6 +87,14 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  getAdminEstablishment(userId: number): Promise<Establishment> {
+    return this.http
+      .get(`http://localhost:8080/establishment/getAdminEstablishment/${userId}`)
+      .toPromise()
+      .then(res => res.json() as Establishment)
+      .catch(this.handleError);
+  }
+
   attendanceReport(dates: string[], establishmentId: number): Promise<number> {
     return this.http
       .post(`http://localhost:8080/establishment/${establishmentId}/visitReport`,

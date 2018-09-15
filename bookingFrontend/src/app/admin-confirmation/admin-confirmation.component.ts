@@ -38,7 +38,7 @@ export class AdminConfirmationComponent implements OnInit {
     this.userService.checkPassword(this.checkOld, this.user.id).then(() => {
     if (this.user.password === this.checkSame && this.user.password !== this.checkOld ) {
       localStorage.setItem('user', JSON.stringify(this.user));   
-      this.userService.update(this.user).then(() => this.goBack());
+      this.userService.changePassword(this.user).then(() => this.goBack());
     } else if (this.user.password !== this.checkSame) {
       this.errorMessage = 'New passwords are not the same';
     } else if (this.checkOld === this.checkSame) {

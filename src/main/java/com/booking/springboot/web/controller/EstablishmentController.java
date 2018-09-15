@@ -1,14 +1,11 @@
 package com.booking.springboot.web.controller;
 
 import java.text.ParseException;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,22 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Discounted;
 import com.booking.springboot.web.model.Establishment;
 import com.booking.springboot.web.model.Happening;
-import com.booking.springboot.web.model.Segment;
 import com.booking.springboot.web.model.Timing;
 import com.booking.springboot.web.service.BookedService;
 import com.booking.springboot.web.service.DiscountService;
@@ -387,51 +379,18 @@ public class EstablishmentController {
 		}
 
 	}
-	/*
-	 * @RequestMapping(value="/login", method=RequestMethod.PUT, consumes =
-	 * MediaType.APPLICATION_JSON_VALUE, produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<Firma>
-	 * logIn(@RequestBody Firma firma) { Firma temp = this.fs.logIn(firma);
-	 * if(temp!=null && firma.getPassword() != null &&
-	 * temp.getPassword().equals(firma.getPassword())){
-	 * session.setAttribute("banka", temp); return new
-	 * ResponseEntity<Firma>(temp,HttpStatus.OK); } return new
-	 * ResponseEntity<>(HttpStatus.NOT_FOUND); }
-	 * 
-	 * /*@RequestMapping(value="/establishment") public String
-	 * getAllEstablishments(ModelMap model) { ArrayList<Establishment> list =
-	 * service.getAll(); model.addAttribute("list",list); return "list-todos"; }
-	 * 
-	 * @RequestMapping(value="/establishment/{id}", method = RequestMethod.GET)
-	 * public String getById(@PathVariable int id,ModelMap model) { Establishment f
-	 * = service.getOneById(id); model.addAttribute("f",f); return "establishment";
-	 * }
-	 * 
-	 * @RequestMapping(value = "/establishment", method = RequestMethod.POST/*,
-	 * consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public String
-	 * addEstablishment(Establishment f,ModelMap model) { service.addNew(f);
-	 * ArrayList<Establishment> list = service.getAll();
-	 * model.addAttribute("list",list); return "list-todos"; }
-	 * 
-	 * @RequestMapping(value = "/establishment/addEstablishment") public String
-	 * openEstablishmentAddForm() { return "addEstablishment"; }
-	 * 
-	 * @RequestMapping(value = "/establishment/editEstablishment/{id}") public
-	 * String openEstablishmentEditForm(@PathVariable int id, ModelMap model) {
-	 * Establishment f = service.getOneById(id); model.addAttribute("f",f); return
-	 * "editEstablishment"; }
-	 * 
-	 * @RequestMapping(value = "/establishment/{id}", method =
-	 * RequestMethod.DELETE/*, consumes =
-	 * MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public void
-	 * deleteEstablishment(@PathVariable int id){ service.delete(id); }
-	 * 
-	 * @RequestMapping(value = "/establishment", method = RequestMethod.PUT/*,
-	 * consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces =
-	 * MediaType.APPLICATION_JSON_VALUE) public String edit(Establishment
-	 * Establishment) { service.edit(Establishment); System.out.println("lol");
-	 * return "list-todos"; }
-	 */
+	
+	@RequestMapping(value = "/getAdminEstablishment/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Establishment> getAdminEstablishment(@PathVariable int userId) {
+		Guest guest = gService.getOneById(userId);
+		ArrayList<Establishment> establishments = service.getAll();
+		for (Establishment e : establishments)
+		{
+			if(e.getAdmins().contains(guest))
+			{
+				return new ResponseEntity<Establishment>(e, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<Establishment>(HttpStatus.BAD_REQUEST);
+	}
 }

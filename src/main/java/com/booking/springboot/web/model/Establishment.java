@@ -5,14 +5,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.booking.springboot.web.model.Happening.Genre;
 import com.booking.springboot.web.users.student1.Guest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -43,7 +40,7 @@ public class Establishment {
 	private boolean active;
 	
 	
-	protected Establishment() {
+	public Establishment() {
 	}
 	
 	public int getId() {
@@ -131,20 +128,5 @@ public class Establishment {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-	
-	
-	
-
-
-	
-
-	
-	
-	
-	
-	
-	
-	
 
 }

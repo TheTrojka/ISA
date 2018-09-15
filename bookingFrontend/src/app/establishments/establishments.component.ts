@@ -3,6 +3,7 @@ import { Establishment } from '../establishment';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Point } from '../point';
+import { User } from '../user';
 
 
 @Component({
@@ -20,43 +21,51 @@ export class EstablishmentsComponent implements OnInit {
   distance = false;
   point = new Point();
   variable: any;
+  user: string;
 
   constructor(private dataService: DataService,
     private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       this.type = params['listType'];
-      this.ngOnInit(); // reset and set based on new parameter this time
+      this.ngOnInit();
     });
   }
 
   getEstablishments() {
-    console.log('!!!' + this.point.lat);
     this.dataService.getEstablishments()
       .then(establishments => {
-      this.establishments = establishments;
+        this.establishments = establishments;
         this.establishments.forEach(e => {
-          this.dataService.showAddress(encodeURI(e.address))
-            .then(object => {
-              e.point = object.results[0].geometry.location;
-              console.log(Object.keys(e));
-              const distanceNumber = this.getDistance(e.point.lat, e.point.lng,
-                this.point.lat, this.point.lng) / 1000;
-              e.distance = distanceNumber.toFixed(1);
-            });
+          if (localStorage.getItem('user')) {
+            this.dataService.showAddress(encodeURI(e.address))
+              .then(object => {
+                e.point = object.results[0].geometry.location;
+                console.log(Object.keys(e));
+                const distanceNumber = this.getDistance(e.point.lat, e.point.lng,
+                  this.point.lat, this.point.lng) / 1000;
+                e.distance = distanceNumber.toFixed(1);
+              });
+          }
         });
       });
   }
 
   getUserPoint() {
-    this.dataService.showAddress(encodeURI(JSON.parse(localStorage.getItem('user'))['city']))
-      .then(object => {
-        this.point.lat = object.results[0].geometry.location.lat;
-        this.point.lng = object.results[0].geometry.location.lng;
-      })
-      .then(() => {
-        this.getEstablishments();
-      });
-      
+    if (localStorage.getItem('user')) {
+      this.user = JSON.stringify(localStorage.getItem('user'));
+      this.dataService.showAddress(encodeURI(JSON.parse(localStorage.getItem('user'))['city']))
+        .then(object => {
+          this.point.lat = object.results[0].geometry.location.lat;
+          this.point.lng = object.results[0].geometry.location.lng;
+        })
+        .then(() => {
+          this.getEstablishments();
+        });
+    } else {
+      this.getEstablishments();
+    }
+
+
   }
 
   getEstablishmentsCopy() {
@@ -72,7 +81,7 @@ export class EstablishmentsComponent implements OnInit {
   ngOnInit(): void {
     this.type = this.route.snapshot.paramMap.get('listType');
     //  console.log(this.distance);
-    this.getUserPoint();    
+    this.getUserPoint();
     this.getEstablishmentsCopy();
 
   }

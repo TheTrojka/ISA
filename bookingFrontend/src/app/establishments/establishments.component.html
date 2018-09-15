@@ -1,8 +1,8 @@
 <div *ngIf="type=='theaters'">
   <h1>Theaters</h1>
   <button (click)="sortByName()">Sort by name</button>
-  <button (click)="sortByRating()">Sort by rating</button><br/>
-  <button (click)="sortByDistance()">Sort by distance</button><br/>
+  <button (click)="sortByRating()">Sort by rating</button>
+  <button *ngIf="user" (click)="sortByDistance()">Sort by distance</button><br/>
   <input [(ngModel)]="searchString" type="text"/>
   <button (click)="search()">Search establishments</button>
   <button (click)="reset()">Reset search</button>
@@ -16,8 +16,8 @@
 <div *ngIf="type=='cinemas'">
   <h1>Cinemas</h1>
   <button (click)="sortByName()">Sort by name</button>
-  <button (click)="sortByRating()">Sort by rating</button><br/>
-  <button (click)="sortByDistance()">Sort by distance</button><br/>
+  <button (click)="sortByRating()">Sort by rating</button>
+  <button *ngIf="user" (click)="sortByDistance()">Sort by distance</button><br/>
   <input [(ngModel)]="searchString" type="text"/>
   <button (click)="search()">Search establishments</button>
   <button (click)="reset()">Reset search</button>

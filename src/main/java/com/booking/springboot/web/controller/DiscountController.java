@@ -1,34 +1,21 @@
 package com.booking.springboot.web.controller;
 
-import java.util.Date;
-import java.util.Set;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.springboot.web.entities.student1.Reservation;
 import com.booking.springboot.web.model.Booked;
 import com.booking.springboot.web.model.Discounted;
-import com.booking.springboot.web.model.Establishment;
 import com.booking.springboot.web.model.Happening;
 import com.booking.springboot.web.model.Seat;
 import com.booking.springboot.web.model.Segment;
@@ -139,7 +126,7 @@ public class DiscountController {
 				discountInfo.put("id", discount.getId());
 				discountInfo.put("happening", happening.getTitle());
 				discountInfo.put("time", timing.getTime());
-				discountInfo.put("hall", timing.getSegment().stream().findFirst().get().getName());
+				discountInfo.put("hall", timing.getSegment().stream().findFirst().get().getHall().getName());
 				discountInfo.put("segment", discount.getBookedId().getSeat().getSegment().getName());
 				discountInfo.put("seat", discount.getBookedId().getSeat().getId());
 				discountInfo.put("price", happening.getPrice());
@@ -150,48 +137,5 @@ public class DiscountController {
 		String json = discountInfos.toString();
 		return new ResponseEntity<String>(json, HttpStatus.OK);
 	}
-	
-	/*@RequestMapping(value="/establishment/{id}/happening/{hid}", method = RequestMethod.GET)
-	public String getById(@PathVariable("hid") int id,ModelMap model) {
-		Happening f = service.getOneById(id);
-		model.addAttribute("f",f);
-		return "happening";
-	}
-	
-	@RequestMapping(value="/establishment/{id}", method = RequestMethod.GET)
-	public String getList(@PathVariable int id,ModelMap model) {
-		ArrayList<Happening> list  = service.getAll();
-		ArrayList<Happening> list1 = new ArrayList<Happening>();
-		for(Happening show:list) 
-		{
-			if(show.getEstablishment().getId()==id)
-			{
-				list1.add(show); 
-			}
-		}
-		model.addAttribute("list",list1);
-	    return "happening-list";
-	}
-	
-	@RequestMapping(value = "/establishment/{id}/happening/addHappening")
-	public String openEstablishmentAddForm(@PathVariable int id,ModelMap model) {
-		model.addAttribute("list",list1);
-		return "addHappening";
-	}
-	
-	@RequestMapping(value = "/establishment/{id}/happening",
-			method = RequestMethod.POST/*,
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public String addEstablishment(Happening f
-			,@RequestParam("id") int id) {
-		if(id==0) {
-			service.addNew(f);			
-		}else {
-			f.setId(id);
-			service.edit(f);			
-		}
-		return "redirect:establishment";
-	}*/
 
 }

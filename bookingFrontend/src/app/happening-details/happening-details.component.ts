@@ -32,6 +32,7 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
   timingsSearched = false;
   timingSeatsSearched = false;
   base64textString = [];
+  expired = true;
 
   constructor(private happeningService: HappeningService,
     private route: ActivatedRoute,
@@ -50,8 +51,7 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
           oef += 'de';
         }
       }))
-      .then(() => {
-        console.log(oef);        
+      .then(() => {     
         if (oef === '') {
           this.happeningService.delete(this.happening.id).then(() => this.goBack());
         } else {
@@ -71,7 +71,6 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
 
   getSegments() {
     const id = +this.route.snapshot.paramMap.get('establishmentId'); 
-    // this.segmentService.getSegments(id).then(segments => this.segments = segments);
   }
 
   getTimings() {
@@ -80,16 +79,16 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     this.happeningService.getTimings(id, this.happening.id).then(timings => this.timings = timings)
     .then(() => {
       this.timings.forEach( e => { e.canBook = Date.parse(this.fixDate(e.time)) > Date.now();
-      console.log(this.fixDate(e.time));
-      console.log(Date.now());
-      console.log(Date.parse(this.fixDate(e.time)) < Date.now());
+        if (e.canBook) {
+          this.expired = false;
+        }
       });
     })
     .then(() => {
       this.timings.forEach( e =>
           this.happeningService.getTimingHall(id, this.happening.id, e.id)
           .then(hall => e.hall = hall.name));  
-      });
+      });     
   }
 
   getTimingSeats(timingId: number) {
@@ -147,7 +146,6 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     } else if (localStorage.getItem('Eadmin')) {
       this.checkAdmin();
     }
-    this.getTimings();
     this.getSegments();   
   }
 

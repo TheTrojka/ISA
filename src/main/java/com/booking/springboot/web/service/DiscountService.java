@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.booking.springboot.web.model.Discounted;
-import com.booking.springboot.web.model.Establishment;
-import com.booking.springboot.web.model.Seat;
 import com.booking.springboot.web.repository.DiscountRepository;
-import com.booking.springboot.web.repository.SeatRepository;
 
 
 @Service
