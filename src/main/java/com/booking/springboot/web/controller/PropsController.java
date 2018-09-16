@@ -90,6 +90,8 @@ public class PropsController {
 		Props f = service.getOneById(id);
 		Guest guest = gService.getOneById(userId);
 		guest.getProps().add(f);
+		f.setActive(false);
+		service.edit(f);
 		gService.editGuest(guest);
 		return new ResponseEntity<Props>(f, HttpStatus.OK);
 	}

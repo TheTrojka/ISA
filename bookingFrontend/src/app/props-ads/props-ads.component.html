@@ -5,21 +5,19 @@
      <th>Id</th>
      <th>Name</th>
      <th>Description</th>
+     <th>Date</th>
      <th>Picture</th>
   </thead>
-  <tbody> 
-    <tr *ngFor="let ads of propsAd">
-      <div *ngIf="!ads.accepted && ads.reviewed">
-        <td>{{ads.id}}</td>
-        <td routerLink="/fanzone/propsAd/{{ads.id}}/">{{ads.name}}</td>
-        <td>{{ads.description}}</td>
-        <td>{{ads.date}}</td>
-        <td *ngIf = "ads.picture"><img src="{{ads.picture}}" alt="prop poster" ></td>
-      </div>
-    </tr>
-  </tbody>
+  <tr *ngFor="let ads of propsAd">
+      <td *ngIf="ads.accepted && ads.reviewed">{{ads.id}}</td>
+      <td *ngIf="ads.accepted && ads.reviewed" routerLink="/fanzone/propsAd/{{ads.id}}/">{{ads.name}}</td>
+      <td *ngIf="ads.accepted && ads.reviewed">{{ads.description}}</td>
+      <td *ngIf="ads.accepted && ads.reviewed">{{ads.date}}</td>
+      <td *ngIf="ads.picture && ads.accepted && ads.reviewed"><img src="{{ads.picture}}" alt="prop poster"></td>
+</tr>
 </table>
 </div>
+
 <nav>
     <a routerLink="AddpropsAd" class="btn btn-primary active" role="button" routerLinkActive="active">Add</a>	
   </nav>
