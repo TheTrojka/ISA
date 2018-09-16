@@ -58,7 +58,7 @@ public class PropsAdController {
 			return new ResponseEntity<PropsAd>(HttpStatus.BAD_REQUEST);
 		}
 		f.setReviewed(true);
-		f.setAccepted(true);
+		
 		service.edit(f);
 		return new ResponseEntity<PropsAd>(f, HttpStatus.OK);
 	}

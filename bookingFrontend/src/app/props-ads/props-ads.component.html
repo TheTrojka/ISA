@@ -9,11 +9,11 @@
      <th>Picture</th>
   </thead>
   <tr *ngFor="let ads of propsAd">
-      <td *ngIf="ads.accepted && ads.reviewed">{{ads.id}}</td>
-      <td *ngIf="ads.accepted && ads.reviewed" routerLink="/fanzone/propsAd/{{ads.id}}/">{{ads.name}}</td>
-      <td *ngIf="ads.accepted && ads.reviewed">{{ads.description}}</td>
-      <td *ngIf="ads.accepted && ads.reviewed">{{ads.date}}</td>
-      <td *ngIf="ads.picture && ads.accepted && ads.reviewed"><img src="{{ads.picture}}" alt="prop poster"></td>
+      <td *ngIf="!ads.accepted && ads.reviewed">{{ads.id}}</td>
+      <td *ngIf="!ads.accepted && ads.reviewed" routerLink="/fanzone/propsAd/{{ads.id}}/">{{ads.name}}</td>
+      <td *ngIf="!ads.accepted && ads.reviewed">{{ads.description}}</td>
+      <td *ngIf="!ads.accepted && ads.reviewed">{{ads.date}}</td>
+      <td *ngIf="ads.picture && !ads.accepted && ads.reviewed"><img src="{{ads.picture}}" alt="prop poster"></td>
 </tr>
 </table>
 </div>
