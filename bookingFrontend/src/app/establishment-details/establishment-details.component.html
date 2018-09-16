@@ -4,25 +4,22 @@
 		<div>
 			<label>id: </label> {{establishment.id}}
 		</div>
-		<form #establishmentForm="ngForm"(ngSubmit)="save()">
+		<form #establishmentForm="ngForm" (ngSubmit)="save()">
 			<div class="form-group">
-				<label for="name">Name</label> <input type="text"
-					class="form-control" id="name" required
-					[(ngModel)]="establishment.name" name="name">
+				<label for="name">Name</label> <input type="text" class="form-control" id="name" required [(ngModel)]="establishment.name"
+				 name="name">
 			</div>
-	 
+
 			<div class="form-group">
-				<label for="address">Address</label> <input type="text"
-					class="form-control" id="address" required
-					[(ngModel)]="establishment.address" name="address">
+				<label for="address">Address</label> <input type="text" class="form-control" id="address" required [(ngModel)]="establishment.address"
+				 name="address">
 			</div>
-	
+
 			<div class="form-group">
-				<label for="description">Description</label> <textarea
-					class="form-control" id="description" required
-					[(ngModel)]="establishment.description" name="description"></textarea>
+				<label for="description">Description</label> <textarea class="form-control" id="description" required [(ngModel)]="establishment.description"
+				 name="description"></textarea>
 			</div>
-	
+
 			<div class="btn-group">
 				<button type="submit" class="btn btn-success" [disabled]="establishmentForm.form.invalid">Save</button>
 			</div>
@@ -48,22 +45,24 @@
 	<div *ngIf="admin">
 		<button class="btn btn-danger" (click)="delete()">Delete</button>
 	</div>
-    <h3>Map</h3>
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="14">
+	<h3>Map</h3>
+	<agm-map [latitude]="lat" [longitude]="lng" [zoom]="14">
 		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-	</agm-map>	
+	</agm-map>
 </div>
 <div *ngIf="user">
 	<h3>Discounts</h3>
-	<div *ngFor="let disc of discounts">
-		<h4> Happening : {{disc.happening}} </h4>
-		<h4> Date :{{disc.time}} </h4>
-		<h4> Hall :{{disc.hall}}</h4>
-		<h4> Segment :{{disc.segment}}</h4>
-		<h4> Seat : {{disc.seat}} </h4>
-		<h4> Price :{{disc.price}} </h4>
-		<h4> Percent off :{{disc.percentage}}</h4>
-		<button (click)="takeDiscount(disc.id)">Reserve seat</button>
+	<div *ngFor="let disc of discounts" style="background-color: aquamarine">
+		<div *ngIf="checkTime(disc.time)">
+			<h4> Happening : {{disc.happening}} </h4>
+			<h4> Date :{{disc.time}} </h4>
+			<h4> Hall :{{disc.hall}}</h4>
+			<h4> Segment :{{disc.segment}}</h4>
+			<h4> Seat : {{disc.seat}} </h4>
+			<h4> Price :{{disc.price}} </h4>
+			<h4> Percent off :{{disc.percentage}}</h4>
+			<button (click)="takeDiscount(disc.id)">Reserve seat</button>
+		</div>
 	</div>
 </div>
 <h3>Happenings</h3>

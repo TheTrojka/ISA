@@ -62,6 +62,16 @@ export class EstablishmentDetailsComponent implements OnInit {
     localStorage.setItem('Eadmin', 'Eadmin');
   }
 
+  checkTime(date) {
+    date.slice(0, -5);
+    date.replace(' ', 'T');
+    if (Date.parse(date) < Date.now()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   delete(): void {
     this.dataService.delete(this.establishment.id).then(() => this.goBack());
   }

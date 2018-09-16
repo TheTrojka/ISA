@@ -36,7 +36,7 @@ export class EstablishmentsComponent implements OnInit {
       .then(establishments => {
         this.establishments = establishments;
         this.establishments.forEach(e => {
-          if (localStorage.getItem('user')) {
+          if (localStorage.getItem('user') && this.point.lat) {
             this.dataService.showAddress(encodeURI(e.address))
               .then(object => {
                 e.point = object.results[0].geometry.location;
@@ -59,6 +59,9 @@ export class EstablishmentsComponent implements OnInit {
           this.point.lng = object.results[0].geometry.location.lng;
         })
         .then(() => {
+          this.getEstablishments();
+        })
+        .catch(() => {
           this.getEstablishments();
         });
     } else {

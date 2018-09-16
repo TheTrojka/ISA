@@ -174,9 +174,9 @@ export class UserService {
 
   cancelReservation(id: number): Promise<any> {
     const url = `http://localhost:8080/visits/${id}/cancel`;
-    return this.http.post(url, JSON.stringify('friend'), {headers: this.headers})
+    return this.http.post(url, 'friend', {headers: this.headers})
       .toPromise()
-      .then(response => response.json() as any)
+      .then(response => response.text())
       .catch(this.handleError);
   }
 

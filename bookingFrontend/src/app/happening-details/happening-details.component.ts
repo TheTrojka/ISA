@@ -116,15 +116,20 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
   }
 
   book(timingId: number) {
+    if (this.timingSeatControl.value && this.timingSeatControl.value.length > 0) {
     this.timingSeatControl.value.forEach(element => {
       this.happeningService.book(JSON.parse(localStorage.getItem('user'))['id'], timingId, element)
       .then(() => this.goBack())
       .catch(() => alert('Already booked please refresh browser'));
     });
+  } else {
+    alert('Pick seat/s');
+  }
     
   }
 
   discount(timingId: number) {
+    if (this.timingSeatControl.value && this.timingSeatControl.value.length > 0 && this.discountNumber) {
     const id = +this.route.snapshot.paramMap.get('establishmentId');
     console.log(this.discountNumber);
     this.timingSeatControl.value.forEach(element => {
@@ -132,13 +137,17 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
       .then(() => this.goBack())
       .catch(() => alert('Already discounted please refresh browser'));
     });
+  } else {
+    alert('Pick seat/s and discount percentage');
+  } 
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.timings = null;
+    this.timingsSearched = false;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
     if (localStorage.getItem('userRole')) {
       this.user = true;
     } else if (localStorage.getItem('admin')) {
@@ -159,6 +168,7 @@ export class HappeningDetailsComponent implements OnInit , OnChanges {
     const separators = [' ', '/', ':'];
     const splitted = date.split(new RegExp(separators.join('|'), 'g'), 6);
     const returnString = splitted[2] + '-' + splitted[1] + '-' + splitted[0] + 'T' + splitted[3] + ':' + splitted[4];
+    console.log(returnString);
     return returnString; 
   }
 

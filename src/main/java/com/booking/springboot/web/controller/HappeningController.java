@@ -1,26 +1,19 @@
 package com.booking.springboot.web.controller;
 
-import java.util.Date;
 import java.util.Set;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.springboot.web.model.Booked;
@@ -254,19 +247,5 @@ public class HappeningController {
 		Segment segment = seat.getSegment();
 		return new ResponseEntity<Segment>(segment, HttpStatus.OK);
 	}
-
-
-	/*
-	 * @RequestMapping(value="/establishment/{id}/happening/{hid}", method =
-	 * RequestMethod.GET) public String getById(@PathVariable("hid") int id,ModelMap
-	 * model) { Happening f = service.getOneById(id); model.addAttribute("f",f);
-	 * return "happening"; }
-	 * 
-	 * 
-	 * 
-	 * @RequestMapping(value = "/establishment/{id}/happening/addHappening")
-	 * model.addAttribute("list",list1); return "addHappening"; }
-	 * 
-	 */
 
 }

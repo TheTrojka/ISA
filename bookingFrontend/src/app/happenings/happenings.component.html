@@ -1,7 +1,7 @@
 <button (click)="sortByName()">Sort by name</button>
   <button (click)="sortByRating()">Sort by rating</button><br/>
   <input [(ngModel)]="searchString" type="text"/>
-  <button (click)="search()">Search establishments</button>
+  <button (click)="search()">Search happenings</button>
   <button (click)="reset()">Reset search</button>
 <div *ngFor="let happ of happenings" [class.selected]="happ === selectedHappening" (click)="onSelect(happ)">
   <div *ngIf="happ.active">

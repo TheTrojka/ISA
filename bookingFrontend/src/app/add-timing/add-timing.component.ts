@@ -5,7 +5,7 @@ import { HappeningService } from '../happening.service';
 import { SegmentService } from '../segment.service';
 import { Location, DatePipe } from '@angular/common';
 import { Segment } from '../segment';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { HallService } from '../hall.service';
 import { Hall } from '../hall';
 import { Happening } from '../happening';
@@ -28,6 +28,7 @@ export class AddTimingComponent implements OnInit {
   allHalls: Hall[];
   date: Date;
   happening: Happening;
+  done: string;
 
   constructor(private happeningService: HappeningService,
     private segmentService: SegmentService,
@@ -37,6 +38,8 @@ export class AddTimingComponent implements OnInit {
     private datepipe: DatePipe) { }
 
   ngOnInit() {
+    this.segmentControl = new FormControl('', [Validators.required]);
+    this.hallControl = new FormControl('', [Validators.required]);
     this.getHalls();
   }
 
@@ -46,51 +49,74 @@ export class AddTimingComponent implements OnInit {
   }
 
   private save(): void {
-    const id = +this.route.snapshot.paramMap.get('establishmentId');
-    const happId = +this.route.snapshot.paramMap.get('happeningId');
-    const latest_date = this.datepipe.transform(this.timing.time, 'dd/MM/yyyy HH:mm:ss');
-    this.date = this.timing.time;
-    console.log(this.timing.time);
-    console.log(latest_date);
-    this.hallService.checkForDelete(id, this.hallControl.value)
-      .then(timings =>
-        this.checkTimings = timings)
-      .then(() =>
-        this.happeningService.getHappening(id, happId)
-          .then(happening =>
-            this.happening = happening)
-          .then(() => {
-            let taken = false;
-            let oef = '';
-            let counter = 0;
-            this.checkTimings.forEach(e => {
-              let withDuration = new Timing;
-              this.hallService.checkIfBusy(e.id)
-                .then(timing => withDuration = timing)
-                .then(() => {
-                  counter++;
-                  taken = (((Date.parse(this.fixDate(e.time)) < (Date.parse(this.fixDate(latest_date))))
-                    && ((Date.parse(this.fixDate(latest_date))) < Date.parse(this.fixDate(withDuration.time))))
-                    || ((Date.parse(this.fixDate(e.time)) < (Date.parse(this.fixDate(latest_date)) + this.happening.duration * 60000))
-            && ((Date.parse(this.fixDate(latest_date)) + this.happening.duration * 60000) < Date.parse(this.fixDate(withDuration.time)))));
-                  if (taken) {
-                    oef += 'de';
-                  }
-                  if (counter === this.checkTimings.length) {
-                    if (oef === '') {
-                      console.log(oef);
-                      this.happeningService.addTiming(latest_date, id, happId)
-                        .then(timing => this.segmentControl.value.forEach(element => {
-                          this.happeningService.addTimingSeg(id, happId, timing.id, element);
-                        }));
-                    } else {
-                      alert('Hall taken for that timing');
+    if (!this.hallControl.value || !this.segmentControl.value) {
+      alert('Please select hall and the segments of the projection');
+    } else {
+      const id = +this.route.snapshot.paramMap.get('establishmentId');
+      const happId = +this.route.snapshot.paramMap.get('happeningId');
+      const latest_date = this.datepipe.transform(this.timing.time, 'dd/MM/yyyy HH:mm:ss');
+      this.date = this.timing.time;
+      console.log(this.timing.time);
+      console.log(latest_date);
+      this.hallService.checkForDelete(id, this.hallControl.value)
+        .then(timings =>
+          this.checkTimings = timings)
+        .then(() =>
+          this.happeningService.getHappening(id, happId)
+            .then(happening =>
+              this.happening = happening)
+            .then(() => {             
+              if (!(this.checkTimings.length > 0)) {
+                let counterre = 0;
+                this.happeningService.addTiming(latest_date, id, happId)
+                  .then(timing => this.segmentControl.value.forEach(element => {
+                    counterre++;
+                    this.happeningService.addTimingSeg(id, happId, timing.id, element);
+                    if (counterre === this.segmentControl.value.length) {
+                      this.goBack();
                     }
-                  }
+                  }))
+                  .then(() => this.goBack());
+              } else {
+                let taken = false;
+                let oef = '';
+                let counter = 0;
+                this.checkTimings.forEach(e => {
+                  let withDuration = new Timing;
+                  this.hallService.checkIfBusy(e.id)
+                    .then(timing => withDuration = timing)
+                    .then(() => {
+                      counter++;
+                      taken = (((Date.parse(this.fixDate(e.time)) < (Date.parse(this.fixDate(latest_date))))
+                        && ((Date.parse(this.fixDate(latest_date))) < Date.parse(this.fixDate(withDuration.time))))
+                        || ((Date.parse(this.fixDate(e.time)) < (Date.parse(this.fixDate(latest_date)) + this.happening.duration * 60000))
+              && ((Date.parse(this.fixDate(latest_date)) + this.happening.duration * 60000) < Date.parse(this.fixDate(withDuration.time))))
+                        || ((Date.parse(this.fixDate(e.time)) === Date.parse(this.fixDate(latest_date)))
+         && ((Date.parse(this.fixDate(withDuration.time)) === Date.parse(this.fixDate(latest_date)) + this.happening.duration * 60000))));
+                      if (taken) {
+                        oef += 'de';
+                      }
+                      if (counter === this.checkTimings.length) {
+                        if (oef === '') {
+                          let countersd = 0;
+                          this.happeningService.addTiming(latest_date, id, happId)
+                            .then(timing => this.segmentControl.value.forEach(element => {
+                              countersd++;
+                              this.happeningService.addTimingSeg(id, happId, timing.id, element);
+                              if (countersd === this.segmentControl.value.length) {
+                                this.goBack();
+                              }
+                            }));
+                        } else {
+                          alert('Hall taken for that timing');
+                        }
+                      }
+                    });
                 });
-            });
-          }
-          ));
+              }
+            }
+            ));
+    }
   }
 
   getHalls() {
@@ -122,7 +148,6 @@ export class AddTimingComponent implements OnInit {
 
   onSubmit() {
     this.save();
-    this.goBack();
   }
 
   goBack(): void {

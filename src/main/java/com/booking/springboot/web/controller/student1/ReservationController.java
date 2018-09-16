@@ -111,7 +111,7 @@ public class ReservationController {
 		reservation.setmGuest(temp);
 		resServ.editReservation(reservation);
 		SimpleMailMessage registrationEmail = new SimpleMailMessage();
-		registrationEmail.setTo("arminaa78@gmail.com");
+		registrationEmail.setTo(guestServ.getOneById(guestId).getEmail());
 		registrationEmail.setSubject("Happening invitation");
 		registrationEmail.setText("You have recieved an invitation to an event, click the link below to"
 				+ " confirm or decline the invitation:\n" + "http://localhost:4200" + "/visits/" + resId + "/invite/"

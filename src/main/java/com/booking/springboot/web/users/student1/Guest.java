@@ -43,6 +43,7 @@ private String name;
 private String lastname;
 @Column(unique=false,nullable=false)
 private String phone;
+@Column(unique=false,nullable=false)
 private String city;
 public enum Role {
     user,

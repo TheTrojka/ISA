@@ -14,7 +14,8 @@ import { Establishment } from '../establishment';
 export class AddUserComponent implements OnInit {
 
   profile = new User();
-  establishments: Establishment[];
+  OGestablishments: Establishment[];
+  establishments: Establishment[] = [];
   error = false;
 
   constructor(private route: ActivatedRoute,
@@ -43,7 +44,12 @@ export class AddUserComponent implements OnInit {
   }
 
   getEstablishments(): void {
-    this.dataService.getEstablishments().then(establishments => this.establishments = establishments);
+    this.dataService.getEstablishments().then(establishments => this.OGestablishments = establishments)
+    .then(() => this.OGestablishments.forEach(e => {
+      if (e.active) {
+        this.establishments.push(e);
+      }
+    }));
   }
 
   errorFunc() {

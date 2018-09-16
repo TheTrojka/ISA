@@ -95,7 +95,10 @@
 			{{happening.price}}$
 		</div>
 	</div>
-
+	<div *ngIf="Eadmin">
+			<button class="btn btn-danger" (click)="delete()">Delete</button>
+			<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
+		</div>
 	<button (click)='getTimings()'>Book on date:</button>
 	<div *ngIf="timings">
 		<div *ngFor="let timing of timings">
@@ -115,14 +118,14 @@
 							</div>
 							<br />
 							<br />
-							<div *ngIf="!Eadmin || !admin">
-								<mat-form-field>
-									<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
-										<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
-									</mat-select>
-								</mat-form-field>
+							<mat-form-field>
+								<mat-select placeholder="Choose seats" [formControl]="timingSeatControl" multiple>
+									<mat-option *ngFor="let seat of timingSeats" [value]="seat.id">{{seat.id}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<div *ngIf="!Eadmin && !admin">
+								<button (click)="book(timing.id)">Book</button>
 							</div>
-							<button (click)="book(timing.id)">Book</button>
 							<div *ngIf="Eadmin">
 								<div>
 									<label>Discount percentage: </label>
@@ -157,8 +160,5 @@
 	</div>
 
 
-	<div *ngIf="Eadmin">
-		<button class="btn btn-danger" (click)="delete()">Delete</button>
-		<button routerLink="./addTiming/{{happening.id}}">Add timing</button>
-	</div>
+	
 </div>
